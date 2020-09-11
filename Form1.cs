@@ -12,8 +12,8 @@ namespace opencv
     {
         private readonly List<List<Mat>> _workingProcess = new List<List<Mat>>();
         private readonly List<List<Mat>> _resultProcess = new List<List<Mat>>();
-        private readonly List<PictureBoxIndices> _processesPictureIndices = new List<PictureBoxIndices>();
-        private int _currentProcessIndex = 0;
+        private readonly List<PictureBoxIndices> _indicesProcess = new List<PictureBoxIndices>();
+        private int _currentProcessIndex;
 
         internal sealed class PictureBoxIndices
         {
@@ -41,22 +41,43 @@ namespace opencv
             pb.Image = Image.FromFile(Directory.GetCurrentDirectory() + "..\\..\\..\\..\\Resources\\timg.jpg");
         }
 
+        /// <summary>
+        /// 当前处理图片序列
+        /// </summary>
         private List<Mat> WorkingImages => _workingProcess[_currentProcessIndex];
 
+        /// <summary>
+        /// 结果图片序列
+        /// </summary>
         private List<Mat> ResultImages => _resultProcess[_currentProcessIndex];
 
+        /// <summary>
+        /// 当前处理序列索引
+        /// </summary>
         private PictureBoxIndices CurrentPictureBoxIndices =>
-            _processesPictureIndices[_currentProcessIndex];
+            _indicesProcess[_currentProcessIndex];
 
+        /// <summary>
+        /// 当前处理左图片
+        /// </summary>
         private Mat WorkingLeftImg =>
             WorkingImages[CurrentPictureBoxIndices.LeftIndex];
 
+        /// <summary>
+        /// 当前处理右图片
+        /// </summary>
         private Mat WorkingRightImg =>
             WorkingImages[CurrentPictureBoxIndices.RightIndex];
 
+        /// <summary>
+        /// 结果左图片
+        /// </summary>
         private Mat ResultLeftImg =>
             ResultImages[CurrentPictureBoxIndices.LeftIndex];
 
+        /// <summary>
+        /// 结果右图片
+        /// </summary>
         private Mat ResultRightImg =>
             ResultImages[CurrentPictureBoxIndices.RightIndex];
 
@@ -78,6 +99,14 @@ namespace opencv
             }
         }
         
+        /// <summary>
+        /// Helper Function
+        /// </summary>
+        /// <param name="imgRow"></param>
+        /// <param name="imgCol"></param>
+        /// <param name="boxRow"></param>
+        /// <param name="boxCol"></param>
+        /// <returns></returns>
         private static Tuple<int, int> ComputeSize(int imgRow, int imgCol, int boxRow, int boxCol)
         {
             if (imgRow <= boxRow && imgCol <= boxCol)
@@ -112,7 +141,7 @@ namespace opencv
         }
 
         /// <summary>
-        /// 加载图片后恢复所有按钮
+        /// 加载图片后启用所有按钮
         /// </summary>
         private void EnableAllButtons()
         {
@@ -134,7 +163,7 @@ namespace opencv
             {
                 _resultProcess.Add(new List<Mat>());
                 _workingProcess.Add(new List<Mat>());
-                _processesPictureIndices.Add(new PictureBoxIndices(0,0));
+                _indicesProcess.Add(new PictureBoxIndices(0,0));
                 if (_currentProcessIndex != 0) _currentProcessIndex++;
                 var originImg = new Mat(openFileDialog1.FileName);
                 
@@ -161,7 +190,7 @@ namespace opencv
             LoadNoneImg(pictureBox2);
             _workingProcess.RemoveAt(_currentProcessIndex);
             _resultProcess.RemoveAt(_currentProcessIndex);
-            _processesPictureIndices.RemoveAt(_currentProcessIndex);
+            _indicesProcess.RemoveAt(_currentProcessIndex);
         }
 
         /// <summary>
