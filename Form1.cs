@@ -38,8 +38,19 @@ namespace opencv
         /// <param name="pb"></param>
         private void LoadNoneImg(PictureBox pb)
         {
-            pb.Image = Image.FromFile(Directory.GetCurrentDirectory() + "..\\..\\..\\..\\Resources\\timg.jpg");
+            pb.Image = _noneImage;
+            if (pictureBox1 == pb)
+            {
+                label1.Text = $@"第 {_currentProcessIndex + 1} 行 第 {BoxIndices.LeftIndex + 1} 列";
+            }
+            else
+            {
+                label2.Text = $@"第 {_currentProcessIndex + 1} 行 第 {BoxIndices.RightIndex + 1} 列";
+            }
         }
+
+        private readonly Image _noneImage =
+            Image.FromFile(Directory.GetCurrentDirectory() + "..\\..\\..\\..\\Resources\\timg.jpg");
 
         /// <summary>
         /// 当前处理图片序列
@@ -54,32 +65,78 @@ namespace opencv
         /// <summary>
         /// 当前处理序列索引
         /// </summary>
-        private PictureBoxIndices CurrentPictureBoxIndices =>
+        private PictureBoxIndices BoxIndices =>
             _indicesProcess[_currentProcessIndex];
 
         /// <summary>
         /// 当前处理左图片
         /// </summary>
         private Mat WorkingLeftImg =>
-            WorkingImages[CurrentPictureBoxIndices.LeftIndex];
+            WorkingImages[BoxIndices.LeftIndex];
 
         /// <summary>
         /// 当前处理右图片
         /// </summary>
-        private Mat WorkingRightImg =>
-            WorkingImages[CurrentPictureBoxIndices.RightIndex];
+        private Mat WorkingRightImg
+        {
+            get
+            {
+                if (BoxIndices.RightIndex == WorkingImages.Count)
+                {
+                    return OpenCvSharp.Extensions.BitmapConverter.ToMat((Bitmap)_noneImage);
+                }
+                else
+                {
+                    return WorkingImages[BoxIndices.RightIndex];
+                }
+            }
+            set
+            {
+                if (BoxIndices.RightIndex == WorkingImages.Count)
+                {
+                    throw new InvalidOperationException();
+                }
+                else
+                {
+                    WorkingImages[BoxIndices.RightIndex] = value;
+                }
+            }
+        }
 
         /// <summary>
         /// 结果左图片
         /// </summary>
         private Mat ResultLeftImg =>
-            ResultImages[CurrentPictureBoxIndices.LeftIndex];
+            ResultImages[BoxIndices.LeftIndex];
 
         /// <summary>
         /// 结果右图片
         /// </summary>
-        private Mat ResultRightImg =>
-            ResultImages[CurrentPictureBoxIndices.RightIndex];
+        private Mat ResultRightImg
+        {
+            get
+            {
+                if (BoxIndices.RightIndex == ResultImages.Count)
+                {
+                    return OpenCvSharp.Extensions.BitmapConverter.ToMat((Bitmap)_noneImage);
+                }
+                else
+                {
+                    return ResultImages[BoxIndices.RightIndex];
+                }
+            }
+            set
+            {
+                if (BoxIndices.RightIndex == ResultImages.Count)
+                {
+                    throw new InvalidOperationException();
+                }
+                else
+                {
+                    ResultImages[BoxIndices.RightIndex] = value;
+                }
+            }
+        }
 
         /// <summary>
         /// 显示Mat图片
@@ -91,11 +148,11 @@ namespace opencv
             pb.Image = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(m);
             if (pictureBox1 == pb)
             {
-                label1.Text = $@"第 {_currentProcessIndex+1} 行 第 {CurrentPictureBoxIndices.LeftIndex + 1} 列";
+                label1.Text = $@"第 {_currentProcessIndex+1} 行 第 {BoxIndices.LeftIndex + 1} 列";
             }
             else
             {
-                label2.Text = $@"第 {_currentProcessIndex + 1} 行 第 {CurrentPictureBoxIndices.RightIndex + 1} 列";
+                label2.Text = $@"第 {_currentProcessIndex + 1} 行 第 {BoxIndices.RightIndex + 1} 列";
             }
         }
         
@@ -129,15 +186,15 @@ namespace opencv
         }
 
         /// <summary>
-        /// 计算放缩后的尺寸
+        /// 得到适合PictureBox尺寸的新图像
         /// </summary>
         /// <param name="image"></param>
         /// <returns></returns>
-        private Size GetBoxFittedSizeFromImg(Mat image)
+        private Mat GetBoxFittedImg(Mat image)
         {
             var (row, col) = ComputeSize(image.Rows, image.Cols,
                 pictureBox1.Size.Height, pictureBox2.Size.Width);
-            return new Size(row, col);
+            return image.Resize(new Size(row, col), 0, 0, InterpolationFlags.Cubic);
         }
 
         /// <summary>
@@ -152,6 +209,32 @@ namespace opencv
         }
 
         /// <summary>
+        /// 根据当前状态启用或禁用处理系列切换按钮
+        /// </summary>
+        private void CheckProcessSwitchButton()
+        {
+            if (_currentProcessIndex <= 0) button4.Enabled = false;
+            else button4.Enabled = true;
+            if (_currentProcessIndex + 1 == _workingProcess.Count) button5.Enabled = false;
+            else button5.Enabled = true;
+        }
+
+        /// <summary>
+        /// 根据状态禁用或启用清除按钮
+        /// </summary>
+        private void CheckClearButton()
+        {
+            if (_workingProcess.Count == 0)
+            {
+                button2.Enabled = false;
+            }
+            else
+            {
+                button2.Enabled = true;
+            }
+        }
+
+        /// <summary>
         /// 加载图片到两个工作序列,变换显示
         /// </summary>
         /// <param name="sender"></param>
@@ -161,21 +244,22 @@ namespace opencv
             var result = openFileDialog1.ShowDialog();
             if (result == DialogResult.OK)
             {
+                if (_workingProcess.Count != 0) _currentProcessIndex++;
                 _resultProcess.Add(new List<Mat>());
                 _workingProcess.Add(new List<Mat>());
-                _indicesProcess.Add(new PictureBoxIndices(0,0));
-                if (_currentProcessIndex != 0) _currentProcessIndex++;
+                _indicesProcess.Add(new PictureBoxIndices(0,1));
+
+                LoadNoneImg(pictureBox1);
+                LoadNoneImg(pictureBox2);
+
                 var originImg = new Mat(openFileDialog1.FileName);
-                
                 ResultImages.Add(originImg);
-                
-                Mat resizedImg = originImg.Resize(GetBoxFittedSizeFromImg(originImg), 0, 0, InterpolationFlags.Cubic);
-                
-                _workingProcess[_currentProcessIndex].Add(resizedImg);
+                Mat resizedImg = GetBoxFittedImg(originImg);
+                WorkingImages.Add(resizedImg);
+
                 ShowMat(pictureBox1, resizedImg);
-
                 EnableAllButtons();
-
+                CheckProcessSwitchButton();
             }
         }
 
@@ -186,11 +270,26 @@ namespace opencv
         /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
-            LoadNoneImg(pictureBox1);
-            LoadNoneImg(pictureBox2);
             _workingProcess.RemoveAt(_currentProcessIndex);
             _resultProcess.RemoveAt(_currentProcessIndex);
             _indicesProcess.RemoveAt(_currentProcessIndex);
+            _currentProcessIndex--;
+            if (_currentProcessIndex == -1)
+            {
+                if (_workingProcess.Count == 0)
+                {
+                    LoadNoneImg(pictureBox1);
+                    LoadNoneImg(pictureBox2);
+                    return;
+                }
+                else
+                {
+                    _currentProcessIndex++;
+                }
+            }
+            CheckClearButton();
+            ShowMat(pictureBox1, WorkingLeftImg);
+            ShowMat(pictureBox2, WorkingRightImg);
         }
 
         /// <summary>
@@ -200,9 +299,8 @@ namespace opencv
         /// <param name="e"></param>
         private void button3_Click(object sender, EventArgs e)
         {
-            var indices = CurrentPictureBoxIndices;
             Mat originImg, resOriginImg, grayImg, resGrayImg;
-            if (indices.LeftIndex == indices.RightIndex)
+            if (WorkingImages.Count <= BoxIndices.RightIndex)
             {
                 originImg = WorkingLeftImg;
                 resOriginImg = ResultLeftImg;
@@ -210,7 +308,7 @@ namespace opencv
             else
             {
                 originImg = WorkingRightImg;
-                resOriginImg = WorkingRightImg;
+                resOriginImg = ResultRightImg;
             }
 
             try
@@ -226,8 +324,12 @@ namespace opencv
 
             WorkingImages.Add(grayImg);
             ResultImages.Add(resGrayImg);
-            if (indices.RightIndex != 0) indices.LeftIndex++;
-            indices.RightIndex++;
+
+            if (BoxIndices.RightIndex + 1 < WorkingImages.Count)
+            {
+                BoxIndices.LeftIndex++;
+                BoxIndices.RightIndex++;
+            }
 
             ShowMat(pictureBox1, WorkingLeftImg);
             ShowMat(pictureBox2, WorkingRightImg);
@@ -240,7 +342,10 @@ namespace opencv
         /// <param name="e"></param>
         private void button4_Click(object sender, EventArgs e)
         {
-
+            _currentProcessIndex--;
+            ShowMat(pictureBox1,WorkingLeftImg);
+            ShowMat(pictureBox2,WorkingRightImg);
+            CheckProcessSwitchButton();
         }
 
         /// <summary>
@@ -250,7 +355,10 @@ namespace opencv
         /// <param name="e"></param>
         private void button5_Click(object sender, EventArgs e)
         {
-
+            _currentProcessIndex++;
+            ShowMat(pictureBox1, WorkingLeftImg);
+            ShowMat(pictureBox2, WorkingRightImg);
+            CheckProcessSwitchButton();
         }
     }
 }
