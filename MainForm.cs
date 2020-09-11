@@ -41,7 +41,7 @@ namespace opencv
             pb.Image = _noneImage;
             if (pictureBox1 == pb)
             {
-                label1.Text = $@"第 {_currentProcessIndex + 1} 行 第 {BoxIndices.LeftIndex + 1} 列";
+                figure1_label.Text = $@"第 {_currentProcessIndex + 1} 行 第 {BoxIndices.LeftIndex + 1} 列";
             }
             else
             {
@@ -217,7 +217,7 @@ namespace opencv
             pb.Image = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(m);
             if (pictureBox1 == pb)
             {
-                label1.Text = $@"第 {_currentProcessIndex+1} 行 第 {BoxIndices.LeftIndex + 1} 列";
+                figure1_label.Text = $@"第 {_currentProcessIndex+1} 行 第 {BoxIndices.LeftIndex + 1} 列";
             }
             else
             {
@@ -271,12 +271,21 @@ namespace opencv
         /// </summary>
         private void EnableAllButtons()
         {
-            button2.Enabled = true;
-            button3.Enabled = true;
-            button4.Enabled = true;
-            button5.Enabled = true;
-            button6.Enabled = true;
-            button7.Enabled = true;
+            pre_process.Enabled = true;
+            upButton.Enabled = true;
+            downButton.Enabled = true;
+            add_noise.Enabled = true;
+            de_noise.Enabled = true;
+            fortify.Enabled = true;
+            edge.Enabled = true;
+            seg.Enabled = true;
+            DFT.Enabled = true;
+            file_save_second.Enabled = true;
+            file_save_first.Enabled = true;
+            wavelet.Enabled = true;
+            feature_detect.Enabled = true;
+            object_recognize.Enabled = true;
+            color_fortify.Enabled = true;
         }
 
         /// <summary>
@@ -284,12 +293,21 @@ namespace opencv
         /// </summary>
         private void DisableAllButtons()
         {
-            button2.Enabled = false;
-            button3.Enabled = false;
-            button4.Enabled = false;
-            button5.Enabled = false;
-            button6.Enabled = false;
-            button7.Enabled = false;
+            pre_process.Enabled = false;
+            upButton.Enabled = false;
+            downButton.Enabled = false;
+            add_noise.Enabled = false;
+            de_noise.Enabled = false;
+            fortify.Enabled = false;
+            edge.Enabled = false;
+            seg.Enabled = false;
+            DFT.Enabled = false;
+            file_save_second.Enabled = false;
+            file_save_first.Enabled = false;
+            wavelet.Enabled = false;
+            feature_detect.Enabled = false;
+            object_recognize.Enabled = false;
+            color_fortify.Enabled = false;
         }
 
         /// <summary>
@@ -297,10 +315,10 @@ namespace opencv
         /// </summary>
         private void CheckProcessSwitchButton()
         {
-            if (_currentProcessIndex <= 0) button4.Enabled = false;
-            else button4.Enabled = true;
-            if (_currentProcessIndex + 1 == _workingProcess.Count) button5.Enabled = false;
-            else button5.Enabled = true;
+            if (_currentProcessIndex <= 0) upButton.Enabled = false;
+            else upButton.Enabled = true;
+            if (_currentProcessIndex + 1 == _workingProcess.Count) downButton.Enabled = false;
+            else downButton.Enabled = true;
         }
 
         /// <summary>
@@ -348,7 +366,7 @@ namespace opencv
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void button1_Click(object sender, EventArgs e)
+        private void LoadButton_Click(object sender, EventArgs e)
         {
             var result = openFileDialog1.ShowDialog();
             if (result == DialogResult.OK)
@@ -377,7 +395,7 @@ namespace opencv
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void button2_Click(object sender, EventArgs e)
+        private void ClearButton_Click(object sender, EventArgs e)
         {
             _workingProcess.RemoveAt(_currentProcessIndex);
             _resultProcess.RemoveAt(_currentProcessIndex);
@@ -416,7 +434,7 @@ namespace opencv
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void button3_Click(object sender, EventArgs e)
+        private void GrayButton_Click(object sender, EventArgs e)
         {
             var (originImg, resOriginImg) = GetImagesToProcess();
             Mat grayImg, resGrayImg;
@@ -427,7 +445,7 @@ namespace opencv
             }
             catch (OpenCVException)
             {
-                MessageBox.Show(@"不能重复灰度化图像");
+                //ignore
                 return;
             }
 
@@ -439,7 +457,7 @@ namespace opencv
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void button4_Click(object sender, EventArgs e)
+        private void UpButton_Click(object sender, EventArgs e)
         {
             _currentProcessIndex--;
             ShowMat(pictureBox1,WorkingLeftImg);
@@ -452,7 +470,7 @@ namespace opencv
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void button5_Click(object sender, EventArgs e)
+        private void DownButton_Click(object sender, EventArgs e)
         {
             _currentProcessIndex++;
             ShowMat(pictureBox1, WorkingLeftImg);
@@ -465,12 +483,21 @@ namespace opencv
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void button6_Click(object sender, EventArgs e)
+        private void SaveButton_Click(object sender, EventArgs e)
         {
             var res = saveFileDialog1.ShowDialog();
             if (res == DialogResult.OK)
             {
-                ((Image)OpenCvSharp.Extensions.BitmapConverter.ToBitmap(ResultRightImg)).Save(saveFileDialog1.FileName);
+                OpenCvSharp.Extensions.BitmapConverter.ToBitmap(ResultRightImg).Save(saveFileDialog1.FileName);
+            }
+        }
+
+        private void SaveButton_first_Click(object sender, EventArgs e)
+        {
+            var res = saveFileDialog1.ShowDialog();
+            if (res == DialogResult.OK)
+            {
+                OpenCvSharp.Extensions.BitmapConverter.ToBitmap(ResultLeftImg).Save(saveFileDialog1.FileName);
             }
         }
 
@@ -479,7 +506,7 @@ namespace opencv
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void button7_Click(object sender, EventArgs e)
+        private void AddGaussianNoise_Click(object sender, EventArgs e)
         {
             var selectWindow = new GaussianNoiseSelectForm();
             var dialogResult = selectWindow.ShowDialog();
@@ -499,5 +526,18 @@ namespace opencv
                 AddImagesToListAndShow(workRes, res);
             }
         }
+
+        /// <summary>
+        /// 去噪
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DeNoiseButton_Click(object sender, EventArgs e)
+        {
+            var (originImg, resOriginImg) = GetImagesToProcess();
+            
+        }
+
+
     }
 }
