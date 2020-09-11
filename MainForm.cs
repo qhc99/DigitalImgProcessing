@@ -8,7 +8,7 @@ using Size = OpenCvSharp.Size;
 
 namespace opencv
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         private readonly List<List<Mat>> _workingProcess = new List<List<Mat>>();
         private readonly List<List<Mat>> _resultProcess = new List<List<Mat>>();
@@ -27,7 +27,7 @@ namespace opencv
             }
         }
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
         }
@@ -304,6 +304,46 @@ namespace opencv
         }
 
         /// <summary>
+        /// 获取待处理的工作图像和原图像
+        /// </summary>
+        /// <returns></returns>
+        private Tuple<Mat, Mat> GetImagesToProcess()
+        {
+            Mat originImg, resOriginImg;
+            if (WorkingImages.Count <= BoxIndices.RightIndex)
+            {
+                originImg = WorkingLeftImg;
+                resOriginImg = ResultLeftImg;
+            }
+            else
+            {
+                originImg = WorkingRightImg;
+                resOriginImg = ResultRightImg;
+            }
+            return new Tuple<Mat, Mat>(originImg,resOriginImg);
+        }
+
+        /// <summary>
+        /// 将处理后的两张图放入List并显示
+        /// </summary>
+        /// <param name="img"></param>
+        /// <param name="resImg"></param>
+        private void AddImagesToListAndShow(Mat img, Mat resImg)
+        {
+            WorkingImages.Add(img);
+            ResultImages.Add(resImg);
+
+            if (BoxIndices.RightIndex + 1 < WorkingImages.Count)
+            {
+                BoxIndices.LeftIndex++;
+                BoxIndices.RightIndex++;
+            }
+
+            ShowMat(pictureBox1, WorkingLeftImg);
+            ShowMat(pictureBox2, WorkingRightImg);
+        }
+
+        /// <summary>
         /// 加载图片到两个工作序列,变换显示
         /// </summary>
         /// <param name="sender"></param>
@@ -378,18 +418,8 @@ namespace opencv
         /// <param name="e"></param>
         private void button3_Click(object sender, EventArgs e)
         {
-            Mat originImg, resOriginImg, grayImg, resGrayImg;
-            if (WorkingImages.Count <= BoxIndices.RightIndex)
-            {
-                originImg = WorkingLeftImg;
-                resOriginImg = ResultLeftImg;
-            }
-            else
-            {
-                originImg = WorkingRightImg;
-                resOriginImg = ResultRightImg;
-            }
-
+            var (originImg, resOriginImg) = GetImagesToProcess();
+            Mat grayImg, resGrayImg;
             try
             {
                 grayImg = originImg.CvtColor(ColorConversionCodes.BGR2GRAY, 1);
@@ -401,17 +431,7 @@ namespace opencv
                 return;
             }
 
-            WorkingImages.Add(grayImg);
-            ResultImages.Add(resGrayImg);
-
-            if (BoxIndices.RightIndex + 1 < WorkingImages.Count)
-            {
-                BoxIndices.LeftIndex++;
-                BoxIndices.RightIndex++;
-            }
-
-            ShowMat(pictureBox1, WorkingLeftImg);
-            ShowMat(pictureBox2, WorkingRightImg);
+            AddImagesToListAndShow(grayImg,resGrayImg);
         }
 
         /// <summary>
@@ -461,37 +481,23 @@ namespace opencv
         /// <param name="e"></param>
         private void button7_Click(object sender, EventArgs e)
         {
-            Mat originImg, resOriginImg;
-            if (WorkingImages.Count <= BoxIndices.RightIndex)
+            var selectWindow = new GaussianNoiseSelectForm();
+            var dialogResult = selectWindow.ShowDialog();
+            
+            if (dialogResult == DialogResult.OK)
             {
-                originImg = WorkingLeftImg;
-                resOriginImg = ResultLeftImg;
+                var (originImg, resOriginImg) = GetImagesToProcess();
+
+                Mat gNoise = new Mat(originImg.Size(), originImg.Type());
+                gNoise.Randn(selectWindow.Mean, selectWindow.Variance);
+                Mat resGNoise = new Mat(resOriginImg.Size(), resOriginImg.Type());
+                resGNoise.Randn(selectWindow.Mean, selectWindow.Variance);
+
+                Mat workRes = originImg + gNoise;
+                Mat res = resOriginImg + resGNoise;
+
+                AddImagesToListAndShow(workRes, res);
             }
-            else
-            {
-                originImg = WorkingRightImg;
-                resOriginImg = ResultRightImg;
-            }
-
-            Mat gNoise = new Mat(originImg.Size(), originImg.Type());
-            gNoise.Randn(10,3);
-            Mat resGNoise = new Mat(resOriginImg.Size(), resOriginImg.Type());
-            resGNoise.Randn(10, 3);
-
-            Mat workRes = originImg + gNoise;
-            Mat res = resOriginImg + resGNoise;
-
-            WorkingImages.Add(workRes);
-            ResultImages.Add(res);
-
-            if (BoxIndices.RightIndex + 1 < WorkingImages.Count)
-            {
-                BoxIndices.LeftIndex++;
-                BoxIndices.RightIndex++;
-            }
-
-            ShowMat(pictureBox1, WorkingLeftImg);
-            ShowMat(pictureBox2, WorkingRightImg);
         }
     }
 }
