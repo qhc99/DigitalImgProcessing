@@ -473,13 +473,16 @@ namespace opencv
                 resOriginImg = ResultRightImg;
             }
 
-            Mat noiseImg = originImg.Clone();
-            noiseImg.Randn(0.02,0.01);
-            var resNoiseImg = resOriginImg.Clone();
-            resNoiseImg.Randn(0.02, 0.01);
+            Mat gNoise = new Mat(originImg.Size(), originImg.Type());
+            gNoise.Randn(10,3);
+            Mat resGNoise = new Mat(resOriginImg.Size(), resOriginImg.Type());
+            resGNoise.Randn(10, 3);
 
-            WorkingImages.Add(noiseImg);
-            ResultImages.Add(resNoiseImg);
+            Mat workRes = originImg + gNoise;
+            Mat res = resOriginImg + resGNoise;
+
+            WorkingImages.Add(workRes);
+            ResultImages.Add(res);
 
             if (BoxIndices.RightIndex + 1 < WorkingImages.Count)
             {
