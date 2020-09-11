@@ -276,6 +276,7 @@ namespace opencv
             button4.Enabled = true;
             button5.Enabled = true;
             button6.Enabled = true;
+            button7.Enabled = true;
         }
 
         /// <summary>
@@ -288,6 +289,7 @@ namespace opencv
             button4.Enabled = false;
             button5.Enabled = false;
             button6.Enabled = false;
+            button7.Enabled = false;
         }
 
         /// <summary>
@@ -450,6 +452,43 @@ namespace opencv
             {
                 ((Image)OpenCvSharp.Extensions.BitmapConverter.ToBitmap(ResultRightImg)).Save(saveFileDialog1.FileName);
             }
+        }
+
+        /// <summary>
+        /// 加高斯噪声
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button7_Click(object sender, EventArgs e)
+        {
+            Mat originImg, resOriginImg;
+            if (WorkingImages.Count <= BoxIndices.RightIndex)
+            {
+                originImg = WorkingLeftImg;
+                resOriginImg = ResultLeftImg;
+            }
+            else
+            {
+                originImg = WorkingRightImg;
+                resOriginImg = ResultRightImg;
+            }
+
+            Mat noiseImg = originImg.Clone();
+            noiseImg.Randn(0.02,0.01);
+            var resNoiseImg = resOriginImg.Clone();
+            resNoiseImg.Randn(0.02, 0.01);
+
+            WorkingImages.Add(noiseImg);
+            ResultImages.Add(resNoiseImg);
+
+            if (BoxIndices.RightIndex + 1 < WorkingImages.Count)
+            {
+                BoxIndices.LeftIndex++;
+                BoxIndices.RightIndex++;
+            }
+
+            ShowMat(pictureBox1, WorkingLeftImg);
+            ShowMat(pictureBox2, WorkingRightImg);
         }
     }
 }
