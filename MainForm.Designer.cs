@@ -46,7 +46,11 @@
             this.pre_gray = new System.Windows.Forms.ToolStripMenuItem();
             this.add_noise = new System.Windows.Forms.ToolStripMenuItem();
             this.add_gaussian_noise = new System.Windows.Forms.ToolStripMenuItem();
+            this.add_uni_noise = new System.Windows.Forms.ToolStripMenuItem();
             this.de_noise = new System.Windows.Forms.ToolStripMenuItem();
+            this.median_blur = new System.Windows.Forms.ToolStripMenuItem();
+            this.average_blur = new System.Windows.Forms.ToolStripMenuItem();
+            this.gaussian_blur = new System.Windows.Forms.ToolStripMenuItem();
             this.fortify = new System.Windows.Forms.ToolStripMenuItem();
             this.edge = new System.Windows.Forms.ToolStripMenuItem();
             this.seg = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,6 +60,8 @@
             this.object_recognize = new System.Windows.Forms.ToolStripMenuItem();
             this.color_fortify = new System.Windows.Forms.ToolStripMenuItem();
             this.clearButton = new System.Windows.Forms.Button();
+            this.leftButton = new System.Windows.Forms.Button();
+            this.rightButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -69,7 +75,7 @@
             // 
             this.pictureBox1.BackColor = System.Drawing.SystemColors.ControlDark;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(65, 54);
+            this.pictureBox1.Location = new System.Drawing.Point(68, 54);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(340, 340);
             this.pictureBox1.TabIndex = 2;
@@ -78,7 +84,7 @@
             // pictureBox2
             // 
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(465, 54);
+            this.pictureBox2.Location = new System.Drawing.Point(467, 54);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(340, 340);
             this.pictureBox2.TabIndex = 2;
@@ -89,18 +95,18 @@
             this.figure1_label.AutoSize = true;
             this.figure1_label.Location = new System.Drawing.Point(193, 29);
             this.figure1_label.Name = "figure1_label";
-            this.figure1_label.Size = new System.Drawing.Size(84, 17);
+            this.figure1_label.Size = new System.Drawing.Size(90, 17);
             this.figure1_label.TabIndex = 5;
-            this.figure1_label.Text = "第   行 第   列";
+            this.figure1_label.Text = "第 0 行 第 0 列";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(593, 29);
+            this.label2.Location = new System.Drawing.Point(592, 29);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(84, 17);
+            this.label2.Size = new System.Drawing.Size(90, 17);
             this.label2.TabIndex = 6;
-            this.label2.Text = "第   行 第   列";
+            this.label2.Text = "第 0 行 第 0 列";
             // 
             // upButton
             // 
@@ -108,7 +114,7 @@
             this.upButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.upButton.Location = new System.Drawing.Point(831, 179);
             this.upButton.Name = "upButton";
-            this.upButton.Size = new System.Drawing.Size(45, 40);
+            this.upButton.Size = new System.Drawing.Size(45, 45);
             this.upButton.TabIndex = 7;
             this.upButton.Text = "↑";
             this.upButton.UseVisualStyleBackColor = true;
@@ -120,7 +126,7 @@
             this.downButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.downButton.Location = new System.Drawing.Point(831, 237);
             this.downButton.Name = "downButton";
-            this.downButton.Size = new System.Drawing.Size(44, 44);
+            this.downButton.Size = new System.Drawing.Size(45, 45);
             this.downButton.TabIndex = 8;
             this.downButton.Text = "↓";
             this.downButton.UseVisualStyleBackColor = true;
@@ -199,7 +205,8 @@
             // add_noise
             // 
             this.add_noise.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.add_gaussian_noise});
+            this.add_gaussian_noise,
+            this.add_uni_noise});
             this.add_noise.Enabled = false;
             this.add_noise.Name = "add_noise";
             this.add_noise.Size = new System.Drawing.Size(56, 21);
@@ -212,12 +219,43 @@
             this.add_gaussian_noise.Text = "高斯噪声";
             this.add_gaussian_noise.Click += new System.EventHandler(this.AddGaussianNoise_Click);
             // 
+            // add_uni_noise
+            // 
+            this.add_uni_noise.Name = "add_uni_noise";
+            this.add_uni_noise.Size = new System.Drawing.Size(124, 22);
+            this.add_uni_noise.Text = "均匀噪声";
+            this.add_uni_noise.Click += new System.EventHandler(this.AddUniformNoise_Click);
+            // 
             // de_noise
             // 
+            this.de_noise.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.median_blur,
+            this.average_blur,
+            this.gaussian_blur});
             this.de_noise.Enabled = false;
             this.de_noise.Name = "de_noise";
             this.de_noise.Size = new System.Drawing.Size(56, 21);
             this.de_noise.Text = "去噪声";
+            // 
+            // median_blur
+            // 
+            this.median_blur.Name = "median_blur";
+            this.median_blur.Size = new System.Drawing.Size(124, 22);
+            this.median_blur.Text = "中值滤波";
+            this.median_blur.Click += new System.EventHandler(this.MedianBlur_Click);
+            // 
+            // average_blur
+            // 
+            this.average_blur.Name = "average_blur";
+            this.average_blur.Size = new System.Drawing.Size(124, 22);
+            this.average_blur.Text = "均值滤波";
+            this.average_blur.Click += new System.EventHandler(this.AverageBlur_Click);
+            // 
+            // gaussian_blur
+            // 
+            this.gaussian_blur.Name = "gaussian_blur";
+            this.gaussian_blur.Size = new System.Drawing.Size(124, 22);
+            this.gaussian_blur.Text = "高斯滤波";
             // 
             // fortify
             // 
@@ -277,6 +315,7 @@
             // 
             // clearButton
             // 
+            this.clearButton.Enabled = false;
             this.clearButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.clearButton.Location = new System.Drawing.Point(384, 400);
             this.clearButton.Name = "clearButton";
@@ -286,11 +325,37 @@
             this.clearButton.UseVisualStyleBackColor = true;
             this.clearButton.Click += new System.EventHandler(this.ClearButton_Click);
             // 
+            // leftButton
+            // 
+            this.leftButton.Enabled = false;
+            this.leftButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.leftButton.Location = new System.Drawing.Point(216, 400);
+            this.leftButton.Name = "leftButton";
+            this.leftButton.Size = new System.Drawing.Size(45, 45);
+            this.leftButton.TabIndex = 14;
+            this.leftButton.Text = "←";
+            this.leftButton.UseVisualStyleBackColor = true;
+            this.leftButton.Click += new System.EventHandler(this.Left_Click);
+            // 
+            // rightButton
+            // 
+            this.rightButton.Enabled = false;
+            this.rightButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.rightButton.Location = new System.Drawing.Point(615, 398);
+            this.rightButton.Name = "rightButton";
+            this.rightButton.Size = new System.Drawing.Size(45, 45);
+            this.rightButton.TabIndex = 15;
+            this.rightButton.Text = "→";
+            this.rightButton.UseVisualStyleBackColor = true;
+            this.rightButton.Click += new System.EventHandler(this.Right_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(910, 450);
+            this.Controls.Add(this.rightButton);
+            this.Controls.Add(this.leftButton);
             this.Controls.Add(this.clearButton);
             this.Controls.Add(this.downButton);
             this.Controls.Add(this.upButton);
@@ -299,9 +364,10 @@
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
-            this.Text = "ImgToolBox";
+            this.Text = "图像处理工具箱";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.menuStrip1.ResumeLayout(false);
@@ -339,6 +405,12 @@
         private System.Windows.Forms.ToolStripMenuItem feature_detect;
         private System.Windows.Forms.ToolStripMenuItem object_recognize;
         private System.Windows.Forms.ToolStripMenuItem color_fortify;
+        private System.Windows.Forms.ToolStripMenuItem add_uni_noise;
+        private System.Windows.Forms.ToolStripMenuItem median_blur;
+        private System.Windows.Forms.ToolStripMenuItem average_blur;
+        private System.Windows.Forms.ToolStripMenuItem gaussian_blur;
+        private System.Windows.Forms.Button leftButton;
+        private System.Windows.Forms.Button rightButton;
     }
 }
 

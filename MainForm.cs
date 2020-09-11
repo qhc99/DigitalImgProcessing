@@ -50,7 +50,7 @@ namespace opencv
         }
 
         private readonly Image _noneImage =
-            Image.FromFile(Directory.GetCurrentDirectory() + "..\\..\\..\\..\\Resources\\timg.jpg");
+            Image.FromFile(Directory.GetCurrentDirectory() + "..\\..\\..\\..\\Resources\\none.jpg");
 
         /// <summary>
         /// 当前处理图片序列
@@ -286,6 +286,9 @@ namespace opencv
             feature_detect.Enabled = true;
             object_recognize.Enabled = true;
             color_fortify.Enabled = true;
+            leftButton.Enabled = true;
+            rightButton.Enabled = true;
+            clearButton.Enabled = true;
         }
 
         /// <summary>
@@ -308,6 +311,9 @@ namespace opencv
             feature_detect.Enabled = false;
             object_recognize.Enabled = false;
             color_fortify.Enabled = false;
+            leftButton.Enabled = false;
+            rightButton.Enabled = false;
+            clearButton.Enabled = false;
         }
 
         /// <summary>
@@ -397,35 +403,40 @@ namespace opencv
         /// <param name="e"></param>
         private void ClearButton_Click(object sender, EventArgs e)
         {
-            _workingProcess.RemoveAt(_currentProcessIndex);
-            _resultProcess.RemoveAt(_currentProcessIndex);
-            _indicesProcess.RemoveAt(_currentProcessIndex);
-            _currentProcessIndex--;
-            if (_currentProcessIndex == -1)
+            var checkWindow = new ClearWarningPopUp();
+            var dialogRes = checkWindow.ShowDialog();
+            if (dialogRes == DialogResult.OK)
             {
-                if (_workingProcess.Count == 0)
+                _workingProcess.RemoveAt(_currentProcessIndex);
+                _resultProcess.RemoveAt(_currentProcessIndex);
+                _indicesProcess.RemoveAt(_currentProcessIndex);
+                _currentProcessIndex--;
+                if (_currentProcessIndex == -1)
                 {
-                    LoadNoneImg(pictureBox1);
-                    LoadNoneImg(pictureBox2);
                     if (_workingProcess.Count == 0)
                     {
-                        DisableAllButtons();
+                        LoadNoneImg(pictureBox1);
+                        LoadNoneImg(pictureBox2);
+                        if (_workingProcess.Count == 0)
+                        {
+                            DisableAllButtons();
+                        }
+                        return;
                     }
-                    return;
+                    else
+                    {
+                        _currentProcessIndex++;
+                    }
                 }
-                else
-                {
-                    _currentProcessIndex++;
-                }
-            }
 
-            
-            ShowMat(pictureBox1, WorkingLeftImg);
-            ShowMat(pictureBox2, WorkingRightImg);
-            CheckProcessSwitchButton();
-            if (_workingProcess.Count == 0)
-            {
-                DisableAllButtons();
+
+                ShowMat(pictureBox1, WorkingLeftImg);
+                ShowMat(pictureBox2, WorkingRightImg);
+                CheckProcessSwitchButton();
+                if (_workingProcess.Count == 0)
+                {
+                    DisableAllButtons();
+                }
             }
         }
 
@@ -479,6 +490,26 @@ namespace opencv
         }
 
         /// <summary>
+        /// 两张图片左移
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Left_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// 两张图片右移
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Right_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        /// <summary>
         /// 保存
         /// </summary>
         /// <param name="sender"></param>
@@ -508,17 +539,17 @@ namespace opencv
         /// <param name="e"></param>
         private void AddGaussianNoise_Click(object sender, EventArgs e)
         {
-            var selectWindow = new GaussianNoiseSelectForm();
-            var dialogResult = selectWindow.ShowDialog();
+            var inputWindow = new GaussianNoisePopUp();
+            var dialogResult = inputWindow.ShowDialog();
             
             if (dialogResult == DialogResult.OK)
             {
                 var (originImg, resOriginImg) = GetImagesToProcess();
 
                 Mat gNoise = new Mat(originImg.Size(), originImg.Type());
-                gNoise.Randn(selectWindow.Mean, selectWindow.Variance);
+                gNoise.Randn(inputWindow.Mean, inputWindow.Variance);
                 Mat resGNoise = new Mat(resOriginImg.Size(), resOriginImg.Type());
-                resGNoise.Randn(selectWindow.Mean, selectWindow.Variance);
+                resGNoise.Randn(inputWindow.Mean, inputWindow.Variance);
 
                 Mat workRes = originImg + gNoise;
                 Mat res = resOriginImg + resGNoise;
@@ -528,16 +559,66 @@ namespace opencv
         }
 
         /// <summary>
-        /// 去噪
+        /// 均值滤波
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void DeNoiseButton_Click(object sender, EventArgs e)
+        private void AddUniformNoise_Click(object sender, EventArgs e)
         {
-            var (originImg, resOriginImg) = GetImagesToProcess();
-            
+            var inputWindow = new UniNoisePopUp();
+            var dRest = inputWindow.ShowDialog();
+            if (dRest == DialogResult.OK)
+            {
+                var (originImg, resOriginImg) = GetImagesToProcess();
+
+                Mat uNoise = new Mat(originImg.Size(), originImg.Type());
+                uNoise.Randu(inputWindow.Low,inputWindow.High);
+                Mat resUNoise = new Mat(resOriginImg.Size(), resOriginImg.Type());
+                resUNoise.Randu(inputWindow.Low, inputWindow.High);
+
+                Mat workRes = originImg + uNoise;
+                Mat res = resOriginImg + resUNoise;
+
+                AddImagesToListAndShow(workRes, res);
+            }
         }
 
+        /// <summary>
+        /// 中值滤波
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MedianBlur_Click(object sender, EventArgs e)
+        {
+            var inputWindow = new MedianBlurPopUp();
+            var dRes = inputWindow.ShowDialog();
+            if (dRes == DialogResult.OK)
+            {
+                var (originImg, resOriginImg) = GetImagesToProcess();
+                var blurImg = originImg.Clone();
+                blurImg.MedianBlur(inputWindow.Size);
+                var resBlurImg = resOriginImg.Clone();
+                resBlurImg.MedianBlur(inputWindow.Size);
 
+                AddImagesToListAndShow(blurImg,resBlurImg);
+            }
+        }
+
+        private void AverageBlur_Click(object sender, EventArgs e)
+        {
+            var inputWindow = new AverageBlurPopUp();
+            var dRes = inputWindow.ShowDialog();
+            if (dRes == DialogResult.OK)
+            {
+                var (originImg, resOriginImg) = GetImagesToProcess();
+                var blurImg = originImg.Clone();
+                Size s = new Size(inputWindow.H, inputWindow.W);
+                blurImg.Blur(s);
+                var resBlurImg = resOriginImg.Clone();
+                resBlurImg.Blur(s);
+
+                AddImagesToListAndShow(blurImg, resBlurImg);
+            }
+        }
     }
 }
