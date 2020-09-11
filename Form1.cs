@@ -360,5 +360,19 @@ namespace opencv
             ShowMat(pictureBox2, WorkingRightImg);
             CheckProcessSwitchButton();
         }
+
+        /// <summary>
+        /// 保存
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button6_Click(object sender, EventArgs e)
+        {
+            var res = saveFileDialog1.ShowDialog();
+            if (res == DialogResult.OK)
+            {
+                ((Image)OpenCvSharp.Extensions.BitmapConverter.ToBitmap(ResultRightImg)).Save(saveFileDialog1.FileName);
+            }
+        }
     }
 }
