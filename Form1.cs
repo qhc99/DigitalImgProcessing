@@ -12,15 +12,15 @@ namespace opencv
     {
         private readonly List<List<Mat>> _workingProcess = new List<List<Mat>>();
         private readonly List<List<Mat>> _resultProcess = new List<List<Mat>>();
-        private readonly List<PictureBoxIndices> _indicesProcess = new List<PictureBoxIndices>();
-        private int _currentProcessIndex;
+        private readonly List<PairIndices> _indicesProcess = new List<PairIndices>();
+        private int _currentProcessIndex = -1;
 
-        internal sealed class PictureBoxIndices
+        internal sealed class PairIndices
         {
             public int LeftIndex;
             public int RightIndex;
 
-            public PictureBoxIndices(int l, int r)
+            public PairIndices(int l, int r)
             {
                 LeftIndex = l;
                 RightIndex = r;
@@ -65,14 +65,60 @@ namespace opencv
         /// <summary>
         /// 当前处理序列索引
         /// </summary>
-        private PictureBoxIndices BoxIndices =>
-            _indicesProcess[_currentProcessIndex];
+        private PairIndices BoxIndices
+        {
+            get
+            {
+                if (_currentProcessIndex == -1)
+                {
+                    return new PairIndices(-1,-1);
+                }
+                else
+                {
+                    return _indicesProcess[_currentProcessIndex];
+                }
+            }
+            set
+            {
+                if (_currentProcessIndex == -1)
+                {
+                    throw new InvalidOperationException();
+                }
+                else
+                {
+                    _indicesProcess[_currentProcessIndex] = value;
+                }
+            }
+        }
 
         /// <summary>
         /// 当前处理左图片
         /// </summary>
-        private Mat WorkingLeftImg =>
-            WorkingImages[BoxIndices.LeftIndex];
+        private Mat WorkingLeftImg
+        {
+            get
+            {
+                if (BoxIndices.LeftIndex >= WorkingImages.Count || BoxIndices.LeftIndex < 0)
+                {
+                    return OpenCvSharp.Extensions.BitmapConverter.ToMat((Bitmap)_noneImage);
+                }
+                else
+                {
+                    return WorkingImages[BoxIndices.LeftIndex];
+                }
+            }
+            set
+            {
+                if (BoxIndices.LeftIndex >= WorkingImages.Count || BoxIndices.LeftIndex < 0)
+                {
+                    throw new InvalidOperationException();
+                }
+                else
+                {
+                    WorkingImages[BoxIndices.LeftIndex] = value;
+                }
+            }
+        }
 
         /// <summary>
         /// 当前处理右图片
@@ -81,7 +127,7 @@ namespace opencv
         {
             get
             {
-                if (BoxIndices.RightIndex == WorkingImages.Count)
+                if (BoxIndices.RightIndex >= WorkingImages.Count || BoxIndices.RightIndex < 0)
                 {
                     return OpenCvSharp.Extensions.BitmapConverter.ToMat((Bitmap)_noneImage);
                 }
@@ -92,7 +138,7 @@ namespace opencv
             }
             set
             {
-                if (BoxIndices.RightIndex == WorkingImages.Count)
+                if (BoxIndices.RightIndex >= WorkingImages.Count || BoxIndices.RightIndex < 0)
                 {
                     throw new InvalidOperationException();
                 }
@@ -106,8 +152,31 @@ namespace opencv
         /// <summary>
         /// 结果左图片
         /// </summary>
-        private Mat ResultLeftImg =>
-            ResultImages[BoxIndices.LeftIndex];
+        private Mat ResultLeftImg
+        {
+            get
+            {
+                if (BoxIndices.LeftIndex >= ResultImages.Count || BoxIndices.LeftIndex < 0)
+                {
+                    return OpenCvSharp.Extensions.BitmapConverter.ToMat((Bitmap)_noneImage);
+                }
+                else
+                {
+                    return ResultImages[BoxIndices.LeftIndex];
+                }
+            }
+            set
+            {
+                if (BoxIndices.LeftIndex >= ResultImages.Count || BoxIndices.LeftIndex < 0)
+                {
+                    throw new InvalidOperationException();
+                }
+                else
+                {
+                    ResultImages[BoxIndices.LeftIndex] = value;
+                }
+            }
+        }
 
         /// <summary>
         /// 结果右图片
@@ -116,7 +185,7 @@ namespace opencv
         {
             get
             {
-                if (BoxIndices.RightIndex == ResultImages.Count)
+                if (BoxIndices.RightIndex >= ResultImages.Count || BoxIndices.RightIndex < 0)
                 {
                     return OpenCvSharp.Extensions.BitmapConverter.ToMat((Bitmap)_noneImage);
                 }
@@ -127,7 +196,7 @@ namespace opencv
             }
             set
             {
-                if (BoxIndices.RightIndex == ResultImages.Count)
+                if (BoxIndices.RightIndex >= ResultImages.Count || BoxIndices.RightIndex < 0)
                 {
                     throw new InvalidOperationException();
                 }
@@ -206,6 +275,19 @@ namespace opencv
             button3.Enabled = true;
             button4.Enabled = true;
             button5.Enabled = true;
+            button6.Enabled = true;
+        }
+
+        /// <summary>
+        /// 没有工作序列时禁用所有按钮(除了加载图片)
+        /// </summary>
+        private void DisableAllButtons()
+        {
+            button2.Enabled = false;
+            button3.Enabled = false;
+            button4.Enabled = false;
+            button5.Enabled = false;
+            button6.Enabled = false;
         }
 
         /// <summary>
@@ -220,21 +302,6 @@ namespace opencv
         }
 
         /// <summary>
-        /// 根据状态禁用或启用清除按钮
-        /// </summary>
-        private void CheckClearButton()
-        {
-            if (_workingProcess.Count == 0)
-            {
-                button2.Enabled = false;
-            }
-            else
-            {
-                button2.Enabled = true;
-            }
-        }
-
-        /// <summary>
         /// 加载图片到两个工作序列,变换显示
         /// </summary>
         /// <param name="sender"></param>
@@ -244,10 +311,10 @@ namespace opencv
             var result = openFileDialog1.ShowDialog();
             if (result == DialogResult.OK)
             {
-                if (_workingProcess.Count != 0) _currentProcessIndex++;
+                 _currentProcessIndex++;
                 _resultProcess.Add(new List<Mat>());
                 _workingProcess.Add(new List<Mat>());
-                _indicesProcess.Add(new PictureBoxIndices(0,1));
+                _indicesProcess.Add(new PairIndices(0,1));
 
                 LoadNoneImg(pictureBox1);
                 LoadNoneImg(pictureBox2);
@@ -280,6 +347,10 @@ namespace opencv
                 {
                     LoadNoneImg(pictureBox1);
                     LoadNoneImg(pictureBox2);
+                    if (_workingProcess.Count == 0)
+                    {
+                        DisableAllButtons();
+                    }
                     return;
                 }
                 else
@@ -287,9 +358,15 @@ namespace opencv
                     _currentProcessIndex++;
                 }
             }
-            CheckClearButton();
+
+            
             ShowMat(pictureBox1, WorkingLeftImg);
             ShowMat(pictureBox2, WorkingRightImg);
+            CheckProcessSwitchButton();
+            if (_workingProcess.Count == 0)
+            {
+                DisableAllButtons();
+            }
         }
 
         /// <summary>

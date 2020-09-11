@@ -85,7 +85,7 @@
             this.button2.Font = new System.Drawing.Font("Microsoft YaHei UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.button2.Location = new System.Drawing.Point(454, 380);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(113, 37);
+            this.button2.Size = new System.Drawing.Size(113, 40);
             this.button2.TabIndex = 3;
             this.button2.Text = "清除此行图片";
             this.button2.UseVisualStyleBackColor = true;
@@ -95,9 +95,9 @@
             // 
             this.button3.Enabled = false;
             this.button3.Font = new System.Drawing.Font("Microsoft YaHei UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.button3.Location = new System.Drawing.Point(42, 12);
+            this.button3.Location = new System.Drawing.Point(42, 28);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(89, 25);
+            this.button3.Size = new System.Drawing.Size(89, 31);
             this.button3.TabIndex = 4;
             this.button3.Text = "灰度化";
             this.button3.UseVisualStyleBackColor = true;
@@ -147,6 +147,8 @@
             // 
             // button6
             // 
+            this.button6.Enabled = false;
+            this.button6.Font = new System.Drawing.Font("Microsoft YaHei UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.button6.Location = new System.Drawing.Point(638, 376);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(87, 37);
