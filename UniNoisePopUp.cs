@@ -10,6 +10,7 @@ namespace opencv
         public UniNoisePopUp()
         {
             InitializeComponent();
+            StartPosition = FormStartPosition.CenterScreen;
         }
 
         private void button1_Click(object sender, EventArgs e)

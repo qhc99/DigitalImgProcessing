@@ -5,14 +5,15 @@ namespace opencv
 {
     public partial class MedianBlurPopUp : Form
     {
-        public int Size;
+        public int WindowSize ;
         public MedianBlurPopUp()
         {
             InitializeComponent();
+            StartPosition = FormStartPosition.CenterScreen;
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            if (!int.TryParse(textBox1.Text, out Size))
+            if (!int.TryParse(textBox1.Text, out WindowSize))
             {
                 MessageBox.Show(@"输入错误");
                 DialogResult = DialogResult.Cancel;

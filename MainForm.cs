@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using OpenCvSharp;
+using OpenCvSharp.Extensions;
 using Size = OpenCvSharp.Size;
 
 namespace opencv
@@ -15,7 +16,7 @@ namespace opencv
         private readonly List<PairIndices> _indicesProcess = new List<PairIndices>();
         private int _currentProcessIndex = -1;
 
-        internal sealed class PairIndices
+        public sealed class PairIndices
         {
             public int LeftIndex;
             public int RightIndex;
@@ -31,6 +32,8 @@ namespace opencv
         {
             InitializeComponent();
             StartPosition = FormStartPosition.CenterScreen;
+            LoadNoneImg(leftPictureBox);
+            LoadNoneImg(rightPictureBox);
         }
 
         #region Methods
@@ -41,14 +44,16 @@ namespace opencv
         /// <param name="pb"></param>
         private void LoadNoneImg(PictureBox pb)
         {
-            pb.Image = _noneImage;
+            Mat none = ((Bitmap) _noneImage).ToMat();
+            none.Resize(new Size(leftPictureBox.Height, leftPictureBox.Width));
+            pb.Image = none.ToBitmap();
             if (leftPictureBox == pb)
             {
                 right_picture_label.Text = $@"第 {_currentProcessIndex + 1} 行 第 {BoxIndices.LeftIndex + 1} 列";
             }
             else
             {
-                left_pircture_label.Text = $@"第 {_currentProcessIndex + 1} 行 第 {BoxIndices.RightIndex + 1} 列";
+                left_picture_label.Text = $@"第 {_currentProcessIndex + 1} 行 第 {BoxIndices.RightIndex + 1} 列";
             }
         }
 
@@ -98,7 +103,7 @@ namespace opencv
             {
                 if (BoxIndices.LeftIndex >= WorkingImages.Count || BoxIndices.LeftIndex < 0)
                 {
-                    return OpenCvSharp.Extensions.BitmapConverter.ToMat((Bitmap)_noneImage);
+                    return ((Bitmap)_noneImage).ToMat();
                 }
                 else
                 {
@@ -127,7 +132,7 @@ namespace opencv
             {
                 if (BoxIndices.RightIndex >= WorkingImages.Count || BoxIndices.RightIndex < 0)
                 {
-                    return OpenCvSharp.Extensions.BitmapConverter.ToMat((Bitmap)_noneImage);
+                    return ((Bitmap)_noneImage).ToMat();
                 }
                 else
                 {
@@ -154,24 +159,27 @@ namespace opencv
         /// <param name="m"></param>
         private void ShowMat(PictureBox pb, Mat m)
         {
-            pb.Image = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(GetBoxFittedMat(m));
+            pb.Image = GetBoxFittedMat(m).ToBitmap();
             if (leftPictureBox == pb)
             {
                 right_picture_label.Text = $@"第 {_currentProcessIndex+1} 行 第 {BoxIndices.LeftIndex + 1} 列";
             }
             else
             {
-                left_pircture_label.Text = $@"第 {_currentProcessIndex + 1} 行 第 {BoxIndices.RightIndex + 1} 列";
+                left_picture_label.Text = $@"第 {_currentProcessIndex + 1} 行 第 {BoxIndices.RightIndex + 1} 列";
             }
+        }
 
-            //Methods:
-            Mat GetBoxFittedMat(Mat image)
-            {
-                var (row, col) = ComputeSize(image.Rows, image.Cols,
-                    leftPictureBox.Size.Height, leftPictureBox.Size.Width);
-                return image.Resize(new Size(row, col), 0, 0, InterpolationFlags.Cubic);
-
-            }
+        /// <summary>
+        /// 符合窗口大小的Mat
+        /// </summary>
+        /// <param name="image"></param>
+        /// <returns></returns>
+        private Mat GetBoxFittedMat(Mat image)
+        {
+            var (row, col) = ComputeSize(image.Rows, image.Cols,
+                leftPictureBox.Size.Height, leftPictureBox.Size.Width);
+            return image.Resize(new Size(row, col), 0, 0, InterpolationFlags.Cubic);
             static Tuple<int, int> ComputeSize(int imgRow, int imgCol, int boxRow, int boxCol)
             {
                 if (imgRow <= boxRow && imgCol <= boxCol)
@@ -192,6 +200,7 @@ namespace opencv
                     }
                 }
             }
+
         }
 
         /// <summary>
@@ -214,10 +223,9 @@ namespace opencv
             feature_detect.Enabled = true;
             object_recognize.Enabled = true;
             color_fortify.Enabled = true;
-            leftButton.Enabled = true;
-            rightButton.Enabled = true;
             clearButton.Enabled = true;
             reverseButton.Enabled = true;
+            imagesListButton.Enabled = true;
         }
 
         /// <summary>
@@ -240,31 +248,21 @@ namespace opencv
             feature_detect.Enabled = false;
             object_recognize.Enabled = false;
             color_fortify.Enabled = false;
-            leftButton.Enabled = false;
-            rightButton.Enabled = false;
             clearButton.Enabled = false;
             reverseButton.Enabled = false;
+            imagesListButton.Enabled = false;
         }
 
         /// <summary>
         /// 垂直移动检查按钮禁用情况
         /// </summary>
-        private Tuple<bool,bool> VerticalCheck()
+        private void VerticalCheck()
         {
             if (_currentProcessIndex <= 0) upButton.Enabled = false;
             else upButton.Enabled = true;
             if (_currentProcessIndex + 1 == _workingProcess.Count) downButton.Enabled = false;
             else downButton.Enabled = true;
-            return new Tuple<bool, bool>(upButton.Enabled,downButton.Enabled);
-        }
-
-        /// <summary>
-        /// 水平移动检查按钮禁用情况
-        /// </summary>
-        private Tuple<bool,bool> HorizontalCheck()
-        {
-
-            return new Tuple<bool, bool>(leftButton.Enabled,rightButton.Enabled);
+            new Tuple<bool, bool>(upButton.Enabled,downButton.Enabled);
         }
 
         /// <summary>
@@ -302,7 +300,6 @@ namespace opencv
 
             ShowMat(leftPictureBox, WorkingLeftImg);
             ShowMat(rightPictureBox, WorkingRightImg);
-            HorizontalCheck();
         }
 
         #endregion
@@ -387,7 +384,7 @@ namespace opencv
         private void GrayButton_Click(object sender, EventArgs e)
         {
             var originImg = GetImageToProcess();
-            Mat grayImg, resGrayImg;
+            Mat grayImg;
             try
             {
                 grayImg = originImg.CvtColor(ColorConversionCodes.BGR2GRAY, 1);
@@ -412,7 +409,6 @@ namespace opencv
             ShowMat(leftPictureBox,WorkingLeftImg);
             ShowMat(rightPictureBox,WorkingRightImg);
             VerticalCheck();
-            HorizontalCheck();
         }
 
         /// <summary>
@@ -426,29 +422,6 @@ namespace opencv
             ShowMat(leftPictureBox, WorkingLeftImg);
             ShowMat(rightPictureBox, WorkingRightImg);
             VerticalCheck();
-            HorizontalCheck();
-        }
-
-        /// <summary>
-        /// 两张图片左移
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Left_Click(object sender, EventArgs e)
-        {
-
-            HorizontalCheck();
-        }
-
-        /// <summary>
-        /// 两张图片右移
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Right_Click(object sender, EventArgs e)
-        {
-
-            HorizontalCheck();
         }
 
         /// <summary>
@@ -461,7 +434,7 @@ namespace opencv
             var res = saveFileDialog1.ShowDialog();
             if (res == DialogResult.OK)
             {
-                OpenCvSharp.Extensions.BitmapConverter.ToBitmap(WorkingRightImg).Save(saveFileDialog1.FileName);
+                WorkingRightImg.ToBitmap().Save(saveFileDialog1.FileName);
             }
         }
 
@@ -476,7 +449,7 @@ namespace opencv
             if (res == DialogResult.OK)
             {
 
-                OpenCvSharp.Extensions.BitmapConverter.ToBitmap(WorkingLeftImg).Save(saveFileDialog1.FileName);
+                WorkingLeftImg.ToBitmap().Save(saveFileDialog1.FileName);
             }
         }
 
@@ -508,6 +481,75 @@ namespace opencv
                         ShowMat(leftPictureBox, WorkingLeftImg);
                         ShowMat(rightPictureBox, WorkingRightImg);
                     }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 查看图片序列
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void imagesListButton_Click(object sender, EventArgs e)
+        {
+            List<Image> data = new List<Image>(WorkingImages.Count);
+            foreach (var mat in WorkingImages)
+            {
+                data.Add(GetBoxFittedMat(mat).ToBitmap());
+            }
+            var imagesForm = new ImagesListForm(data, _indicesProcess[_currentProcessIndex]);
+            Task.Run(imagesForm.ShowDialog);
+        }
+
+        /// <summary>
+        /// 快捷键
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Modifiers == Keys.Control)
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.Up:
+                        if (upButton.Enabled)
+                        {
+                            UpButton_Click(this, EventArgs.Empty);
+                        }
+                        break;
+                    case Keys.Down:
+                        if (downButton.Enabled)
+                        {
+                            DownButton_Click(this, EventArgs.Empty);
+                        }
+                        break;
+                    case Keys.S:
+                        if (BoxIndices.RightIndex < WorkingImages.Count)
+                        {
+                            SaveSecondButton_Click(this, EventArgs.Empty);
+                        }
+                        else
+                        {
+                            MessageBox.Show(@"不能保存空图片");
+                        }
+                        break;
+                    case Keys.Z:
+                        ReverseButton_Click(this, EventArgs.Empty);
+                        break;
+                }
+            }
+
+            if (e.Modifiers == Keys.Alt)
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.V:
+                        if (imagesListButton.Enabled)
+                        {
+                            imagesListButton_Click(this,EventArgs.Empty);
+                        }
+                        break;
                 }
             }
         }
@@ -569,7 +611,7 @@ namespace opencv
             {
                 var originImg = GetImageToProcess();
                 var blurImg = originImg.Clone();
-                blurImg.MedianBlur(inputWindow.Size);
+                blurImg.MedianBlur(inputWindow.WindowSize);
 
                 AddImageToListAndShow(blurImg);
             }
@@ -592,59 +634,6 @@ namespace opencv
                 blurImg.Blur(s);
 
                 AddImageToListAndShow(blurImg);
-            }
-        }
-
-        /// <summary>
-        /// 快捷键
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MainForm_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Modifiers != Keys.Control)
-            {
-                return;
-            }
-            switch (e.KeyCode)
-            {
-                case Keys.Up:
-                    if (VerticalCheck().Item1)
-                    {
-                        UpButton_Click(this, EventArgs.Empty);
-                    }
-                    break;
-                case Keys.Down:
-                    if (VerticalCheck().Item2)
-                    {
-                        DownButton_Click(this, EventArgs.Empty);
-                    }
-                    break;
-                case Keys.Left:
-                    if (HorizontalCheck().Item1)
-                    {
-                        Left_Click(this, EventArgs.Empty);
-                    }
-                    break;
-                case Keys.Right:
-                    if (HorizontalCheck().Item2)
-                    {
-                        Right_Click(this, EventArgs.Empty);
-                    }
-                    break;
-                case Keys.S:
-                    if (BoxIndices.RightIndex < WorkingImages.Count)
-                    {
-                        SaveSecondButton_Click(this, EventArgs.Empty);
-                    }
-                    else
-                    {
-                        MessageBox.Show(@"不能保存空图片");
-                    }
-                    break;
-                case Keys.Z:
-                    ReverseButton_Click(this,EventArgs.Empty);
-                    break;
             }
         }
 

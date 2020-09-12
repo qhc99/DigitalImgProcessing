@@ -34,11 +34,12 @@
             this.leftPictureBox = new System.Windows.Forms.PictureBox();
             this.rightPictureBox = new System.Windows.Forms.PictureBox();
             this.right_picture_label = new System.Windows.Forms.Label();
-            this.left_pircture_label = new System.Windows.Forms.Label();
+            this.left_picture_label = new System.Windows.Forms.Label();
             this.upButton = new System.Windows.Forms.Button();
             this.downButton = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.file = new System.Windows.Forms.ToolStripMenuItem();
+            this.imagesListButton = new System.Windows.Forms.ToolStripMenuItem();
             this.file_open = new System.Windows.Forms.ToolStripMenuItem();
             this.file_save_second = new System.Windows.Forms.ToolStripMenuItem();
             this.file_save_first = new System.Windows.Forms.ToolStripMenuItem();
@@ -61,8 +62,6 @@
             this.feature_detect = new System.Windows.Forms.ToolStripMenuItem();
             this.object_recognize = new System.Windows.Forms.ToolStripMenuItem();
             this.color_fortify = new System.Windows.Forms.ToolStripMenuItem();
-            this.leftButton = new System.Windows.Forms.Button();
-            this.rightButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.leftPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rightPictureBox)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -76,7 +75,6 @@
             // 
             this.leftPictureBox.BackColor = System.Drawing.SystemColors.Control;
             this.leftPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.leftPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("leftPictureBox.Image")));
             this.leftPictureBox.Location = new System.Drawing.Point(68, 54);
             this.leftPictureBox.Name = "leftPictureBox";
             this.leftPictureBox.Size = new System.Drawing.Size(360, 360);
@@ -88,10 +86,9 @@
             // 
             this.rightPictureBox.BackColor = System.Drawing.Color.SpringGreen;
             this.rightPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.rightPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("rightPictureBox.Image")));
             this.rightPictureBox.Location = new System.Drawing.Point(460, 54);
             this.rightPictureBox.Name = "rightPictureBox";
-            this.rightPictureBox.Size = new System.Drawing.Size(370, 365);
+            this.rightPictureBox.Size = new System.Drawing.Size(370, 370);
             this.rightPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.rightPictureBox.TabIndex = 2;
             this.rightPictureBox.TabStop = false;
@@ -105,14 +102,14 @@
             this.right_picture_label.TabIndex = 5;
             this.right_picture_label.Text = "第 0 行 第 0 列";
             // 
-            // left_pircture_label
+            // left_picture_label
             // 
-            this.left_pircture_label.AutoSize = true;
-            this.left_pircture_label.Location = new System.Drawing.Point(600, 29);
-            this.left_pircture_label.Name = "left_pircture_label";
-            this.left_pircture_label.Size = new System.Drawing.Size(90, 17);
-            this.left_pircture_label.TabIndex = 6;
-            this.left_pircture_label.Text = "第 0 行 第 0 列";
+            this.left_picture_label.AutoSize = true;
+            this.left_picture_label.Location = new System.Drawing.Point(600, 29);
+            this.left_picture_label.Name = "left_picture_label";
+            this.left_picture_label.Size = new System.Drawing.Size(90, 17);
+            this.left_picture_label.TabIndex = 6;
+            this.left_picture_label.Text = "第 0 行 第 0 列";
             // 
             // upButton
             // 
@@ -155,13 +152,14 @@
             this.color_fortify});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(910, 25);
+            this.menuStrip1.Size = new System.Drawing.Size(883, 25);
             this.menuStrip1.TabIndex = 12;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // file
             // 
             this.file.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.imagesListButton,
             this.file_open,
             this.file_save_second,
             this.file_save_first,
@@ -171,10 +169,18 @@
             this.file.Size = new System.Drawing.Size(44, 21);
             this.file.Text = "文件";
             // 
+            // imagesListButton
+            // 
+            this.imagesListButton.Enabled = false;
+            this.imagesListButton.Name = "imagesListButton";
+            this.imagesListButton.Size = new System.Drawing.Size(172, 22);
+            this.imagesListButton.Text = "查看当前图片序列";
+            this.imagesListButton.Click += new System.EventHandler(this.imagesListButton_Click);
+            // 
             // file_open
             // 
             this.file_open.Name = "file_open";
-            this.file_open.Size = new System.Drawing.Size(160, 22);
+            this.file_open.Size = new System.Drawing.Size(172, 22);
             this.file_open.Text = "打开";
             this.file_open.Click += new System.EventHandler(this.LoadButton_Click);
             // 
@@ -182,7 +188,7 @@
             // 
             this.file_save_second.Enabled = false;
             this.file_save_second.Name = "file_save_second";
-            this.file_save_second.Size = new System.Drawing.Size(160, 22);
+            this.file_save_second.Size = new System.Drawing.Size(172, 22);
             this.file_save_second.Text = "保存第二张图片";
             this.file_save_second.Click += new System.EventHandler(this.SaveSecondButton_Click);
             // 
@@ -190,7 +196,7 @@
             // 
             this.file_save_first.Enabled = false;
             this.file_save_first.Name = "file_save_first";
-            this.file_save_first.Size = new System.Drawing.Size(160, 22);
+            this.file_save_first.Size = new System.Drawing.Size(172, 22);
             this.file_save_first.Text = "保存第一张图片";
             this.file_save_first.Click += new System.EventHandler(this.SaveFirstButton_Click);
             // 
@@ -198,7 +204,7 @@
             // 
             this.clearButton.Enabled = false;
             this.clearButton.Name = "clearButton";
-            this.clearButton.Size = new System.Drawing.Size(160, 22);
+            this.clearButton.Size = new System.Drawing.Size(172, 22);
             this.clearButton.Text = "清除此行图片";
             this.clearButton.Click += new System.EventHandler(this.ClearButton_Click);
             // 
@@ -206,7 +212,7 @@
             // 
             this.reverseButton.Enabled = false;
             this.reverseButton.Name = "reverseButton";
-            this.reverseButton.Size = new System.Drawing.Size(160, 22);
+            this.reverseButton.Size = new System.Drawing.Size(172, 22);
             this.reverseButton.Text = "撤销处理";
             this.reverseButton.Click += new System.EventHandler(this.ReverseButton_Click);
             // 
@@ -337,40 +343,14 @@
             this.color_fortify.Size = new System.Drawing.Size(68, 21);
             this.color_fortify.Text = "彩色处理";
             // 
-            // leftButton
-            // 
-            this.leftButton.Enabled = false;
-            this.leftButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.leftButton.Location = new System.Drawing.Point(226, 420);
-            this.leftButton.Name = "leftButton";
-            this.leftButton.Size = new System.Drawing.Size(45, 45);
-            this.leftButton.TabIndex = 14;
-            this.leftButton.Text = "←";
-            this.leftButton.UseVisualStyleBackColor = true;
-            this.leftButton.Click += new System.EventHandler(this.Left_Click);
-            // 
-            // rightButton
-            // 
-            this.rightButton.Enabled = false;
-            this.rightButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.rightButton.Location = new System.Drawing.Point(623, 420);
-            this.rightButton.Name = "rightButton";
-            this.rightButton.Size = new System.Drawing.Size(45, 45);
-            this.rightButton.TabIndex = 15;
-            this.rightButton.Text = "→";
-            this.rightButton.UseVisualStyleBackColor = true;
-            this.rightButton.Click += new System.EventHandler(this.Right_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(910, 471);
-            this.Controls.Add(this.rightButton);
-            this.Controls.Add(this.leftButton);
+            this.ClientSize = new System.Drawing.Size(883, 471);
             this.Controls.Add(this.downButton);
             this.Controls.Add(this.upButton);
-            this.Controls.Add(this.left_pircture_label);
+            this.Controls.Add(this.left_picture_label);
             this.Controls.Add(this.right_picture_label);
             this.Controls.Add(this.rightPictureBox);
             this.Controls.Add(this.leftPictureBox);
@@ -396,7 +376,7 @@
         private System.Windows.Forms.PictureBox leftPictureBox;
         private System.Windows.Forms.PictureBox rightPictureBox;
         private System.Windows.Forms.Label right_picture_label;
-        private System.Windows.Forms.Label left_pircture_label;
+        private System.Windows.Forms.Label left_picture_label;
         private System.Windows.Forms.Button upButton;
         private System.Windows.Forms.Button downButton;
         private System.Windows.Forms.MenuStrip menuStrip1;
@@ -421,10 +401,9 @@
         private System.Windows.Forms.ToolStripMenuItem median_blur;
         private System.Windows.Forms.ToolStripMenuItem average_blur;
         private System.Windows.Forms.ToolStripMenuItem gaussian_blur;
-        private System.Windows.Forms.Button leftButton;
-        private System.Windows.Forms.Button rightButton;
         private System.Windows.Forms.ToolStripMenuItem clearButton;
         private System.Windows.Forms.ToolStripMenuItem reverseButton;
+        private System.Windows.Forms.ToolStripMenuItem imagesListButton;
     }
 }
 

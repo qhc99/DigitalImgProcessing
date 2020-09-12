@@ -5,12 +5,6 @@ namespace opencv
 {
     public partial class WarningPopUp : Form
     {
-        public WarningPopUp()
-        {
-            InitializeComponent();
-            StartPosition = FormStartPosition.CenterScreen;
-        }
-
         public WarningPopUp(string text)
         {
             InitializeComponent();
