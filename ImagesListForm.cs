@@ -162,6 +162,13 @@ namespace opencv
                         break;
                 }
             }
+
+            switch (e.KeyCode)
+            {
+                case Keys.Escape:
+                    Close();
+                    break;
+            }
         }
 
         private void SaveMat(Mat m)

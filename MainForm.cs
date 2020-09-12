@@ -218,7 +218,7 @@ namespace opencv
             upButton.Enabled = true;
             downButton.Enabled = true;
             addNoiseButton.Enabled = true;
-            deNoiseButton.Enabled = true;
+            blurButton.Enabled = true;
             fortifyButton.Enabled = true;
             edgeButton.Enabled = true;
             segButton.Enabled = true;
@@ -244,7 +244,7 @@ namespace opencv
             upButton.Enabled = false;
             downButton.Enabled = false;
             addNoiseButton.Enabled = false;
-            deNoiseButton.Enabled = false;
+            blurButton.Enabled = false;
             fortifyButton.Enabled = false;
             edgeButton.Enabled = false;
             segButton.Enabled = false;
@@ -473,18 +473,17 @@ namespace opencv
                 var res = checkWindow.ShowDialog();
                 if (res == DialogResult.OK)
                 {
+                    if (WorkingMats.Count == 2)
+                    {
+                        WorkingMats.RemoveAt(BoxIndices.RightIndex);
+                        ShowMat(leftPictureBox, WorkingLeftMat);
+                        ShowMat(rightPictureBox, WorkingRightMat);
+                    }
                     if (WorkingMats.Count > 2)
                     {
                         WorkingMats.RemoveAt(BoxIndices.RightIndex);
                         BoxIndices.LeftIndex--;
                         BoxIndices.RightIndex--;
-                        ShowMat(leftPictureBox, WorkingLeftMat);
-                        ShowMat(rightPictureBox, WorkingRightMat);
-                    }
-
-                    if (WorkingMats.Count == 2)
-                    {
-                        WorkingMats.RemoveAt(BoxIndices.RightIndex);
                         ShowMat(leftPictureBox, WorkingLeftMat);
                         ShowMat(rightPictureBox, WorkingRightMat);
                     }
@@ -572,7 +571,7 @@ namespace opencv
         /// <param name="e"></param>
         private void AddGaussianNoise_Click(object sender, EventArgs e)
         {
-            var inputWindow = new GaussianNoisePopUp();
+            var inputWindow = new MeanVariancePopUp();
             var dialogResult = inputWindow.ShowDialog();
             
             if (dialogResult == DialogResult.OK)
@@ -595,7 +594,7 @@ namespace opencv
         /// <param name="e"></param>
         private void AddUniformNoise_Click(object sender, EventArgs e)
         {
-            var inputWindow = new UniNoisePopUp();
+            var inputWindow = new UpperLowerLimitPopUp();
             var dRest = inputWindow.ShowDialog();
             if (dRest == DialogResult.OK)
             {
@@ -616,7 +615,38 @@ namespace opencv
         /// <param name="e"></param>
         private void AddImpulseNoise_Click(object sender, EventArgs e)
         {
-            NotImplemented();
+            var inputWindow = new UpperLowerLimitPopUp();
+            var dialogRes = inputWindow.ShowDialog();
+            if (dialogRes == DialogResult.OK)
+            {
+                var originImg = GetImageToProcess();
+                var addNoiseImg = originImg.Clone();
+                var imgIndexer = addNoiseImg.GetGenericIndexer<Vec3b>();
+                
+                Mat rand = Mat.Zeros(new Size(addNoiseImg.Height, addNoiseImg.Width), addNoiseImg.Type());
+                rand.Randu(0, 255);
+                var rand3B = new Mat<Vec3b>(rand);
+                var randIndexer = rand3B.GetIndexer();
+                
+                for (int h = 0; h < rand3B.Height; h++)
+                {
+                    for (int w = 0; w < rand3B.Width; w++)
+                    {
+                        Vec3b randPixel = randIndexer[h, w];
+                        Vec3b imgPixel = imgIndexer[h, w];
+                        if (randPixel.Item0 >= inputWindow.High)
+                        {
+                            imgIndexer[h, w] = new Vec3b(255, imgPixel.Item1, imgPixel.Item2);
+                        }
+                        else if (randPixel.Item0 <= inputWindow.Low)
+                        {
+                            imgIndexer[h, w] = new Vec3b(0, imgPixel.Item1, imgPixel.Item2);
+                        }
+                    }
+                }
+
+                AddImageToListAndShow(addNoiseImg);
+            }
         }
 
         /// <summary>
@@ -626,10 +656,15 @@ namespace opencv
         /// <param name="e"></param>
         private void MedianBlur_Click(object sender, EventArgs e)
         {
-            var inputWindow = new MedianBlurPopUp();
+            var inputWindow = new RectangleBoxSizePopUp();
             var dRes = inputWindow.ShowDialog();
             if (dRes == DialogResult.OK)
             {
+                if (inputWindow.WindowSize % 2 == 0 || inputWindow.WindowSize < 3)
+                {
+                    MessageBox.Show(@"输入应为奇数并且>=3");
+                    return;
+                }
                 var originImg = GetImageToProcess();
                 var blurImg = originImg.MedianBlur(inputWindow.WindowSize);
                 AddImageToListAndShow(blurImg);
@@ -643,7 +678,7 @@ namespace opencv
         /// <param name="e"></param>
         private void AverageBlur_Click(object sender, EventArgs e)
         {
-            var inputWindow = new AverageBlurPopUp();
+            var inputWindow = new BoxHeightWidthPopUp();
             var dRes = inputWindow.ShowDialog();
             if (dRes == DialogResult.OK)
             {
@@ -660,7 +695,15 @@ namespace opencv
         /// <param name="e"></param>
         private void GaussianBlur_Click(object sender, EventArgs e)
         {
-            NotImplemented();
+            var inputWindow = new BoxHeightWidthPopUp();
+            var dRes = inputWindow.ShowDialog();
+            if (dRes == DialogResult.OK)
+            {
+                var originImg = GetImageToProcess();
+                var blurImg = originImg.GaussianBlur(new Size(inputWindow.H,inputWindow.W),0);
+                AddImageToListAndShow(blurImg);
+            }
+            
         }
 
         /// <summary>
@@ -698,7 +741,8 @@ namespace opencv
                             "ctrl + o: 覆盖上一张图片\n" +
                             "alt + v: 查看处理历史\n" + 
                             "ctrl + ←: 处理历史向左翻页\n" + 
-                            "ctrl + →: 处理历史向右翻页");
+                            "ctrl + →: 处理历史向右翻页\n" + 
+                            "ESC: 关闭窗口");
         }
 
         /// <summary>
@@ -708,21 +752,32 @@ namespace opencv
         /// <param name="e"></param>
         private void OverwriteButton_Click(object sender, EventArgs e)
         {
-            if (WorkingMats.Count == 2)
+            var warnWindow = new WarningPopUp(@"覆盖不可撤销!请确认。");
+            var dialogRes = warnWindow.ShowDialog();
+            if (dialogRes == DialogResult.OK)
             {
-                WorkingMats.RemoveAt(0);
-                ShowMat(leftPictureBox,WorkingLeftMat);
-                ShowMat(rightPictureBox,WorkingRightMat);
+                if (WorkingMats.Count == 2)
+                {
+                    WorkingMats.RemoveAt(0);
+                    ShowMat(leftPictureBox, WorkingLeftMat);
+                    ShowMat(rightPictureBox, WorkingRightMat);
+                }
+
+                if (WorkingMats.Count > 2)
+                {
+                    WorkingMats.RemoveAt(BoxIndices.LeftIndex);
+                    BoxIndices.LeftIndex--;
+                    BoxIndices.RightIndex--;
+                    ShowMat(leftPictureBox, WorkingLeftMat);
+                    ShowMat(rightPictureBox, WorkingRightMat);
+                }
             }
 
-            if (WorkingMats.Count >= 2)
-            {
-                WorkingMats.RemoveAt(BoxIndices.LeftIndex);
-                BoxIndices.LeftIndex--;
-                BoxIndices.RightIndex--;
-                ShowMat(leftPictureBox, WorkingLeftMat);
-                ShowMat(rightPictureBox, WorkingRightMat);
-            }
+        }
+
+        private void BarUniformButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

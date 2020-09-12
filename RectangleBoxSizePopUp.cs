@@ -3,19 +3,17 @@ using System.Windows.Forms;
 
 namespace opencv
 {
-    public partial class UniNoisePopUp : Form
+    public partial class RectangleBoxSizePopUp : Form
     {
-        public double Low;
-        public double High;
-        public UniNoisePopUp()
+        public int WindowSize ;
+        public RectangleBoxSizePopUp()
         {
             InitializeComponent();
             StartPosition = FormStartPosition.CenterScreen;
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
-            if (!double.TryParse(textBox1.Text, out Low) || !double.TryParse(textBox2.Text, out High))
+            if (!int.TryParse(textBox1.Text, out WindowSize))
             {
                 MessageBox.Show(@"输入错误");
                 DialogResult = DialogResult.Cancel;
@@ -33,11 +31,16 @@ namespace opencv
             Close();
         }
 
-        private void UniNoisePopUp_KeyDown(object sender, KeyEventArgs e)
+        private void MedianBlurPopUp_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            switch (e.KeyCode)
             {
-                button1_Click(this,EventArgs.Empty);
+                case Keys.Enter:
+                    button1_Click(this, EventArgs.Empty);
+                    break;
+                case Keys.Escape:
+                    Close();
+                    break;
             }
         }
     }

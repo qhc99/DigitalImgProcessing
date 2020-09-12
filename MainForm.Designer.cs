@@ -54,7 +54,7 @@
             this.addGaussianNoise = new System.Windows.Forms.ToolStripMenuItem();
             this.addUniNoise = new System.Windows.Forms.ToolStripMenuItem();
             this.addImpulseNoise = new System.Windows.Forms.ToolStripMenuItem();
-            this.deNoiseButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.blurButton = new System.Windows.Forms.ToolStripMenuItem();
             this.median_blur = new System.Windows.Forms.ToolStripMenuItem();
             this.average_blur = new System.Windows.Forms.ToolStripMenuItem();
             this.gaussian_blur = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,6 +69,7 @@
             this.shortCutHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.leftPictureSize = new System.Windows.Forms.Label();
             this.rightPictureSize = new System.Windows.Forms.Label();
+            this.barUniformButton = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.leftPictureBox)).BeginInit();
             this.pictureRightClickMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rightPictureBox)).BeginInit();
@@ -120,7 +121,7 @@
             // right_picture_label
             // 
             this.right_picture_label.AutoSize = true;
-            this.right_picture_label.Location = new System.Drawing.Point(147, 36);
+            this.right_picture_label.Location = new System.Drawing.Point(518, 36);
             this.right_picture_label.Name = "right_picture_label";
             this.right_picture_label.Size = new System.Drawing.Size(90, 17);
             this.right_picture_label.TabIndex = 5;
@@ -129,7 +130,7 @@
             // left_picture_label
             // 
             this.left_picture_label.AutoSize = true;
-            this.left_picture_label.Location = new System.Drawing.Point(518, 36);
+            this.left_picture_label.Location = new System.Drawing.Point(147, 36);
             this.left_picture_label.Name = "left_picture_label";
             this.left_picture_label.Size = new System.Drawing.Size(90, 17);
             this.left_picture_label.TabIndex = 6;
@@ -165,7 +166,7 @@
             this.file,
             this.preProcessButton,
             this.addNoiseButton,
-            this.deNoiseButton,
+            this.blurButton,
             this.fortifyButton,
             this.edgeButton,
             this.segButton,
@@ -298,16 +299,16 @@
             this.addImpulseNoise.Text = "脉冲噪声";
             this.addImpulseNoise.Click += new System.EventHandler(this.AddImpulseNoise_Click);
             // 
-            // deNoiseButton
+            // blurButton
             // 
-            this.deNoiseButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.blurButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.median_blur,
             this.average_blur,
             this.gaussian_blur});
-            this.deNoiseButton.Enabled = false;
-            this.deNoiseButton.Name = "deNoiseButton";
-            this.deNoiseButton.Size = new System.Drawing.Size(56, 21);
-            this.deNoiseButton.Text = "去噪声";
+            this.blurButton.Enabled = false;
+            this.blurButton.Name = "blurButton";
+            this.blurButton.Size = new System.Drawing.Size(44, 21);
+            this.blurButton.Text = "平滑";
             // 
             // median_blur
             // 
@@ -332,6 +333,8 @@
             // 
             // fortifyButton
             // 
+            this.fortifyButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.barUniformButton});
             this.fortifyButton.Enabled = false;
             this.fortifyButton.Name = "fortifyButton";
             this.fortifyButton.Size = new System.Drawing.Size(44, 21);
@@ -411,6 +414,13 @@
             this.rightPictureSize.TabIndex = 13;
             this.rightPictureSize.Text = "H: W:";
             // 
+            // barUniformButton
+            // 
+            this.barUniformButton.Name = "barUniformButton";
+            this.barUniformButton.Size = new System.Drawing.Size(148, 22);
+            this.barUniformButton.Text = "直方图均匀化";
+            this.barUniformButton.Click += new System.EventHandler(this.BarUniformButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -455,7 +465,7 @@
         private System.Windows.Forms.ToolStripMenuItem saveSecondFileButton;
         private System.Windows.Forms.ToolStripMenuItem saveFirstFileButton;
         private System.Windows.Forms.ToolStripMenuItem addNoiseButton;
-        private System.Windows.Forms.ToolStripMenuItem deNoiseButton;
+        private System.Windows.Forms.ToolStripMenuItem blurButton;
         private System.Windows.Forms.ToolStripMenuItem fortifyButton;
         private System.Windows.Forms.ToolStripMenuItem edgeButton;
         private System.Windows.Forms.ToolStripMenuItem segButton;
@@ -484,6 +494,7 @@
         private System.Windows.Forms.ToolStripMenuItem grayButton;
         private System.Windows.Forms.ToolStripMenuItem addUniNoise;
         private System.Windows.Forms.ToolStripMenuItem addImpulseNoise;
+        private System.Windows.Forms.ToolStripMenuItem barUniformButton;
     }
 }
 

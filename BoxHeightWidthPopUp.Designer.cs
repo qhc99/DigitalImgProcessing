@@ -1,6 +1,6 @@
 ﻿namespace opencv
 {
-    partial class AverageBlurPopUp
+    partial class BoxHeightWidthPopUp
     {
         /// <summary>
         /// Required designer variable.
@@ -88,7 +88,7 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "模板宽度:";
             // 
-            // AverageBlurPopUp
+            // BoxHeightWidthPopUp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -101,7 +101,7 @@
             this.Controls.Add(this.button1);
             this.KeyPreview = true;
             this.Location = new System.Drawing.Point(1200, 1200);
-            this.Name = "AverageBlurPopUp";
+            this.Name = "BoxHeightWidthPopUp";
             this.Text = "输入";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AverageBlurPopUp_KeyDown);
             this.ResumeLayout(false);

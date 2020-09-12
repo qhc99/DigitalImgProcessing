@@ -1,6 +1,6 @@
 ﻿namespace opencv
 {
-    partial class GaussianNoisePopUp
+    partial class MeanVariancePopUp
     {
         /// <summary>
         /// Required designer variable.
@@ -92,7 +92,7 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // GaussianNoisePopUp
+            // MeanVariancePopUp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -105,7 +105,7 @@
             this.Controls.Add(this.textBox1);
             this.KeyPreview = true;
             this.Location = new System.Drawing.Point(1200, 1200);
-            this.Name = "GaussianNoisePopUp";
+            this.Name = "MeanVariancePopUp";
             this.Text = "输入";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GaussianNoisePopUp_KeyDown);
             this.ResumeLayout(false);

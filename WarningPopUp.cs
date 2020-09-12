@@ -26,9 +26,14 @@ namespace opencv
 
         private void WarningPopUp_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            switch (e.KeyCode)
             {
-                button1_Click(this,EventArgs.Empty);
+                case Keys.Enter:
+                    button1_Click(this, EventArgs.Empty);
+                    break;
+                case Keys.Escape:
+                    Close();
+                    break;
             }
         }
     }

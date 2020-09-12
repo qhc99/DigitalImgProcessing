@@ -3,12 +3,11 @@ using System.Windows.Forms;
 
 namespace opencv
 {
-    public partial class GaussianNoisePopUp : Form
+    public partial class UpperLowerLimitPopUp : Form
     {
-        public double Mean;
-        public double Variance;
-
-        public GaussianNoisePopUp()
+        public double Low;
+        public double High;
+        public UpperLowerLimitPopUp()
         {
             InitializeComponent();
             StartPosition = FormStartPosition.CenterScreen;
@@ -16,7 +15,7 @@ namespace opencv
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (!double.TryParse(textBox1.Text, out Mean) || !double.TryParse(textBox2.Text, out Variance))
+            if (!double.TryParse(textBox1.Text, out High) || !double.TryParse(textBox2.Text, out Low))
             {
                 MessageBox.Show(@"输入错误");
                 DialogResult = DialogResult.Cancel;
@@ -34,11 +33,16 @@ namespace opencv
             Close();
         }
 
-        private void GaussianNoisePopUp_KeyDown(object sender, KeyEventArgs e)
+        private void UniNoisePopUp_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            switch (e.KeyCode)
             {
-                button1_Click(this,EventArgs.Empty);
+                case Keys.Enter:
+                    button1_Click(this, EventArgs.Empty);
+                    break;
+                case Keys.Escape:
+                    Close();
+                    break;
             }
         }
     }

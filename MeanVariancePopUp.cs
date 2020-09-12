@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace opencv
 {
-    public partial class AverageBlurPopUp : Form
+    public partial class MeanVariancePopUp : Form
     {
-        public int H,W;
-        public AverageBlurPopUp()
+        public double Mean;
+        public double Variance;
+
+        public MeanVariancePopUp()
         {
             InitializeComponent();
             StartPosition = FormStartPosition.CenterScreen;
@@ -19,7 +16,7 @@ namespace opencv
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (!int.TryParse(textBox1.Text, out H) || !int.TryParse(textBox2.Text, out W))
+            if (!double.TryParse(textBox1.Text, out Mean) || !double.TryParse(textBox2.Text, out Variance))
             {
                 MessageBox.Show(@"输入错误");
                 DialogResult = DialogResult.Cancel;
@@ -31,20 +28,23 @@ namespace opencv
             }
         }
 
-        private void AverageBlurPopUp_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                button1_Click(this, EventArgs.Empty);
-            }
-        }
-
         private void button2_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
             Close();
         }
 
-
+        private void GaussianNoisePopUp_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    button1_Click(this, EventArgs.Empty);
+                    break;
+                case Keys.Escape:
+                    Close();
+                    break;
+            }
+        }
     }
 }

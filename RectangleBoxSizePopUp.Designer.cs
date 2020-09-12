@@ -1,6 +1,6 @@
 ﻿namespace opencv
 {
-    partial class MedianBlurPopUp
+    partial class RectangleBoxSizePopUp
     {
         /// <summary>
         /// Required designer variable.
@@ -70,7 +70,7 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // MedianBlurPopUp
+            // RectangleBoxSizePopUp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -81,7 +81,7 @@
             this.Controls.Add(this.textBox1);
             this.KeyPreview = true;
             this.Location = new System.Drawing.Point(1200, 1200);
-            this.Name = "MedianBlurPopUp";
+            this.Name = "RectangleBoxSizePopUp";
             this.Text = "输入";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MedianBlurPopUp_KeyDown);
             this.ResumeLayout(false);
