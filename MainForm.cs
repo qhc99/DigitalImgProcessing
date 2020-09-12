@@ -497,7 +497,7 @@ namespace opencv
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void imagesListButton_Click(object sender, EventArgs e)
+        private void ImagesListButton_Click(object sender, EventArgs e)
         {
             var imagesForm = new ImagesListForm(WorkingMats,_indicesProcess[_currentProcessIndex]);
             imagesForm.ShowDialog();
@@ -545,7 +545,7 @@ namespace opencv
                     case Keys.O:
                         if (overwriteButton.Enabled)
                         {
-                            overwrite_Click(this,EventArgs.Empty);
+                            OverwriteButton_Click(this,EventArgs.Empty);
                         }
                         break;
                 }
@@ -558,7 +558,7 @@ namespace opencv
                     case Keys.V:
                         if (imagesListButton.Enabled)
                         {
-                            imagesListButton_Click(this,EventArgs.Empty);
+                            ImagesListButton_Click(this,EventArgs.Empty);
                         }
                         break;
                 }
@@ -614,7 +614,7 @@ namespace opencv
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void add_impulse_noise_Click(object sender, EventArgs e)
+        private void AddImpulseNoise_Click(object sender, EventArgs e)
         {
             NotImplemented();
         }
@@ -658,7 +658,7 @@ namespace opencv
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void gaussian_blur_Click(object sender, EventArgs e)
+        private void GaussianBlur_Click(object sender, EventArgs e)
         {
             NotImplemented();
         }
@@ -668,7 +668,7 @@ namespace opencv
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void rightClickSave_Click(object sender, EventArgs e)
+        private void RightClickSave_Click(object sender, EventArgs e)
         {
             if (sender is ContextMenuStrip owner)
             {
@@ -689,7 +689,7 @@ namespace opencv
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void shortCutHelp_Click(object sender, EventArgs e)
+        private void ShortCutHelp_Click(object sender, EventArgs e)
         {
             MessageBox.Show("ctrl + ↑: 上一个工作序列\n" +
                             "ctrl + ↓: 下一个工作序列\n" + 
@@ -706,7 +706,7 @@ namespace opencv
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void overwrite_Click(object sender, EventArgs e)
+        private void OverwriteButton_Click(object sender, EventArgs e)
         {
             if (WorkingMats.Count == 2)
             {

@@ -49,11 +49,11 @@
             this.reverseButton = new System.Windows.Forms.ToolStripMenuItem();
             this.overwriteButton = new System.Windows.Forms.ToolStripMenuItem();
             this.preProcessButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.pre_gray = new System.Windows.Forms.ToolStripMenuItem();
+            this.grayButton = new System.Windows.Forms.ToolStripMenuItem();
             this.addNoiseButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.add_gaussian_noise = new System.Windows.Forms.ToolStripMenuItem();
-            this.add_uni_noise = new System.Windows.Forms.ToolStripMenuItem();
-            this.add_impulse_noise = new System.Windows.Forms.ToolStripMenuItem();
+            this.addGaussianNoise = new System.Windows.Forms.ToolStripMenuItem();
+            this.addUniNoise = new System.Windows.Forms.ToolStripMenuItem();
+            this.addImpulseNoise = new System.Windows.Forms.ToolStripMenuItem();
             this.deNoiseButton = new System.Windows.Forms.ToolStripMenuItem();
             this.median_blur = new System.Windows.Forms.ToolStripMenuItem();
             this.average_blur = new System.Windows.Forms.ToolStripMenuItem();
@@ -103,7 +103,7 @@
             this.rightClickSave.Name = "rightClickSave";
             this.rightClickSave.Size = new System.Drawing.Size(100, 22);
             this.rightClickSave.Text = "保存";
-            this.rightClickSave.Click += new System.EventHandler(this.rightClickSave_Click);
+            this.rightClickSave.Click += new System.EventHandler(this.RightClickSave_Click);
             // 
             // rightPictureBox
             // 
@@ -201,7 +201,7 @@
             this.imagesListButton.Name = "imagesListButton";
             this.imagesListButton.Size = new System.Drawing.Size(172, 22);
             this.imagesListButton.Text = "查看当前图片序列";
-            this.imagesListButton.Click += new System.EventHandler(this.imagesListButton_Click);
+            this.imagesListButton.Click += new System.EventHandler(this.ImagesListButton_Click);
             // 
             // file_open
             // 
@@ -248,55 +248,55 @@
             this.overwriteButton.Name = "overwriteButton";
             this.overwriteButton.Size = new System.Drawing.Size(172, 22);
             this.overwriteButton.Text = "覆盖上一张图片";
-            this.overwriteButton.Click += new System.EventHandler(this.overwrite_Click);
+            this.overwriteButton.Click += new System.EventHandler(this.OverwriteButton_Click);
             // 
             // preProcessButton
             // 
             this.preProcessButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.pre_gray});
+            this.grayButton});
             this.preProcessButton.Enabled = false;
             this.preProcessButton.Name = "preProcessButton";
             this.preProcessButton.Size = new System.Drawing.Size(68, 21);
             this.preProcessButton.Text = "格式转换";
             // 
-            // pre_gray
+            // grayButton
             // 
-            this.pre_gray.Name = "pre_gray";
-            this.pre_gray.Size = new System.Drawing.Size(112, 22);
-            this.pre_gray.Text = "灰度化";
-            this.pre_gray.Click += new System.EventHandler(this.GrayButton_Click);
+            this.grayButton.Name = "grayButton";
+            this.grayButton.Size = new System.Drawing.Size(112, 22);
+            this.grayButton.Text = "灰度化";
+            this.grayButton.Click += new System.EventHandler(this.GrayButton_Click);
             // 
             // addNoiseButton
             // 
             this.addNoiseButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.add_gaussian_noise,
-            this.add_uni_noise,
-            this.add_impulse_noise});
+            this.addGaussianNoise,
+            this.addUniNoise,
+            this.addImpulseNoise});
             this.addNoiseButton.Enabled = false;
             this.addNoiseButton.Name = "addNoiseButton";
             this.addNoiseButton.Size = new System.Drawing.Size(56, 21);
             this.addNoiseButton.Text = "加噪声";
             // 
-            // add_gaussian_noise
+            // addGaussianNoise
             // 
-            this.add_gaussian_noise.Name = "add_gaussian_noise";
-            this.add_gaussian_noise.Size = new System.Drawing.Size(124, 22);
-            this.add_gaussian_noise.Text = "高斯噪声";
-            this.add_gaussian_noise.Click += new System.EventHandler(this.AddGaussianNoise_Click);
+            this.addGaussianNoise.Name = "addGaussianNoise";
+            this.addGaussianNoise.Size = new System.Drawing.Size(124, 22);
+            this.addGaussianNoise.Text = "高斯噪声";
+            this.addGaussianNoise.Click += new System.EventHandler(this.AddGaussianNoise_Click);
             // 
-            // add_uni_noise
+            // addUniNoise
             // 
-            this.add_uni_noise.Name = "add_uni_noise";
-            this.add_uni_noise.Size = new System.Drawing.Size(124, 22);
-            this.add_uni_noise.Text = "均匀噪声";
-            this.add_uni_noise.Click += new System.EventHandler(this.AddUniformNoise_Click);
+            this.addUniNoise.Name = "addUniNoise";
+            this.addUniNoise.Size = new System.Drawing.Size(124, 22);
+            this.addUniNoise.Text = "均匀噪声";
+            this.addUniNoise.Click += new System.EventHandler(this.AddUniformNoise_Click);
             // 
-            // add_impulse_noise
+            // addImpulseNoise
             // 
-            this.add_impulse_noise.Name = "add_impulse_noise";
-            this.add_impulse_noise.Size = new System.Drawing.Size(124, 22);
-            this.add_impulse_noise.Text = "脉冲噪声";
-            this.add_impulse_noise.Click += new System.EventHandler(this.add_impulse_noise_Click);
+            this.addImpulseNoise.Name = "addImpulseNoise";
+            this.addImpulseNoise.Size = new System.Drawing.Size(124, 22);
+            this.addImpulseNoise.Text = "脉冲噪声";
+            this.addImpulseNoise.Click += new System.EventHandler(this.AddImpulseNoise_Click);
             // 
             // deNoiseButton
             // 
@@ -328,7 +328,7 @@
             this.gaussian_blur.Name = "gaussian_blur";
             this.gaussian_blur.Size = new System.Drawing.Size(124, 22);
             this.gaussian_blur.Text = "高斯滤波";
-            this.gaussian_blur.Click += new System.EventHandler(this.gaussian_blur_Click);
+            this.gaussian_blur.Click += new System.EventHandler(this.GaussianBlur_Click);
             // 
             // fortifyButton
             // 
@@ -391,7 +391,7 @@
             this.shortCutHelp.Name = "shortCutHelp";
             this.shortCutHelp.Size = new System.Drawing.Size(56, 21);
             this.shortCutHelp.Text = "快捷键";
-            this.shortCutHelp.Click += new System.EventHandler(this.shortCutHelp_Click);
+            this.shortCutHelp.Click += new System.EventHandler(this.ShortCutHelp_Click);
             // 
             // leftPictureSize
             // 
@@ -462,7 +462,7 @@
         private System.Windows.Forms.ToolStripMenuItem DFTButton;
         private System.Windows.Forms.ToolStripMenuItem preProcessButton;
         private System.Windows.Forms.ToolStripMenuItem pre_gray;
-        private System.Windows.Forms.ToolStripMenuItem add_gaussian_noise;
+        private System.Windows.Forms.ToolStripMenuItem addGaussianNoise;
         private System.Windows.Forms.ToolStripMenuItem waveletButton;
         private System.Windows.Forms.ToolStripMenuItem featureDetectButton;
         private System.Windows.Forms.ToolStripMenuItem objectRecognizeButton;
@@ -481,6 +481,9 @@
         private System.Windows.Forms.ToolStripMenuItem rightClickSave;
         private System.Windows.Forms.ToolStripMenuItem shortCutHelp;
         private System.Windows.Forms.ToolStripMenuItem overwriteButton;
+        private System.Windows.Forms.ToolStripMenuItem grayButton;
+        private System.Windows.Forms.ToolStripMenuItem addUniNoise;
+        private System.Windows.Forms.ToolStripMenuItem addImpulseNoise;
     }
 }
 
