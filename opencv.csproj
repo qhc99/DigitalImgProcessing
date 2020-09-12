@@ -7,12 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenCvSharp4" Version="4.4.0.20200725" />
-    <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.4.0.20200725" />
+    <Compile Remove="images\**" />
+    <EmbeddedResource Remove="images\**" />
+    <None Remove="images\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="images\" />
+    <PackageReference Include="OpenCvSharp4" Version="4.4.0.20200725" />
+    <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.4.0.20200725" />
   </ItemGroup>
 
   <ItemGroup>

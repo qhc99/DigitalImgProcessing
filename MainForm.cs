@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
@@ -215,25 +214,25 @@ namespace opencv
         /// </summary>
         private void EnableAllButtons()
         {
-            pre_process.Enabled = true;
+            preProcessButton.Enabled = true;
             upButton.Enabled = true;
             downButton.Enabled = true;
-            add_noise.Enabled = true;
-            de_noise.Enabled = true;
-            fortify.Enabled = true;
-            edge.Enabled = true;
-            seg.Enabled = true;
-            DFT.Enabled = true;
-            file_save_second.Enabled = true;
-            file_save_first.Enabled = true;
-            wavelet.Enabled = true;
-            feature_detect.Enabled = true;
-            object_recognize.Enabled = true;
-            color_fortify.Enabled = true;
+            addNoiseButton.Enabled = true;
+            deNoiseButton.Enabled = true;
+            fortifyButton.Enabled = true;
+            edgeButton.Enabled = true;
+            segButton.Enabled = true;
+            DFTButton.Enabled = true;
+            saveSecondFileButton.Enabled = true;
+            saveFirstFileButton.Enabled = true;
+            waveletButton.Enabled = true;
+            featureDetectButton.Enabled = true;
+            objectRecognizeButton.Enabled = true;
+            colorFortifyButton.Enabled = true;
             clearButton.Enabled = true;
             reverseButton.Enabled = true;
             imagesListButton.Enabled = true;
-            overwrite.Enabled = true;
+            overwriteButton.Enabled = true;
         }
 
         /// <summary>
@@ -241,25 +240,25 @@ namespace opencv
         /// </summary>
         private void DisableAllButtons()
         {
-            pre_process.Enabled = false;
+            preProcessButton.Enabled = false;
             upButton.Enabled = false;
             downButton.Enabled = false;
-            add_noise.Enabled = false;
-            de_noise.Enabled = false;
-            fortify.Enabled = false;
-            edge.Enabled = false;
-            seg.Enabled = false;
-            DFT.Enabled = false;
-            file_save_second.Enabled = false;
-            file_save_first.Enabled = false;
-            wavelet.Enabled = false;
-            feature_detect.Enabled = false;
-            object_recognize.Enabled = false;
-            color_fortify.Enabled = false;
+            addNoiseButton.Enabled = false;
+            deNoiseButton.Enabled = false;
+            fortifyButton.Enabled = false;
+            edgeButton.Enabled = false;
+            segButton.Enabled = false;
+            DFTButton.Enabled = false;
+            saveSecondFileButton.Enabled = false;
+            saveFirstFileButton.Enabled = false;
+            waveletButton.Enabled = false;
+            featureDetectButton.Enabled = false;
+            objectRecognizeButton.Enabled = false;
+            colorFortifyButton.Enabled = false;
             clearButton.Enabled = false;
             reverseButton.Enabled = false;
             imagesListButton.Enabled = false;
-            overwrite.Enabled = false;
+            overwriteButton.Enabled = false;
         }
 
         /// <summary>
@@ -271,7 +270,6 @@ namespace opencv
             else upButton.Enabled = true;
             if (_currentProcessIndex + 1 == _workingProcess.Count) downButton.Enabled = false;
             else downButton.Enabled = true;
-            new Tuple<bool, bool>(upButton.Enabled,downButton.Enabled);
         }
 
         /// <summary>
@@ -296,7 +294,6 @@ namespace opencv
         /// 处理结果存入内存并显示
         /// </summary>
         /// <param name="img"></param>
-        /// <param name="resImg"></param>
         private void AddImageToListAndShow(Mat img)
         {
             WorkingMats.Add(img);
@@ -546,7 +543,7 @@ namespace opencv
                         }
                         break;
                     case Keys.O:
-                        if (overwrite.Enabled)
+                        if (overwriteButton.Enabled)
                         {
                             overwrite_Click(this,EventArgs.Empty);
                         }
