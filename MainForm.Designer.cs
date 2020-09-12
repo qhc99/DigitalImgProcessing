@@ -84,7 +84,7 @@
             this.leftPictureBox.BackColor = System.Drawing.SystemColors.Control;
             this.leftPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.leftPictureBox.ContextMenuStrip = this.pictureRightClickMenu;
-            this.leftPictureBox.Location = new System.Drawing.Point(12, 51);
+            this.leftPictureBox.Location = new System.Drawing.Point(12, 61);
             this.leftPictureBox.Name = "leftPictureBox";
             this.leftPictureBox.Size = new System.Drawing.Size(360, 360);
             this.leftPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -110,7 +110,7 @@
             this.rightPictureBox.BackColor = System.Drawing.Color.SpringGreen;
             this.rightPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.rightPictureBox.ContextMenuStrip = this.pictureRightClickMenu;
-            this.rightPictureBox.Location = new System.Drawing.Point(378, 46);
+            this.rightPictureBox.Location = new System.Drawing.Point(378, 56);
             this.rightPictureBox.Name = "rightPictureBox";
             this.rightPictureBox.Size = new System.Drawing.Size(370, 370);
             this.rightPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -120,7 +120,7 @@
             // right_picture_label
             // 
             this.right_picture_label.AutoSize = true;
-            this.right_picture_label.Location = new System.Drawing.Point(147, 26);
+            this.right_picture_label.Location = new System.Drawing.Point(147, 36);
             this.right_picture_label.Name = "right_picture_label";
             this.right_picture_label.Size = new System.Drawing.Size(90, 17);
             this.right_picture_label.TabIndex = 5;
@@ -129,7 +129,7 @@
             // left_picture_label
             // 
             this.left_picture_label.AutoSize = true;
-            this.left_picture_label.Location = new System.Drawing.Point(518, 26);
+            this.left_picture_label.Location = new System.Drawing.Point(518, 36);
             this.left_picture_label.Name = "left_picture_label";
             this.left_picture_label.Size = new System.Drawing.Size(90, 17);
             this.left_picture_label.TabIndex = 6;
@@ -396,7 +396,7 @@
             // leftPictureSize
             // 
             this.leftPictureSize.AutoSize = true;
-            this.leftPictureSize.Location = new System.Drawing.Point(12, 414);
+            this.leftPictureSize.Location = new System.Drawing.Point(12, 424);
             this.leftPictureSize.Name = "leftPictureSize";
             this.leftPictureSize.Size = new System.Drawing.Size(43, 17);
             this.leftPictureSize.TabIndex = 13;
@@ -405,7 +405,7 @@
             // rightPictureSize
             // 
             this.rightPictureSize.AutoSize = true;
-            this.rightPictureSize.Location = new System.Drawing.Point(378, 419);
+            this.rightPictureSize.Location = new System.Drawing.Point(378, 429);
             this.rightPictureSize.Name = "rightPictureSize";
             this.rightPictureSize.Size = new System.Drawing.Size(39, 17);
             this.rightPictureSize.TabIndex = 13;
@@ -415,7 +415,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(811, 471);
+            this.ClientSize = new System.Drawing.Size(811, 455);
             this.Controls.Add(this.rightPictureSize);
             this.Controls.Add(this.leftPictureSize);
             this.Controls.Add(this.downButton);
