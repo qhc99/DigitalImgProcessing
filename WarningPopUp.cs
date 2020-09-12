@@ -1,18 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace opencv
 {
-    public partial class ClearWarningPopUp : Form
+    public partial class WarningPopUp : Form
     {
-        public ClearWarningPopUp()
+        public WarningPopUp()
         {
             InitializeComponent();
+            StartPosition = FormStartPosition.CenterScreen;
+        }
+
+        public WarningPopUp(string text)
+        {
+            InitializeComponent();
+            StartPosition = FormStartPosition.CenterScreen;
+            textBox1.Text = text;
         }
 
         private void button1_Click(object sender, EventArgs e)
