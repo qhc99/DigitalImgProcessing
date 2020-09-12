@@ -31,10 +31,20 @@ namespace opencv
             }
         }
 
+        private void AverageBlurPopUp_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                button1_Click(this, EventArgs.Empty);
+            }
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
             Close();
         }
+
+
     }
 }

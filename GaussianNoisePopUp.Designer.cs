@@ -103,9 +103,11 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
+            this.KeyPreview = true;
             this.Location = new System.Drawing.Point(1200, 1200);
             this.Name = "GaussianNoisePopUp";
-            this.Text = "GuassianNoiseSelect";
+            this.Text = "输入";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GaussianNoisePopUp_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

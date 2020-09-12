@@ -33,5 +33,13 @@ namespace opencv
             DialogResult = DialogResult.Cancel;
             Close();
         }
+
+        private void GaussianNoisePopUp_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                button1_Click(this,EventArgs.Empty);
+            }
+        }
     }
 }

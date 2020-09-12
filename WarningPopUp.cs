@@ -23,5 +23,13 @@ namespace opencv
             DialogResult = DialogResult.Cancel;
             Close();
         }
+
+        private void WarningPopUp_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                button1_Click(this,EventArgs.Empty);
+            }
+        }
     }
 }

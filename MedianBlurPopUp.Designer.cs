@@ -79,9 +79,11 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
+            this.KeyPreview = true;
             this.Location = new System.Drawing.Point(1200, 1200);
             this.Name = "MedianBlurPopUp";
-            this.Text = "MedianBlurPopUp";
+            this.Text = "输入";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MedianBlurPopUp_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

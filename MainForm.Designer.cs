@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            this.components = new System.ComponentModel.Container();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.leftPictureBox = new System.Windows.Forms.PictureBox();
+            this.pictureRightClickMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.rightClickSave = new System.Windows.Forms.ToolStripMenuItem();
             this.rightPictureBox = new System.Windows.Forms.PictureBox();
             this.right_picture_label = new System.Windows.Forms.Label();
             this.left_picture_label = new System.Windows.Forms.Label();
@@ -45,11 +47,13 @@
             this.file_save_first = new System.Windows.Forms.ToolStripMenuItem();
             this.clearButton = new System.Windows.Forms.ToolStripMenuItem();
             this.reverseButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.overwrite = new System.Windows.Forms.ToolStripMenuItem();
             this.pre_process = new System.Windows.Forms.ToolStripMenuItem();
             this.pre_gray = new System.Windows.Forms.ToolStripMenuItem();
             this.add_noise = new System.Windows.Forms.ToolStripMenuItem();
             this.add_gaussian_noise = new System.Windows.Forms.ToolStripMenuItem();
             this.add_uni_noise = new System.Windows.Forms.ToolStripMenuItem();
+            this.add_impulse_noise = new System.Windows.Forms.ToolStripMenuItem();
             this.de_noise = new System.Windows.Forms.ToolStripMenuItem();
             this.median_blur = new System.Windows.Forms.ToolStripMenuItem();
             this.average_blur = new System.Windows.Forms.ToolStripMenuItem();
@@ -62,7 +66,11 @@
             this.feature_detect = new System.Windows.Forms.ToolStripMenuItem();
             this.object_recognize = new System.Windows.Forms.ToolStripMenuItem();
             this.color_fortify = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortCutHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.leftPictureSize = new System.Windows.Forms.Label();
+            this.rightPictureSize = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.leftPictureBox)).BeginInit();
+            this.pictureRightClickMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rightPictureBox)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -75,18 +83,34 @@
             // 
             this.leftPictureBox.BackColor = System.Drawing.SystemColors.Control;
             this.leftPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.leftPictureBox.Location = new System.Drawing.Point(68, 54);
+            this.leftPictureBox.ContextMenuStrip = this.pictureRightClickMenu;
+            this.leftPictureBox.Location = new System.Drawing.Point(12, 51);
             this.leftPictureBox.Name = "leftPictureBox";
             this.leftPictureBox.Size = new System.Drawing.Size(360, 360);
             this.leftPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.leftPictureBox.TabIndex = 2;
             this.leftPictureBox.TabStop = false;
             // 
+            // pictureRightClickMenu
+            // 
+            this.pictureRightClickMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.rightClickSave});
+            this.pictureRightClickMenu.Name = "pictureRightClickMenu";
+            this.pictureRightClickMenu.Size = new System.Drawing.Size(101, 26);
+            // 
+            // rightClickSave
+            // 
+            this.rightClickSave.Name = "rightClickSave";
+            this.rightClickSave.Size = new System.Drawing.Size(100, 22);
+            this.rightClickSave.Text = "保存";
+            this.rightClickSave.Click += new System.EventHandler(this.rightClickSave_Click);
+            // 
             // rightPictureBox
             // 
             this.rightPictureBox.BackColor = System.Drawing.Color.SpringGreen;
             this.rightPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.rightPictureBox.Location = new System.Drawing.Point(460, 54);
+            this.rightPictureBox.ContextMenuStrip = this.pictureRightClickMenu;
+            this.rightPictureBox.Location = new System.Drawing.Point(378, 46);
             this.rightPictureBox.Name = "rightPictureBox";
             this.rightPictureBox.Size = new System.Drawing.Size(370, 370);
             this.rightPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -96,7 +120,7 @@
             // right_picture_label
             // 
             this.right_picture_label.AutoSize = true;
-            this.right_picture_label.Location = new System.Drawing.Point(203, 29);
+            this.right_picture_label.Location = new System.Drawing.Point(147, 26);
             this.right_picture_label.Name = "right_picture_label";
             this.right_picture_label.Size = new System.Drawing.Size(90, 17);
             this.right_picture_label.TabIndex = 5;
@@ -105,7 +129,7 @@
             // left_picture_label
             // 
             this.left_picture_label.AutoSize = true;
-            this.left_picture_label.Location = new System.Drawing.Point(600, 29);
+            this.left_picture_label.Location = new System.Drawing.Point(518, 26);
             this.left_picture_label.Name = "left_picture_label";
             this.left_picture_label.Size = new System.Drawing.Size(90, 17);
             this.left_picture_label.TabIndex = 6;
@@ -115,7 +139,7 @@
             // 
             this.upButton.Enabled = false;
             this.upButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.upButton.Location = new System.Drawing.Point(831, 154);
+            this.upButton.Location = new System.Drawing.Point(754, 148);
             this.upButton.Name = "upButton";
             this.upButton.Size = new System.Drawing.Size(45, 45);
             this.upButton.TabIndex = 7;
@@ -127,7 +151,7 @@
             // 
             this.downButton.Enabled = false;
             this.downButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.downButton.Location = new System.Drawing.Point(831, 256);
+            this.downButton.Location = new System.Drawing.Point(754, 256);
             this.downButton.Name = "downButton";
             this.downButton.Size = new System.Drawing.Size(45, 45);
             this.downButton.TabIndex = 8;
@@ -149,10 +173,11 @@
             this.wavelet,
             this.feature_detect,
             this.object_recognize,
-            this.color_fortify});
+            this.color_fortify,
+            this.shortCutHelp});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(883, 25);
+            this.menuStrip1.Size = new System.Drawing.Size(811, 25);
             this.menuStrip1.TabIndex = 12;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -164,7 +189,8 @@
             this.file_save_second,
             this.file_save_first,
             this.clearButton,
-            this.reverseButton});
+            this.reverseButton,
+            this.overwrite});
             this.file.Name = "file";
             this.file.Size = new System.Drawing.Size(44, 21);
             this.file.Text = "文件";
@@ -216,6 +242,14 @@
             this.reverseButton.Text = "撤销处理";
             this.reverseButton.Click += new System.EventHandler(this.ReverseButton_Click);
             // 
+            // overwrite
+            // 
+            this.overwrite.Enabled = false;
+            this.overwrite.Name = "overwrite";
+            this.overwrite.Size = new System.Drawing.Size(172, 22);
+            this.overwrite.Text = "覆盖上一张图片";
+            this.overwrite.Click += new System.EventHandler(this.overwrite_Click);
+            // 
             // pre_process
             // 
             this.pre_process.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -236,7 +270,8 @@
             // 
             this.add_noise.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.add_gaussian_noise,
-            this.add_uni_noise});
+            this.add_uni_noise,
+            this.add_impulse_noise});
             this.add_noise.Enabled = false;
             this.add_noise.Name = "add_noise";
             this.add_noise.Size = new System.Drawing.Size(56, 21);
@@ -255,6 +290,13 @@
             this.add_uni_noise.Size = new System.Drawing.Size(124, 22);
             this.add_uni_noise.Text = "均匀噪声";
             this.add_uni_noise.Click += new System.EventHandler(this.AddUniformNoise_Click);
+            // 
+            // add_impulse_noise
+            // 
+            this.add_impulse_noise.Name = "add_impulse_noise";
+            this.add_impulse_noise.Size = new System.Drawing.Size(124, 22);
+            this.add_impulse_noise.Text = "脉冲噪声";
+            this.add_impulse_noise.Click += new System.EventHandler(this.add_impulse_noise_Click);
             // 
             // de_noise
             // 
@@ -286,6 +328,7 @@
             this.gaussian_blur.Name = "gaussian_blur";
             this.gaussian_blur.Size = new System.Drawing.Size(124, 22);
             this.gaussian_blur.Text = "高斯滤波";
+            this.gaussian_blur.Click += new System.EventHandler(this.gaussian_blur_Click);
             // 
             // fortify
             // 
@@ -343,11 +386,38 @@
             this.color_fortify.Size = new System.Drawing.Size(68, 21);
             this.color_fortify.Text = "彩色处理";
             // 
+            // shortCutHelp
+            // 
+            this.shortCutHelp.Name = "shortCutHelp";
+            this.shortCutHelp.Size = new System.Drawing.Size(56, 21);
+            this.shortCutHelp.Text = "快捷键";
+            this.shortCutHelp.Click += new System.EventHandler(this.shortCutHelp_Click);
+            // 
+            // leftPictureSize
+            // 
+            this.leftPictureSize.AutoSize = true;
+            this.leftPictureSize.Location = new System.Drawing.Point(12, 414);
+            this.leftPictureSize.Name = "leftPictureSize";
+            this.leftPictureSize.Size = new System.Drawing.Size(43, 17);
+            this.leftPictureSize.TabIndex = 13;
+            this.leftPictureSize.Text = "H: W: ";
+            // 
+            // rightPictureSize
+            // 
+            this.rightPictureSize.AutoSize = true;
+            this.rightPictureSize.Location = new System.Drawing.Point(378, 419);
+            this.rightPictureSize.Name = "rightPictureSize";
+            this.rightPictureSize.Size = new System.Drawing.Size(39, 17);
+            this.rightPictureSize.TabIndex = 13;
+            this.rightPictureSize.Text = "H: W:";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(883, 471);
+            this.ClientSize = new System.Drawing.Size(811, 471);
+            this.Controls.Add(this.rightPictureSize);
+            this.Controls.Add(this.leftPictureSize);
             this.Controls.Add(this.downButton);
             this.Controls.Add(this.upButton);
             this.Controls.Add(this.left_picture_label);
@@ -355,13 +425,13 @@
             this.Controls.Add(this.rightPictureBox);
             this.Controls.Add(this.leftPictureBox);
             this.Controls.Add(this.menuStrip1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "图像处理工具箱";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.leftPictureBox)).EndInit();
+            this.pictureRightClickMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.rightPictureBox)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -404,6 +474,13 @@
         private System.Windows.Forms.ToolStripMenuItem clearButton;
         private System.Windows.Forms.ToolStripMenuItem reverseButton;
         private System.Windows.Forms.ToolStripMenuItem imagesListButton;
+        private System.Windows.Forms.ToolStripMenuItem add_impulse_noise;
+        private System.Windows.Forms.Label leftPictureSize;
+        private System.Windows.Forms.Label rightPictureSize;
+        private System.Windows.Forms.ContextMenuStrip pictureRightClickMenu;
+        private System.Windows.Forms.ToolStripMenuItem rightClickSave;
+        private System.Windows.Forms.ToolStripMenuItem shortCutHelp;
+        private System.Windows.Forms.ToolStripMenuItem overwrite;
     }
 }
 
