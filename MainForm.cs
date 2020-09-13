@@ -11,8 +11,8 @@ namespace opencv
 {
     public partial class MainForm : Form
     {
-        private readonly List<List<Mat>> _workingProcess = new List<List<Mat>>();
-        private readonly List<PairIndices> _indicesProcess = new List<PairIndices>();
+        private readonly List<List<Mat>> _workingMatsProcesses = new List<List<Mat>>();
+        private readonly List<PairIndices> _boxIndicesProcess = new List<PairIndices>();
         private int _currentProcessIndex = -1;
 
         public sealed class PairIndices
@@ -67,7 +67,7 @@ namespace opencv
         /// <summary>
         /// 当前图片序列
         /// </summary>
-        private List<Mat> WorkingMats => _workingProcess[_currentProcessIndex];
+        private List<Mat> WorkingMats => _workingMatsProcesses[_currentProcessIndex];
 
         /// <summary>
         /// 当前序列索引
@@ -82,7 +82,7 @@ namespace opencv
                 }
                 else
                 {
-                    return _indicesProcess[_currentProcessIndex];
+                    return _boxIndicesProcess[_currentProcessIndex];
                 }
             }
             set
@@ -93,7 +93,7 @@ namespace opencv
                 }
                 else
                 {
-                    _indicesProcess[_currentProcessIndex] = value;
+                    _boxIndicesProcess[_currentProcessIndex] = value;
                 }
             }
         }
@@ -157,7 +157,7 @@ namespace opencv
         }
 
         /// <summary>
-        /// 显示到PictureBox
+        /// Resize Mat 并显示到PictureBox
         /// </summary>
         /// <param name="pb"></param>
         /// <param name="m"></param>
@@ -268,7 +268,7 @@ namespace opencv
         {
             if (_currentProcessIndex <= 0) upButton.Enabled = false;
             else upButton.Enabled = true;
-            if (_currentProcessIndex + 1 == _workingProcess.Count) downButton.Enabled = false;
+            if (_currentProcessIndex + 1 == _workingMatsProcesses.Count) downButton.Enabled = false;
             else downButton.Enabled = true;
         }
 
@@ -279,7 +279,7 @@ namespace opencv
         private Mat GetImageToProcess()
         {
             Mat originImg;
-            if (WorkingMats.Count <= BoxIndices.RightIndex)
+            if (WorkingMats.Count == 1)
             {
                 originImg = WorkingLeftMat;
             }
@@ -298,7 +298,7 @@ namespace opencv
         {
             WorkingMats.Add(img);
 
-            if (BoxIndices.RightIndex + 1 < WorkingMats.Count)
+            if (WorkingMats.Count >= 3)
             {
                 BoxIndices.LeftIndex++;
                 BoxIndices.RightIndex++;
@@ -334,10 +334,9 @@ namespace opencv
             if (result == DialogResult.OK)
             {
                  _currentProcessIndex++;
-                _workingProcess.Add(new List<Mat>());
-                _indicesProcess.Add(new PairIndices(0,1));
+                _workingMatsProcesses.Add(new List<Mat>());
+                _boxIndicesProcess.Add(new PairIndices(0,1));
 
-                LoadNoneImg(leftPictureBox);
                 LoadNoneImg(rightPictureBox);
 
                 var readMat = new Mat(openFileDialog1.FileName);
@@ -360,35 +359,28 @@ namespace opencv
             var dialogRes = checkWindow.ShowDialog();
             if (dialogRes == DialogResult.OK)
             {
-                _workingProcess.RemoveAt(_currentProcessIndex);
-                _indicesProcess.RemoveAt(_currentProcessIndex);
+                _workingMatsProcesses.RemoveAt(_currentProcessIndex);
+                _boxIndicesProcess.RemoveAt(_currentProcessIndex);
                 _currentProcessIndex--;
                 if (_currentProcessIndex == -1)
                 {
-                    if (_workingProcess.Count == 0)
+                    if (_workingMatsProcesses.Count == 0)
                     {
                         LoadNoneImg(leftPictureBox);
                         LoadNoneImg(rightPictureBox);
-                        if (_workingProcess.Count == 0)
-                        {
-                            DisableAllButtons();
-                        }
+                        DisableAllButtons();
                         return;
                     }
                     else
                     {
+                        // delete first row but processes count > 0
                         _currentProcessIndex++;
                     }
                 }
 
-
                 ShowMat(leftPictureBox, WorkingLeftMat);
                 ShowMat(rightPictureBox, WorkingRightMat);
                 VerticalCheck();
-                if (_workingProcess.Count == 0)
-                {
-                    DisableAllButtons();
-                }
             }
         }
 
@@ -498,7 +490,7 @@ namespace opencv
         /// <param name="e"></param>
         private void ImagesListButton_Click(object sender, EventArgs e)
         {
-            var imagesForm = new ImagesListForm(WorkingMats,_indicesProcess[_currentProcessIndex]);
+            var imagesForm = new ImagesListForm(WorkingMats,_boxIndicesProcess[_currentProcessIndex]);
             imagesForm.ShowDialog();
         }
 
@@ -775,9 +767,21 @@ namespace opencv
 
         }
 
+        /// <summary>
+        /// 直方图均衡化
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BarUniformButton_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                AddImageToListAndShow(GetImageToProcess().EqualizeHist());
+            }
+            catch (OpenCVException)
+            {
+                MessageBox.Show(@"非灰度图像");
+            }
         }
     }
 }

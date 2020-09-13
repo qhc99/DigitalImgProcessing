@@ -54,11 +54,12 @@
             this.addGaussianNoise = new System.Windows.Forms.ToolStripMenuItem();
             this.addUniNoise = new System.Windows.Forms.ToolStripMenuItem();
             this.addImpulseNoise = new System.Windows.Forms.ToolStripMenuItem();
-            this.blurButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.median_blur = new System.Windows.Forms.ToolStripMenuItem();
-            this.average_blur = new System.Windows.Forms.ToolStripMenuItem();
-            this.gaussian_blur = new System.Windows.Forms.ToolStripMenuItem();
             this.fortifyButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.blurButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.averageFilter = new System.Windows.Forms.ToolStripMenuItem();
+            this.medianFilter = new System.Windows.Forms.ToolStripMenuItem();
+            this.gaussianFilter = new System.Windows.Forms.ToolStripMenuItem();
+            this.barUniformButton = new System.Windows.Forms.ToolStripMenuItem();
             this.edgeButton = new System.Windows.Forms.ToolStripMenuItem();
             this.segButton = new System.Windows.Forms.ToolStripMenuItem();
             this.DFTButton = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,7 +70,6 @@
             this.shortCutHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.leftPictureSize = new System.Windows.Forms.Label();
             this.rightPictureSize = new System.Windows.Forms.Label();
-            this.barUniformButton = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.leftPictureBox)).BeginInit();
             this.pictureRightClickMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rightPictureBox)).BeginInit();
@@ -166,7 +166,6 @@
             this.file,
             this.preProcessButton,
             this.addNoiseButton,
-            this.blurButton,
             this.fortifyButton,
             this.edgeButton,
             this.segButton,
@@ -299,46 +298,53 @@
             this.addImpulseNoise.Text = "脉冲噪声";
             this.addImpulseNoise.Click += new System.EventHandler(this.AddImpulseNoise_Click);
             // 
-            // blurButton
-            // 
-            this.blurButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.median_blur,
-            this.average_blur,
-            this.gaussian_blur});
-            this.blurButton.Enabled = false;
-            this.blurButton.Name = "blurButton";
-            this.blurButton.Size = new System.Drawing.Size(44, 21);
-            this.blurButton.Text = "平滑";
-            // 
-            // median_blur
-            // 
-            this.median_blur.Name = "median_blur";
-            this.median_blur.Size = new System.Drawing.Size(124, 22);
-            this.median_blur.Text = "中值滤波";
-            this.median_blur.Click += new System.EventHandler(this.MedianBlur_Click);
-            // 
-            // average_blur
-            // 
-            this.average_blur.Name = "average_blur";
-            this.average_blur.Size = new System.Drawing.Size(124, 22);
-            this.average_blur.Text = "均值滤波";
-            this.average_blur.Click += new System.EventHandler(this.AverageBlur_Click);
-            // 
-            // gaussian_blur
-            // 
-            this.gaussian_blur.Name = "gaussian_blur";
-            this.gaussian_blur.Size = new System.Drawing.Size(124, 22);
-            this.gaussian_blur.Text = "高斯滤波";
-            this.gaussian_blur.Click += new System.EventHandler(this.GaussianBlur_Click);
-            // 
             // fortifyButton
             // 
             this.fortifyButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.blurButton,
             this.barUniformButton});
             this.fortifyButton.Enabled = false;
             this.fortifyButton.Name = "fortifyButton";
             this.fortifyButton.Size = new System.Drawing.Size(44, 21);
             this.fortifyButton.Text = "增强";
+            // 
+            // blurButton
+            // 
+            this.blurButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.averageFilter,
+            this.medianFilter,
+            this.gaussianFilter});
+            this.blurButton.Name = "blurButton";
+            this.blurButton.Size = new System.Drawing.Size(148, 22);
+            this.blurButton.Text = "平滑";
+            // 
+            // averageFilter
+            // 
+            this.averageFilter.Name = "averageFilter";
+            this.averageFilter.Size = new System.Drawing.Size(124, 22);
+            this.averageFilter.Text = "均值滤波";
+            this.averageFilter.Click += new System.EventHandler(this.AverageBlur_Click);
+            // 
+            // medianFilter
+            // 
+            this.medianFilter.Name = "medianFilter";
+            this.medianFilter.Size = new System.Drawing.Size(124, 22);
+            this.medianFilter.Text = "中值滤波";
+            this.medianFilter.Click += new System.EventHandler(this.MedianBlur_Click);
+            // 
+            // gaussianFilter
+            // 
+            this.gaussianFilter.Name = "gaussianFilter";
+            this.gaussianFilter.Size = new System.Drawing.Size(124, 22);
+            this.gaussianFilter.Text = "高斯滤波";
+            this.gaussianFilter.Click += new System.EventHandler(this.GaussianBlur_Click);
+            // 
+            // barUniformButton
+            // 
+            this.barUniformButton.Name = "barUniformButton";
+            this.barUniformButton.Size = new System.Drawing.Size(148, 22);
+            this.barUniformButton.Text = "直方图均匀化";
+            this.barUniformButton.Click += new System.EventHandler(this.BarUniformButton_Click);
             // 
             // edgeButton
             // 
@@ -414,13 +420,6 @@
             this.rightPictureSize.TabIndex = 13;
             this.rightPictureSize.Text = "H: W:";
             // 
-            // barUniformButton
-            // 
-            this.barUniformButton.Name = "barUniformButton";
-            this.barUniformButton.Size = new System.Drawing.Size(148, 22);
-            this.barUniformButton.Text = "直方图均匀化";
-            this.barUniformButton.Click += new System.EventHandler(this.BarUniformButton_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -465,7 +464,6 @@
         private System.Windows.Forms.ToolStripMenuItem saveSecondFileButton;
         private System.Windows.Forms.ToolStripMenuItem saveFirstFileButton;
         private System.Windows.Forms.ToolStripMenuItem addNoiseButton;
-        private System.Windows.Forms.ToolStripMenuItem blurButton;
         private System.Windows.Forms.ToolStripMenuItem fortifyButton;
         private System.Windows.Forms.ToolStripMenuItem edgeButton;
         private System.Windows.Forms.ToolStripMenuItem segButton;
@@ -478,9 +476,6 @@
         private System.Windows.Forms.ToolStripMenuItem objectRecognizeButton;
         private System.Windows.Forms.ToolStripMenuItem colorFortifyButton;
         private System.Windows.Forms.ToolStripMenuItem add_uni_noise;
-        private System.Windows.Forms.ToolStripMenuItem median_blur;
-        private System.Windows.Forms.ToolStripMenuItem average_blur;
-        private System.Windows.Forms.ToolStripMenuItem gaussian_blur;
         private System.Windows.Forms.ToolStripMenuItem clearButton;
         private System.Windows.Forms.ToolStripMenuItem reverseButton;
         private System.Windows.Forms.ToolStripMenuItem imagesListButton;
@@ -495,6 +490,10 @@
         private System.Windows.Forms.ToolStripMenuItem addUniNoise;
         private System.Windows.Forms.ToolStripMenuItem addImpulseNoise;
         private System.Windows.Forms.ToolStripMenuItem barUniformButton;
+        private System.Windows.Forms.ToolStripMenuItem blurButton;
+        private System.Windows.Forms.ToolStripMenuItem averageFilter;
+        private System.Windows.Forms.ToolStripMenuItem medianFilter;
+        private System.Windows.Forms.ToolStripMenuItem gaussianFilter;
     }
 }
 
