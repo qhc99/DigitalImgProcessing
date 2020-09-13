@@ -749,6 +749,7 @@ namespace opencv
         /// <param name="e"></param>
         private void HomoFilterButton_Click(object sender, EventArgs e)
         {
+            //TODO implement
             NotImplemented();
         }
 
@@ -759,6 +760,7 @@ namespace opencv
         /// <param name="e"></param>
         private void HazeRemovalButton_Click(object sender, EventArgs e)
         {
+            //TODO implement
             NotImplemented();
         }
 

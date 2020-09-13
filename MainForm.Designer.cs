@@ -63,9 +63,9 @@
             this.sharpenButton = new System.Windows.Forms.ToolStripMenuItem();
             this.LaplacianSharpenButton = new System.Windows.Forms.ToolStripMenuItem();
             this.SobelSharpenButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.barUniformButton = new System.Windows.Forms.ToolStripMenuItem();
             this.illuminanceButton = new System.Windows.Forms.ToolStripMenuItem();
             this.homoFilterButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.barUniformButton = new System.Windows.Forms.ToolStripMenuItem();
             this.HazeRemovalButton = new System.Windows.Forms.ToolStripMenuItem();
             this.pseudoColorFortifyButton = new System.Windows.Forms.ToolStripMenuItem();
             this.edgeButton = new System.Windows.Forms.ToolStripMenuItem();
@@ -377,13 +377,6 @@
             this.SobelSharpenButton.Text = "Sobel";
             this.SobelSharpenButton.Click += new System.EventHandler(this.SobelSharpenButton_Click);
             // 
-            // barUniformButton
-            // 
-            this.barUniformButton.Name = "barUniformButton";
-            this.barUniformButton.Size = new System.Drawing.Size(160, 22);
-            this.barUniformButton.Text = "直方图均匀化";
-            this.barUniformButton.Click += new System.EventHandler(this.BarUniformButton_Click);
-            // 
             // illuminanceButton
             // 
             this.illuminanceButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -398,6 +391,13 @@
             this.homoFilterButton.Size = new System.Drawing.Size(124, 22);
             this.homoFilterButton.Text = "同态滤波";
             this.homoFilterButton.Click += new System.EventHandler(this.HomoFilterButton_Click);
+            // 
+            // barUniformButton
+            // 
+            this.barUniformButton.Name = "barUniformButton";
+            this.barUniformButton.Size = new System.Drawing.Size(160, 22);
+            this.barUniformButton.Text = "直方图均匀化";
+            this.barUniformButton.Click += new System.EventHandler(this.BarUniformButton_Click);
             // 
             // HazeRemovalButton
             // 
