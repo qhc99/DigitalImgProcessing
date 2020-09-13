@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.leftPictureBox = new System.Windows.Forms.PictureBox();
@@ -63,13 +64,19 @@
             this.LaplacianSharpenButton = new System.Windows.Forms.ToolStripMenuItem();
             this.SobelSharpenButton = new System.Windows.Forms.ToolStripMenuItem();
             this.barUniformButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.illuminanceButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.homoFilterButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.HazeRemovalButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.pseudoColorFortifyButton = new System.Windows.Forms.ToolStripMenuItem();
             this.edgeButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.LaplacianEdgeDetection = new System.Windows.Forms.ToolStripMenuItem();
+            this.SobelEdgeDetection = new System.Windows.Forms.ToolStripMenuItem();
+            this.CannyEdgeDetection = new System.Windows.Forms.ToolStripMenuItem();
             this.segButton = new System.Windows.Forms.ToolStripMenuItem();
             this.DFTButton = new System.Windows.Forms.ToolStripMenuItem();
             this.waveletButton = new System.Windows.Forms.ToolStripMenuItem();
             this.featureDetectButton = new System.Windows.Forms.ToolStripMenuItem();
             this.objectRecognizeButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.colorFortifyButton = new System.Windows.Forms.ToolStripMenuItem();
             this.shortCutHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.leftPictureSize = new System.Windows.Forms.Label();
             this.rightPictureSize = new System.Windows.Forms.Label();
@@ -111,8 +118,8 @@
             // 
             // rightPictureBox
             // 
-            this.rightPictureBox.BackColor = System.Drawing.Color.SpringGreen;
-            this.rightPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.rightPictureBox.BackColor = System.Drawing.SystemColors.Control;
+            this.rightPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.rightPictureBox.ContextMenuStrip = this.pictureRightClickMenu;
             this.rightPictureBox.Location = new System.Drawing.Point(378, 56);
             this.rightPictureBox.Name = "rightPictureBox";
@@ -176,7 +183,6 @@
             this.waveletButton,
             this.featureDetectButton,
             this.objectRecognizeButton,
-            this.colorFortifyButton,
             this.shortCutHelp});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -306,7 +312,10 @@
             this.fortifyButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.blurButton,
             this.sharpenButton,
-            this.barUniformButton});
+            this.barUniformButton,
+            this.illuminanceButton,
+            this.HazeRemovalButton,
+            this.pseudoColorFortifyButton});
             this.fortifyButton.Enabled = false;
             this.fortifyButton.Name = "fortifyButton";
             this.fortifyButton.Size = new System.Drawing.Size(44, 21);
@@ -319,7 +328,7 @@
             this.medianFilter,
             this.gaussianFilter});
             this.blurButton.Name = "blurButton";
-            this.blurButton.Size = new System.Drawing.Size(158, 22);
+            this.blurButton.Size = new System.Drawing.Size(160, 22);
             this.blurButton.Text = "平滑/模糊/去噪";
             // 
             // averageFilter
@@ -349,7 +358,7 @@
             this.LaplacianSharpenButton,
             this.SobelSharpenButton});
             this.sharpenButton.Name = "sharpenButton";
-            this.sharpenButton.Size = new System.Drawing.Size(158, 22);
+            this.sharpenButton.Size = new System.Drawing.Size(160, 22);
             this.sharpenButton.Text = "锐化";
             // 
             // LaplacianSharpenButton
@@ -369,16 +378,70 @@
             // barUniformButton
             // 
             this.barUniformButton.Name = "barUniformButton";
-            this.barUniformButton.Size = new System.Drawing.Size(158, 22);
+            this.barUniformButton.Size = new System.Drawing.Size(160, 22);
             this.barUniformButton.Text = "直方图均匀化";
             this.barUniformButton.Click += new System.EventHandler(this.BarUniformButton_Click);
             // 
+            // illuminanceButton
+            // 
+            this.illuminanceButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.homoFilterButton});
+            this.illuminanceButton.Name = "illuminanceButton";
+            this.illuminanceButton.Size = new System.Drawing.Size(160, 22);
+            this.illuminanceButton.Text = "照度增强";
+            // 
+            // homoFilterButton
+            // 
+            this.homoFilterButton.Name = "homoFilterButton";
+            this.homoFilterButton.Size = new System.Drawing.Size(124, 22);
+            this.homoFilterButton.Text = "同态滤波";
+            this.homoFilterButton.Click += new System.EventHandler(this.HomoFilterButton_Click);
+            // 
+            // HazeRemovalButton
+            // 
+            this.HazeRemovalButton.Name = "HazeRemovalButton";
+            this.HazeRemovalButton.Size = new System.Drawing.Size(160, 22);
+            this.HazeRemovalButton.Text = "暗通道先验去雾";
+            this.HazeRemovalButton.Click += new System.EventHandler(this.HazeRemovalButton_Click);
+            // 
+            // pseudoColorFortifyButton
+            // 
+            this.pseudoColorFortifyButton.Name = "pseudoColorFortifyButton";
+            this.pseudoColorFortifyButton.Size = new System.Drawing.Size(160, 22);
+            this.pseudoColorFortifyButton.Text = "伪彩色增强";
+            this.pseudoColorFortifyButton.Click += new System.EventHandler(this.PseudoColorFortifyButton_Click);
+            // 
             // edgeButton
             // 
+            this.edgeButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.LaplacianEdgeDetection,
+            this.SobelEdgeDetection,
+            this.CannyEdgeDetection});
             this.edgeButton.Enabled = false;
             this.edgeButton.Name = "edgeButton";
             this.edgeButton.Size = new System.Drawing.Size(68, 21);
             this.edgeButton.Text = "边缘检测";
+            // 
+            // LaplacianEdgeDetection
+            // 
+            this.LaplacianEdgeDetection.Name = "LaplacianEdgeDetection";
+            this.LaplacianEdgeDetection.Size = new System.Drawing.Size(130, 22);
+            this.LaplacianEdgeDetection.Text = "Laplacian";
+            this.LaplacianEdgeDetection.Click += new System.EventHandler(this.LaplacianEdgeDetection_Click);
+            // 
+            // SobelEdgeDetection
+            // 
+            this.SobelEdgeDetection.Name = "SobelEdgeDetection";
+            this.SobelEdgeDetection.Size = new System.Drawing.Size(130, 22);
+            this.SobelEdgeDetection.Text = "Sobel";
+            this.SobelEdgeDetection.Click += new System.EventHandler(this.SobelEdgeDetection_Click);
+            // 
+            // CannyEdgeDetection
+            // 
+            this.CannyEdgeDetection.Name = "CannyEdgeDetection";
+            this.CannyEdgeDetection.Size = new System.Drawing.Size(130, 22);
+            this.CannyEdgeDetection.Text = "Canny";
+            this.CannyEdgeDetection.Click += new System.EventHandler(this.CannyEdgeDetection_Click);
             // 
             // segButton
             // 
@@ -414,13 +477,6 @@
             this.objectRecognizeButton.Name = "objectRecognizeButton";
             this.objectRecognizeButton.Size = new System.Drawing.Size(68, 21);
             this.objectRecognizeButton.Text = "目标识别";
-            // 
-            // colorFortifyButton
-            // 
-            this.colorFortifyButton.Enabled = false;
-            this.colorFortifyButton.Name = "colorFortifyButton";
-            this.colorFortifyButton.Size = new System.Drawing.Size(68, 21);
-            this.colorFortifyButton.Text = "彩色处理";
             // 
             // shortCutHelp
             // 
@@ -461,6 +517,7 @@
             this.Controls.Add(this.rightPictureBox);
             this.Controls.Add(this.leftPictureBox);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
@@ -500,7 +557,6 @@
         private System.Windows.Forms.ToolStripMenuItem waveletButton;
         private System.Windows.Forms.ToolStripMenuItem featureDetectButton;
         private System.Windows.Forms.ToolStripMenuItem objectRecognizeButton;
-        private System.Windows.Forms.ToolStripMenuItem colorFortifyButton;
         private System.Windows.Forms.ToolStripMenuItem clearButton;
         private System.Windows.Forms.ToolStripMenuItem reverseButton;
         private System.Windows.Forms.ToolStripMenuItem imagesListButton;
@@ -521,6 +577,15 @@
         private System.Windows.Forms.ToolStripMenuItem sharpenButton;
         private System.Windows.Forms.ToolStripMenuItem LaplacianSharpenButton;
         private System.Windows.Forms.ToolStripMenuItem SobelSharpenButton;
+        private System.Windows.Forms.ToolStripMenuItem illuminanceButton;
+        private System.Windows.Forms.ToolStripMenuItem homoFilter;
+        private System.Windows.Forms.ToolStripMenuItem DeFog;
+        private System.Windows.Forms.ToolStripMenuItem homoFilterButton;
+        private System.Windows.Forms.ToolStripMenuItem HazeRemovalButton;
+        private System.Windows.Forms.ToolStripMenuItem pseudoColorFortifyButton;
+        private System.Windows.Forms.ToolStripMenuItem LaplacianEdgeDetection;
+        private System.Windows.Forms.ToolStripMenuItem SobelEdgeDetection;
+        private System.Windows.Forms.ToolStripMenuItem CannyEdgeDetection;
     }
 }
 

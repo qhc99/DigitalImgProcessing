@@ -152,7 +152,7 @@
             this.Controls.Add(this.leftPictureBox);
             this.KeyPreview = true;
             this.Name = "ImagesListForm";
-            this.Text = "处理历史";
+            this.Text = "图片序列";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ImagesListForm_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.leftPictureBox)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);

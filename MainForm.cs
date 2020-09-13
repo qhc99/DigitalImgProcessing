@@ -32,8 +32,7 @@ namespace opencv
         {
             Mat none = ((Bitmap) _noneImage).ToMat();
             none.Resize(new Size(leftPictureBox.Height, leftPictureBox.Width));
-            ShowMat(pb,none);
-            
+            ShowMat(pb, none);
         }
 
         private readonly Image _noneImage =
@@ -70,18 +69,12 @@ namespace opencv
         {
             get
             {
-                if (WorkingMats.Count == 0)
+                return WorkingMats.Count switch
                 {
-                    return ((Bitmap)_noneImage).ToMat();
-                }
-                else if(WorkingMats.Count == 1)
-                {
-                    return WorkingMats[0];
-                }
-                else
-                {
-                    return WorkingMats[^2];//[-2]
-                }
+                    0 => ((Bitmap) _noneImage).ToMat(),
+                    1 => WorkingMats[0],
+                    _ => WorkingMats[^2]
+                };
             }
         }
 
@@ -94,14 +87,13 @@ namespace opencv
             {
                 if (WorkingMats.Count <= 1)
                 {
-                    return ((Bitmap)_noneImage).ToMat();
+                    return ((Bitmap) _noneImage).ToMat();
                 }
                 else
                 {
                     return WorkingMats[^1];
                 }
             }
-
         }
 
         /// <summary>
@@ -117,7 +109,7 @@ namespace opencv
                 leftPictureLabel.Text = $@"第 {_currentProcessIndex + 1} 行 第 {WorkingMats.Count - 1} 列";
                 leftPictureSize.Text = $@"H:{m.Height} W:{m.Width}";
             }
-            else if(rightPictureBox == pb)
+            else if (rightPictureBox == pb)
             {
                 rightPictureLabel.Text = $@"第 {_currentProcessIndex + 1} 行 第 {WorkingMats.Count} 列";
                 rightPictureSize.Text = $@"H:{m.Height} W:{m.Width}";
@@ -134,6 +126,7 @@ namespace opencv
             var (row, col) = ComputeSize(m.Rows, m.Cols,
                 leftPictureBox.Size.Height, leftPictureBox.Size.Width);
             return m.Resize(new Size(row, col), 0, 0, InterpolationFlags.Cubic);
+
             static Tuple<int, int> ComputeSize(int imgRow, int imgCol, int boxRow, int boxCol)
             {
                 if (imgRow <= boxRow && imgCol <= boxCol)
@@ -142,19 +135,18 @@ namespace opencv
                 }
                 else
                 {
-                    double ratio = ((double)imgRow) / imgCol;
+                    double ratio = ((double) imgRow) / imgCol;
                     //newRow/newCol = imgRow/imgCol
                     if (imgRow > boxRow)
                     {
-                        return new Tuple<int, int>(boxRow, (int)(boxRow / ratio));
+                        return new Tuple<int, int>(boxRow, (int) (boxRow / ratio));
                     }
                     else
                     {
-                        return new Tuple<int, int>((int)(ratio * boxCol), boxCol);
+                        return new Tuple<int, int>((int) (ratio * boxCol), boxCol);
                     }
                 }
             }
-
         }
 
         /// <summary>
@@ -176,7 +168,7 @@ namespace opencv
             waveletButton.Enabled = true;
             featureDetectButton.Enabled = true;
             objectRecognizeButton.Enabled = true;
-            colorFortifyButton.Enabled = true;
+            pseudoColorFortifyButton.Enabled = true;
             clearButton.Enabled = true;
             reverseButton.Enabled = true;
             imagesListButton.Enabled = true;
@@ -202,7 +194,7 @@ namespace opencv
             waveletButton.Enabled = false;
             featureDetectButton.Enabled = false;
             objectRecognizeButton.Enabled = false;
-            colorFortifyButton.Enabled = false;
+            pseudoColorFortifyButton.Enabled = false;
             clearButton.Enabled = false;
             reverseButton.Enabled = false;
             imagesListButton.Enabled = false;
@@ -227,7 +219,7 @@ namespace opencv
         private Mat GetImageToProcess()
         {
             Mat originImg;
-            if (WorkingMats.Count == 1)
+            if (WorkingMats.Count <= 1)
             {
                 originImg = WorkingLeftMat;
             }
@@ -235,6 +227,7 @@ namespace opencv
             {
                 originImg = WorkingRightMat;
             }
+
             return originImg;
         }
 
@@ -274,7 +267,7 @@ namespace opencv
             var result = openFileDialog1.ShowDialog();
             if (result == DialogResult.OK)
             {
-                 _currentProcessIndex++;
+                _currentProcessIndex++;
                 _workingMatsProcesses.Add(new List<Mat>());
 
                 LoadNoneImg(rightPictureBox);
@@ -353,8 +346,8 @@ namespace opencv
         private void UpButton_Click(object sender, EventArgs e)
         {
             _currentProcessIndex--;
-            ShowMat(leftPictureBox,WorkingLeftMat);
-            ShowMat(rightPictureBox,WorkingRightMat);
+            ShowMat(leftPictureBox, WorkingLeftMat);
+            ShowMat(rightPictureBox, WorkingRightMat);
             VerticalCheck();
         }
 
@@ -406,7 +399,7 @@ namespace opencv
                 {
                     if (WorkingMats.Count >= 1)
                     {
-                        WorkingMats.RemoveAt(WorkingMats.Count-1);
+                        WorkingMats.RemoveAt(WorkingMats.Count - 1);
                         ShowMat(leftPictureBox, WorkingLeftMat);
                         ShowMat(rightPictureBox, WorkingRightMat);
                     }
@@ -441,12 +434,14 @@ namespace opencv
                         {
                             UpButton_Click(this, EventArgs.Empty);
                         }
+
                         break;
                     case Keys.Down:
                         if (downButton.Enabled)
                         {
                             DownButton_Click(this, EventArgs.Empty);
                         }
+
                         break;
                     case Keys.S:
                         if (saveSecondFileButton.Enabled)
@@ -460,18 +455,21 @@ namespace opencv
                                 MessageBox.Show(@"不能保存空图片");
                             }
                         }
+
                         break;
                     case Keys.Z:
                         if (reverseButton.Enabled)
                         {
                             ReverseButton_Click(this, EventArgs.Empty);
                         }
+
                         break;
                     case Keys.O:
                         if (overwriteButton.Enabled)
                         {
-                            OverwriteButton_Click(this,EventArgs.Empty);
+                            OverwriteButton_Click(this, EventArgs.Empty);
                         }
+
                         break;
                 }
             }
@@ -483,8 +481,9 @@ namespace opencv
                     case Keys.V:
                         if (imagesListButton.Enabled)
                         {
-                            ImagesListButton_Click(this,EventArgs.Empty);
+                            ImagesListButton_Click(this, EventArgs.Empty);
                         }
+
                         break;
                 }
             }
@@ -499,7 +498,7 @@ namespace opencv
         {
             var inputWindow = new MeanVariancePopUp();
             var dialogResult = inputWindow.ShowDialog();
-            
+
             if (dialogResult == DialogResult.OK)
             {
                 var originImg = GetImageToProcess();
@@ -524,10 +523,10 @@ namespace opencv
             var dRest = inputWindow.ShowDialog();
             if (dRest == DialogResult.OK)
             {
-                var originImg= GetImageToProcess();
+                var originImg = GetImageToProcess();
 
                 Mat uNoise = new Mat(originImg.Size(), originImg.Type());
-                uNoise.Randu(inputWindow.Low,inputWindow.High);
+                uNoise.Randu(inputWindow.Low, inputWindow.High);
                 Mat workRes = originImg + uNoise;
 
                 AddImageToListAndShow(workRes);
@@ -547,7 +546,7 @@ namespace opencv
             {
                 var originImg = GetImageToProcess();
                 var addNoiseImg = originImg.Clone();
-                
+
                 Mat rand = Mat.Zeros(new Size(addNoiseImg.Height, addNoiseImg.Width), addNoiseImg.Type());
                 rand.Randu(0, 255);
                 Mat white = rand.LessThanOrEqual(inputWindow.Low);
@@ -576,6 +575,7 @@ namespace opencv
                     MessageBox.Show(@"输入应为奇数并且>=3");
                     return;
                 }
+
                 var originImg = GetImageToProcess();
                 var blurImg = originImg.MedianBlur(inputWindow.WindowSize);
                 AddImageToListAndShow(blurImg);
@@ -611,10 +611,9 @@ namespace opencv
             if (dRes == DialogResult.OK)
             {
                 var originImg = GetImageToProcess();
-                var blurImg = originImg.GaussianBlur(new Size(inputWindow.H,inputWindow.W),0);
+                var blurImg = originImg.GaussianBlur(new Size(inputWindow.H, inputWindow.W), 0);
                 AddImageToListAndShow(blurImg);
             }
-            
         }
 
         /// <summary>
@@ -634,11 +633,11 @@ namespace opencv
                     Control sourceControl = owner.SourceControl;
                     if (sourceControl == leftPictureBox && WorkingMats.Count >= 1)
                     {
-                        SaveFirstButton_Click(this,EventArgs.Empty);
+                        SaveFirstButton_Click(this, EventArgs.Empty);
                     }
                     else if (sourceControl == rightPictureBox && WorkingMats.Count >= 2)
                     {
-                        SaveSecondButton_Click(this,EventArgs.Empty);
+                        SaveSecondButton_Click(this, EventArgs.Empty);
                     }
                 }
             }
@@ -652,13 +651,13 @@ namespace opencv
         private void ShortCutHelp_Click(object sender, EventArgs e)
         {
             MessageBox.Show("ctrl + ↑: 上一个工作序列\n" +
-                            "ctrl + ↓: 下一个工作序列\n" + 
-                            "ctrl + s: 保存第二张图片\n" + 
+                            "ctrl + ↓: 下一个工作序列\n" +
+                            "ctrl + s: 保存第二张图片\n" +
                             "ctrl + z: 撤销处理操作\n" +
                             "ctrl + o: 覆盖上一张图片\n" +
-                            "alt + v: 查看图片序列\n" + 
+                            "alt + v: 查看图片序列\n" +
                             "ctrl + ←: 图片序列向左翻页\n" +
-                            "ctrl + →: 图片序列向右翻页\n" + 
+                            "ctrl + →: 图片序列向右翻页\n" +
                             "ESC: 关闭窗口");
         }
 
@@ -680,7 +679,6 @@ namespace opencv
                     ShowMat(rightPictureBox, WorkingRightMat);
                 }
             }
-
         }
 
         /// <summary>
@@ -737,10 +735,102 @@ namespace opencv
                 Mat newImg = new Mat(img.Size(), MatType.CV_16S);
                 img.ConvertTo(newImg, MatType.CV_16S);
                 // there plus works ?!
-                Mat sharpenImg = newImg + img.Sobel(MatType.CV_16S, w.XOrder,w.YOrder,w.WindowSize) * w.Alpha;
+                Mat sharpenImg = newImg + img.Sobel(MatType.CV_16S, w.XOrder, w.YOrder, w.WindowSize) * w.Alpha;
                 Mat resSharpenImg = new Mat(sharpenImg.Size(), MatType.CV_8U);
                 sharpenImg.ConvertTo(resSharpenImg, MatType.CV_8U);
                 AddImageToListAndShow(resSharpenImg);
+            }
+        }
+
+        /// <summary>
+        /// 同态滤波
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void HomoFilterButton_Click(object sender, EventArgs e)
+        {
+            NotImplemented();
+        }
+
+        /// <summary>
+        /// 暗通道先验去雾
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void HazeRemovalButton_Click(object sender, EventArgs e)
+        {
+            NotImplemented();
+        }
+
+        /// <summary>
+        /// 伪彩色增强
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PseudoColorFortifyButton_Click(object sender, EventArgs e)
+        {
+            var w = new ColorMapComboPopUp();
+            var dialogRes = w.ShowDialog();
+            if (dialogRes == DialogResult.OK)
+            {
+                var img = GetImageToProcess();
+                Mat cImg = new Mat(img.Size(), img.Type());
+                Cv2.ApplyColorMap(img, cImg, w.SelectedTypes);
+                AddImageToListAndShow(cImg);
+            }
+        }
+
+        /// <summary>
+        /// Laplacian边缘检测
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void LaplacianEdgeDetection_Click(object sender, EventArgs e)
+        {
+            var originImg = GetImageToProcess();
+            Mat newOriginImg = new Mat(originImg.Size(), MatType.CV_16S);
+            originImg.ConvertTo(newOriginImg, MatType.CV_16S);
+            Mat edgeImg = originImg.Laplacian(MatType.CV_16S);
+            Mat resEdgeImg = new Mat(edgeImg.Size(), MatType.CV_8U);
+            edgeImg.ConvertTo(resEdgeImg, MatType.CV_8U);
+            AddImageToListAndShow(resEdgeImg);
+        }
+
+        /// <summary>
+        /// Canny边缘检测
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CannyEdgeDetection_Click(object sender, EventArgs e)
+        {
+            var w = new UpperLowerLimitPopUp(true);
+            var dialogRes = w.ShowDialog();
+            if (dialogRes == DialogResult.OK)
+            {
+                var img = GetImageToProcess();
+                Mat edgeImg = img.Canny(w.Low, w.High, w.ApertureSize);
+                AddImageToListAndShow(edgeImg);
+            }
+        }
+
+        /// <summary>
+        /// Sobel边缘检测
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SobelEdgeDetection_Click(object sender, EventArgs e)
+        {
+            var w = new SobelCoefficientPopUp(true);
+            var dialogRes = w.ShowDialog();
+            if (dialogRes == DialogResult.OK)
+            {
+                var img = GetImageToProcess();
+                Mat newImg = new Mat(img.Size(), MatType.CV_16S);
+                img.ConvertTo(newImg, MatType.CV_16S);
+                Mat edgeImg = img.Sobel(MatType.CV_16S, w.XOrder, w.YOrder, w.WindowSize);
+                Mat resEdgeImg = new Mat(edgeImg.Size(), MatType.CV_8U);
+                edgeImg.ConvertTo(resEdgeImg, MatType.CV_8U);
+                AddImageToListAndShow(resEdgeImg);
             }
         }
     }

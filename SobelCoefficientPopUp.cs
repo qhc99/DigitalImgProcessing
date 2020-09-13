@@ -11,6 +11,18 @@ namespace opencv
         public SobelCoefficientPopUp()
         {
             InitializeComponent();
+            StartPosition = FormStartPosition.CenterScreen;
+        }
+
+        public SobelCoefficientPopUp(bool isEdgeDetection)
+        {
+            InitializeComponent();
+            StartPosition = FormStartPosition.CenterScreen;
+            if (isEdgeDetection)
+            {
+                label4.Visible = false;
+                textBox4.Visible = false;
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
