@@ -72,7 +72,10 @@
             this.LaplacianEdgeDetection = new System.Windows.Forms.ToolStripMenuItem();
             this.SobelEdgeDetection = new System.Windows.Forms.ToolStripMenuItem();
             this.CannyEdgeDetection = new System.Windows.Forms.ToolStripMenuItem();
-            this.segButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.thresholdSegButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.meanThresholdSegButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.GaussianThresholdSegButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.OtsuSegButton = new System.Windows.Forms.ToolStripMenuItem();
             this.DFTButton = new System.Windows.Forms.ToolStripMenuItem();
             this.waveletButton = new System.Windows.Forms.ToolStripMenuItem();
             this.featureDetectButton = new System.Windows.Forms.ToolStripMenuItem();
@@ -178,7 +181,7 @@
             this.addNoiseButton,
             this.fortifyButton,
             this.edgeButton,
-            this.segButton,
+            this.thresholdSegButton,
             this.DFTButton,
             this.waveletButton,
             this.featureDetectButton,
@@ -283,8 +286,8 @@
             this.addImpulseNoise});
             this.addNoiseButton.Enabled = false;
             this.addNoiseButton.Name = "addNoiseButton";
-            this.addNoiseButton.Size = new System.Drawing.Size(56, 21);
-            this.addNoiseButton.Text = "加噪声";
+            this.addNoiseButton.Size = new System.Drawing.Size(68, 21);
+            this.addNoiseButton.Text = "添加噪声";
             // 
             // addGaussianNoise
             // 
@@ -318,8 +321,8 @@
             this.pseudoColorFortifyButton});
             this.fortifyButton.Enabled = false;
             this.fortifyButton.Name = "fortifyButton";
-            this.fortifyButton.Size = new System.Drawing.Size(44, 21);
-            this.fortifyButton.Text = "增强";
+            this.fortifyButton.Size = new System.Drawing.Size(68, 21);
+            this.fortifyButton.Text = "图片增强";
             // 
             // blurButton
             // 
@@ -443,12 +446,37 @@
             this.CannyEdgeDetection.Text = "Canny";
             this.CannyEdgeDetection.Click += new System.EventHandler(this.CannyEdgeDetection_Click);
             // 
-            // segButton
+            // thresholdSegButton
             // 
-            this.segButton.Enabled = false;
-            this.segButton.Name = "segButton";
-            this.segButton.Size = new System.Drawing.Size(44, 21);
-            this.segButton.Text = "分割";
+            this.thresholdSegButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.meanThresholdSegButton,
+            this.GaussianThresholdSegButton,
+            this.OtsuSegButton});
+            this.thresholdSegButton.Enabled = false;
+            this.thresholdSegButton.Name = "thresholdSegButton";
+            this.thresholdSegButton.Size = new System.Drawing.Size(68, 21);
+            this.thresholdSegButton.Text = "门限分割";
+            // 
+            // meanThresholdSegButton
+            // 
+            this.meanThresholdSegButton.Name = "meanThresholdSegButton";
+            this.meanThresholdSegButton.Size = new System.Drawing.Size(151, 22);
+            this.meanThresholdSegButton.Text = "均值门限分割";
+            this.meanThresholdSegButton.Click += new System.EventHandler(this.meanThresholdSegButton_Click);
+            // 
+            // GaussianThresholdSegButton
+            // 
+            this.GaussianThresholdSegButton.Name = "GaussianThresholdSegButton";
+            this.GaussianThresholdSegButton.Size = new System.Drawing.Size(151, 22);
+            this.GaussianThresholdSegButton.Text = "高斯门限分割";
+            this.GaussianThresholdSegButton.Click += new System.EventHandler(this.GaussianThresholdSegButton_Click);
+            // 
+            // OtsuSegButton
+            // 
+            this.OtsuSegButton.Name = "OtsuSegButton";
+            this.OtsuSegButton.Size = new System.Drawing.Size(151, 22);
+            this.OtsuSegButton.Text = "Otsu门限分割";
+            this.OtsuSegButton.Click += new System.EventHandler(this.OtsuSegButton_Click);
             // 
             // DFTButton
             // 
@@ -550,7 +578,7 @@
         private System.Windows.Forms.ToolStripMenuItem addNoiseButton;
         private System.Windows.Forms.ToolStripMenuItem fortifyButton;
         private System.Windows.Forms.ToolStripMenuItem edgeButton;
-        private System.Windows.Forms.ToolStripMenuItem segButton;
+        private System.Windows.Forms.ToolStripMenuItem thresholdSegButton;
         private System.Windows.Forms.ToolStripMenuItem DFTButton;
         private System.Windows.Forms.ToolStripMenuItem preProcessButton;
         private System.Windows.Forms.ToolStripMenuItem addGaussianNoise;
@@ -586,6 +614,9 @@
         private System.Windows.Forms.ToolStripMenuItem LaplacianEdgeDetection;
         private System.Windows.Forms.ToolStripMenuItem SobelEdgeDetection;
         private System.Windows.Forms.ToolStripMenuItem CannyEdgeDetection;
+        private System.Windows.Forms.ToolStripMenuItem meanThresholdSegButton;
+        private System.Windows.Forms.ToolStripMenuItem GaussianThresholdSegButton;
+        private System.Windows.Forms.ToolStripMenuItem OtsuSegButton;
     }
 }
 

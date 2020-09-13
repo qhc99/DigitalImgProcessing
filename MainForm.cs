@@ -161,7 +161,7 @@ namespace opencv
             blurButton.Enabled = true;
             fortifyButton.Enabled = true;
             edgeButton.Enabled = true;
-            segButton.Enabled = true;
+            thresholdSegButton.Enabled = true;
             DFTButton.Enabled = true;
             saveSecondFileButton.Enabled = true;
             saveFirstFileButton.Enabled = true;
@@ -187,7 +187,7 @@ namespace opencv
             blurButton.Enabled = false;
             fortifyButton.Enabled = false;
             edgeButton.Enabled = false;
-            segButton.Enabled = false;
+            thresholdSegButton.Enabled = false;
             DFTButton.Enabled = false;
             saveSecondFileButton.Enabled = false;
             saveFirstFileButton.Enabled = false;
@@ -832,6 +832,36 @@ namespace opencv
                 edgeImg.ConvertTo(resEdgeImg, MatType.CV_8U);
                 AddImageToListAndShow(resEdgeImg);
             }
+        }
+
+        /// <summary>
+        /// Mean 均值门限分割
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void meanThresholdSegButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Gaussian 高斯门限分割
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GaussianThresholdSegButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Otsu门限分割
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OtsuSegButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

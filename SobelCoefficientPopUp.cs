@@ -22,6 +22,7 @@ namespace opencv
             {
                 label4.Visible = false;
                 textBox4.Visible = false;
+                textBox4.Text = "1";
             }
         }
 
