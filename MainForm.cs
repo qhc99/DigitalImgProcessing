@@ -552,8 +552,8 @@ namespace opencv
                 Mat white = rand.LessThanOrEqual(inputWindow.Low);
                 Mat black = rand.GreaterThanOrEqual(inputWindow.High);
 
-                addNoiseImg += black;
-                addNoiseImg -= white;
+                addNoiseImg -= black;
+                addNoiseImg += white;
 
                 AddImageToListAndShow(addNoiseImg);
             }
