@@ -841,7 +841,23 @@ namespace opencv
         /// <param name="e"></param>
         private void meanThresholdSegButton_Click(object sender, EventArgs e)
         {
-
+            var w = new AdaptiveSegmentationComboPopUp();
+            var dialogRes = w.ShowDialog();
+            if (dialogRes == DialogResult.OK)
+            {
+                var img = GetImageToProcess();
+                Mat seg;
+                try
+                { 
+                    seg = img.AdaptiveThreshold(255, AdaptiveThresholdTypes.MeanC, w.SelectedTypes, w.WindowSize, w.Constant);
+                }
+                catch (OpenCVException)
+                {
+                    MessageBox.Show(@"非灰度图像");
+                    return;
+                }
+                AddImageToListAndShow(seg);
+            }
         }
 
         /// <summary>
@@ -851,7 +867,24 @@ namespace opencv
         /// <param name="e"></param>
         private void GaussianThresholdSegButton_Click(object sender, EventArgs e)
         {
-
+            var w = new AdaptiveSegmentationComboPopUp();
+            var dialogRes = w.ShowDialog();
+            if (dialogRes == DialogResult.OK)
+            {
+                var img = GetImageToProcess();
+                Mat seg;
+                try
+                {
+                    seg = img.AdaptiveThreshold(255, AdaptiveThresholdTypes.GaussianC, w.SelectedTypes, w.WindowSize,
+                        w.Constant);
+                }
+                catch (OpenCVException)
+                {
+                    MessageBox.Show(@"非灰度图像");
+                    return;
+                }
+                AddImageToListAndShow(seg);
+            }
         }
 
         /// <summary>
@@ -861,7 +894,9 @@ namespace opencv
         /// <param name="e"></param>
         private void OtsuSegButton_Click(object sender, EventArgs e)
         {
-
+            var img = GetImageToProcess();
+            var otsuImg = img.Threshold(0, 255, ThresholdTypes.Binary & ThresholdTypes.Otsu);
+            AddImageToListAndShow(otsuImg);
         }
     }
 }
