@@ -534,7 +534,7 @@ namespace opencv
         }
 
         /// <summary>
-        /// 加脉冲噪声
+        /// 加椒盐噪声
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

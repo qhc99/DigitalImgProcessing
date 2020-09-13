@@ -306,7 +306,7 @@
             // 
             this.addImpulseNoise.Name = "addImpulseNoise";
             this.addImpulseNoise.Size = new System.Drawing.Size(124, 22);
-            this.addImpulseNoise.Text = "脉冲噪声";
+            this.addImpulseNoise.Text = "椒盐噪声";
             this.addImpulseNoise.Click += new System.EventHandler(this.AddImpulseNoise_Click);
             // 
             // fortifyButton
@@ -314,8 +314,8 @@
             this.fortifyButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.blurButton,
             this.sharpenButton,
-            this.barUniformButton,
             this.illuminanceButton,
+            this.barUniformButton,
             this.HazeRemovalButton,
             this.pseudoColorFortifyButton});
             this.fortifyButton.Enabled = false;
