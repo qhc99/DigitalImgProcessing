@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace opencv
@@ -26,12 +21,20 @@ namespace opencv
             }
             else
             {
-                DialogResult = DialogResult.OK;
-                Close();
+                if (H % 2 == 0 || W % 2 == 0)
+                {
+                    MessageBox.Show(@"输入错误");
+                    DialogResult = DialogResult.Cancel;
+                }
+                else
+                {
+                    DialogResult = DialogResult.OK;
+                    Close();
+                }
             }
         }
 
-        private void AverageBlurPopUp_KeyDown(object sender, KeyEventArgs e)
+        private void BoxHeightWidthPopUp_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
             {

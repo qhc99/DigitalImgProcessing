@@ -12,12 +12,36 @@ namespace opencv
     public partial class ImagesListForm : Form
     {
         private readonly List<Mat> _workingMats;
-        private readonly MainForm.PairIndices _boxIndices;
+        private readonly PairIndices _boxIndices;
 
-        public ImagesListForm(List<Mat> workingMats, MainForm.PairIndices boxIndices)
+        internal class PairIndices
+        {
+            public int LeftIndex;
+            public int RightIndex;
+
+            public PairIndices(int l, int r)
+            {
+                LeftIndex = l;
+                RightIndex = r;
+            }
+        }
+
+        public ImagesListForm(List<Mat> workingMats)
         {
             InitializeComponent();
-            _boxIndices = boxIndices;
+            if (workingMats.Count >= 2)
+            {
+                _boxIndices = new PairIndices(workingMats.Count-2, workingMats.Count-1);
+            }
+            else
+            {
+                _boxIndices = workingMats.Count switch
+                {
+                    1 => new PairIndices(0, -1),
+                    0 => new PairIndices(-1, -1),
+                    _ => _boxIndices
+                };
+            }
             _workingMats = workingMats;
             StartPosition = FormStartPosition.CenterScreen;
             LoadNoneImg(leftPictureBox);

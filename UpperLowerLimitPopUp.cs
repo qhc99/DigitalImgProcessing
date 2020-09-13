@@ -33,7 +33,7 @@ namespace opencv
             Close();
         }
 
-        private void UniNoisePopUp_KeyDown(object sender, KeyEventArgs e)
+        private void UpperLowerLimitPopUp_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
             {

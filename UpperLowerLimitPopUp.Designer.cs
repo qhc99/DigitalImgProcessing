@@ -105,7 +105,7 @@
             this.Location = new System.Drawing.Point(1200, 1200);
             this.Name = "UpperLowerLimitPopUp";
             this.Text = "输入";
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UniNoisePopUp_KeyDown);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UpperLowerLimitPopUp_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

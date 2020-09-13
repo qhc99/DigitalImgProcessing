@@ -1,14 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
 using System.Windows.Forms;
 
 namespace opencv
 {
-    public partial class MeanVariancePopUp : Form
+    public partial class CoefficientAlphaPopUp : Form
     {
-        public double Mean;
-        public double Variance;
-
-        public MeanVariancePopUp()
+        public double Alpha;
+        public CoefficientAlphaPopUp()
         {
             InitializeComponent();
             StartPosition = FormStartPosition.CenterScreen;
@@ -16,7 +19,7 @@ namespace opencv
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (!double.TryParse(textBox1.Text, out Mean) || !double.TryParse(textBox2.Text, out Variance))
+            if (!double.TryParse(textBox1.Text, out Alpha))
             {
                 MessageBox.Show(@"输入错误");
                 DialogResult = DialogResult.Cancel;
@@ -34,15 +37,15 @@ namespace opencv
             Close();
         }
 
-        private void MeanVariancePopUp_KeyDown(object sender, KeyEventArgs e)
+        private void CoefficientAlphaPopUp_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
             {
-                case Keys.Enter:
-                    button1_Click(this, EventArgs.Empty);
-                    break;
                 case Keys.Escape:
                     Close();
+                    break;
+                case Keys.Enter:
+                    button1_Click(this, EventArgs.Empty);
                     break;
             }
         }

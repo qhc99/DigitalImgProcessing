@@ -20,8 +20,16 @@ namespace opencv
             }
             else
             {
-                DialogResult = DialogResult.OK;
-                Close();
+                if (WindowSize % 2 == 0)
+                {
+                    MessageBox.Show(@"输入错误");
+                    DialogResult = DialogResult.Cancel;
+                }
+                else
+                {
+                    DialogResult = DialogResult.OK;
+                    Close();
+                }
             }
         }
 
@@ -31,7 +39,7 @@ namespace opencv
             Close();
         }
 
-        private void MedianBlurPopUp_KeyDown(object sender, KeyEventArgs e)
+        private void RectangleBoxSizePopUp_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
             {

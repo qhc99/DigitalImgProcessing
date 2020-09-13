@@ -3,28 +3,38 @@ using System.Windows.Forms;
 
 namespace opencv
 {
-    public partial class MeanVariancePopUp : Form
+    public partial class SobelCoefficientPopUp : Form
     {
-        public double Mean;
-        public double Variance;
+        public int XOrder, YOrder, WindowSize;
+        public double Alpha;
 
-        public MeanVariancePopUp()
+        public SobelCoefficientPopUp()
         {
             InitializeComponent();
-            StartPosition = FormStartPosition.CenterScreen;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (!double.TryParse(textBox1.Text, out Mean) || !double.TryParse(textBox2.Text, out Variance))
+            if (!int.TryParse(textBox1.Text, out XOrder) || 
+                !int.TryParse(textBox2.Text, out YOrder) ||
+                !int.TryParse(textBox3.Text, out WindowSize) ||
+                !double.TryParse(textBox4.Text, out Alpha))
             {
                 MessageBox.Show(@"输入错误");
                 DialogResult = DialogResult.Cancel;
             }
             else
             {
-                DialogResult = DialogResult.OK;
-                Close();
+                if (WindowSize % 2 == 0)
+                {
+                    MessageBox.Show(@"输入错误");
+                    DialogResult = DialogResult.Cancel;
+                }
+                else
+                {
+                    DialogResult = DialogResult.OK;
+                    Close();
+                }
             }
         }
 
@@ -34,7 +44,7 @@ namespace opencv
             Close();
         }
 
-        private void MeanVariancePopUp_KeyDown(object sender, KeyEventArgs e)
+        private void SobelCoefficientPopUp_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
             {

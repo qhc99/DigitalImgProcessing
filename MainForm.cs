@@ -12,20 +12,7 @@ namespace opencv
     public partial class MainForm : Form
     {
         private readonly List<List<Mat>> _workingMatsProcesses = new List<List<Mat>>();
-        private readonly List<PairIndices> _boxIndicesProcess = new List<PairIndices>();
         private int _currentProcessIndex = -1;
-
-        public sealed class PairIndices
-        {
-            public int LeftIndex;
-            public int RightIndex;
-
-            public PairIndices(int l, int r)
-            {
-                LeftIndex = l;
-                RightIndex = r;
-            }
-        }
 
         public MainForm()
         {
@@ -46,14 +33,7 @@ namespace opencv
             Mat none = ((Bitmap) _noneImage).ToMat();
             none.Resize(new Size(leftPictureBox.Height, leftPictureBox.Width));
             ShowMat(pb,none);
-            if (leftPictureBox == pb)
-            {
-                right_picture_label.Text = $@"第 {_currentProcessIndex + 1} 行 第 {BoxIndices.LeftIndex + 1} 列";
-            }
-            else
-            {
-                left_picture_label.Text = $@"第 {_currentProcessIndex + 1} 行 第 {BoxIndices.RightIndex + 1} 列";
-            }
+            
         }
 
         private readonly Image _noneImage =
@@ -62,7 +42,7 @@ namespace opencv
         // ReSharper disable once UnusedMember.Local
         private void NotImplemented()
         {
-            MessageBox.Show(@"为实现此功能");
+            MessageBox.Show(@"未实现此功能");
         }
 
         /// <summary>
@@ -84,61 +64,25 @@ namespace opencv
         }
 
         /// <summary>
-        /// 当前序列索引
-        /// </summary>
-        private PairIndices BoxIndices
-        {
-            get
-            {
-                if (_currentProcessIndex == -1)
-                {
-                    return new PairIndices(-1,-1);
-                }
-                else
-                {
-                    return _boxIndicesProcess[_currentProcessIndex];
-                }
-            }
-            // set
-            // {
-            //     if (_currentProcessIndex == -1)
-            //     {
-            //         throw new InvalidOperationException();
-            //     }
-            //     else
-            //     {
-            //         _boxIndicesProcess[_currentProcessIndex] = value;
-            //     }
-            // }
-        }
-
-        /// <summary>
         /// 当前处理左图片
         /// </summary>
         private Mat WorkingLeftMat
         {
             get
             {
-                if (BoxIndices.LeftIndex >= WorkingMats.Count || BoxIndices.LeftIndex < 0)
+                if (WorkingMats.Count == 0)
                 {
                     return ((Bitmap)_noneImage).ToMat();
                 }
+                else if(WorkingMats.Count == 1)
+                {
+                    return WorkingMats[0];
+                }
                 else
                 {
-                    return WorkingMats[BoxIndices.LeftIndex];
+                    return WorkingMats[^2];//[-2]
                 }
             }
-            // set
-            // {
-            //     if (BoxIndices.LeftIndex >= WorkingMats.Count || BoxIndices.LeftIndex < 0)
-            //     {
-            //         throw new InvalidOperationException();
-            //     }
-            //     else
-            //     {
-            //         WorkingMats[BoxIndices.LeftIndex] = value;
-            //     }
-            // }
         }
 
         /// <summary>
@@ -148,26 +92,16 @@ namespace opencv
         {
             get
             {
-                if (BoxIndices.RightIndex >= WorkingMats.Count || BoxIndices.RightIndex < 0)
+                if (WorkingMats.Count <= 1)
                 {
                     return ((Bitmap)_noneImage).ToMat();
                 }
                 else
                 {
-                    return WorkingMats[BoxIndices.RightIndex];
+                    return WorkingMats[^1];
                 }
             }
-            // set
-            // {
-            //     if (BoxIndices.RightIndex >= WorkingMats.Count || BoxIndices.RightIndex < 0)
-            //     {
-            //         throw new InvalidOperationException();
-            //     }
-            //     else
-            //     {
-            //         WorkingMats[BoxIndices.RightIndex] = value;
-            //     }
-            // }
+
         }
 
         /// <summary>
@@ -180,12 +114,12 @@ namespace opencv
             pb.Image = GetBoxFittedMat(m).ToBitmap();
             if (leftPictureBox == pb)
             {
-                left_picture_label.Text = $@"第 {_currentProcessIndex + 1} 行 第 {BoxIndices.LeftIndex + 1} 列";
+                leftPictureLabel.Text = $@"第 {_currentProcessIndex + 1} 行 第 {WorkingMats.Count - 1} 列";
                 leftPictureSize.Text = $@"H:{m.Height} W:{m.Width}";
             }
-            else
+            else if(rightPictureBox == pb)
             {
-                right_picture_label.Text = $@"第 {_currentProcessIndex + 1} 行 第 {BoxIndices.RightIndex + 1} 列";
+                rightPictureLabel.Text = $@"第 {_currentProcessIndex + 1} 行 第 {WorkingMats.Count} 列";
                 rightPictureSize.Text = $@"H:{m.Height} W:{m.Width}";
             }
         }
@@ -311,13 +245,6 @@ namespace opencv
         private void AddImageToListAndShow(Mat img)
         {
             WorkingMats.Add(img);
-
-            if (WorkingMats.Count >= 3)
-            {
-                BoxIndices.LeftIndex++;
-                BoxIndices.RightIndex++;
-            }
-
             ShowMat(leftPictureBox, WorkingLeftMat);
             ShowMat(rightPictureBox, WorkingRightMat);
         }
@@ -349,7 +276,6 @@ namespace opencv
             {
                  _currentProcessIndex++;
                 _workingMatsProcesses.Add(new List<Mat>());
-                _boxIndicesProcess.Add(new PairIndices(0,1));
 
                 LoadNoneImg(rightPictureBox);
 
@@ -374,7 +300,6 @@ namespace opencv
             if (dialogRes == DialogResult.OK)
             {
                 _workingMatsProcesses.RemoveAt(_currentProcessIndex);
-                _boxIndicesProcess.RemoveAt(_currentProcessIndex);
                 _currentProcessIndex--;
                 if (_currentProcessIndex == -1)
                 {
@@ -467,7 +392,7 @@ namespace opencv
         }
 
         /// <summary>
-        /// 撤销
+        /// 删除当前图片
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -479,17 +404,9 @@ namespace opencv
                 var res = checkWindow.ShowDialog();
                 if (res == DialogResult.OK)
                 {
-                    if (WorkingMats.Count == 2)
+                    if (WorkingMats.Count >= 1)
                     {
-                        WorkingMats.RemoveAt(BoxIndices.RightIndex);
-                        ShowMat(leftPictureBox, WorkingLeftMat);
-                        ShowMat(rightPictureBox, WorkingRightMat);
-                    }
-                    else if (WorkingMats.Count > 2)
-                    {
-                        WorkingMats.RemoveAt(BoxIndices.RightIndex);
-                        BoxIndices.LeftIndex--;
-                        BoxIndices.RightIndex--;
+                        WorkingMats.RemoveAt(WorkingMats.Count-1);
                         ShowMat(leftPictureBox, WorkingLeftMat);
                         ShowMat(rightPictureBox, WorkingRightMat);
                     }
@@ -498,13 +415,13 @@ namespace opencv
         }
 
         /// <summary>
-        /// 查看图片序列
+        /// 图片序列
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ImagesListButton_Click(object sender, EventArgs e)
         {
-            var imagesForm = new ImagesListForm(WorkingMats,_boxIndicesProcess[_currentProcessIndex]);
+            var imagesForm = new ImagesListForm(WorkingMats);
             imagesForm.ShowDialog();
         }
 
@@ -532,13 +449,16 @@ namespace opencv
                         }
                         break;
                     case Keys.S:
-                        if (BoxIndices.RightIndex < WorkingMats.Count)
+                        if (saveSecondFileButton.Enabled)
                         {
-                            SaveSecondButton_Click(this, EventArgs.Empty);
-                        }
-                        else
-                        {
-                            MessageBox.Show(@"不能保存空图片");
+                            if (WorkingMats.Count >= 2)
+                            {
+                                SaveSecondButton_Click(this, EventArgs.Empty);
+                            }
+                            else
+                            {
+                                MessageBox.Show(@"不能保存空图片");
+                            }
                         }
                         break;
                     case Keys.Z:
@@ -627,29 +547,14 @@ namespace opencv
             {
                 var originImg = GetImageToProcess();
                 var addNoiseImg = originImg.Clone();
-                var imgIndexer = addNoiseImg.GetGenericIndexer<Vec3b>();
                 
                 Mat rand = Mat.Zeros(new Size(addNoiseImg.Height, addNoiseImg.Width), addNoiseImg.Type());
                 rand.Randu(0, 255);
-                var rand3B = new Mat<Vec3b>(rand);
-                var randIndexer = rand3B.GetIndexer();
-                
-                for (int h = 0; h < rand3B.Height; h++)
-                {
-                    for (int w = 0; w < rand3B.Width; w++)
-                    {
-                        Vec3b randPixel = randIndexer[h, w];
-                        Vec3b imgPixel = imgIndexer[h, w];
-                        if (randPixel.Item0 >= inputWindow.High)
-                        {
-                            imgIndexer[h, w] = new Vec3b(255, imgPixel.Item1, imgPixel.Item2);
-                        }
-                        else if (randPixel.Item0 <= inputWindow.Low)
-                        {
-                            imgIndexer[h, w] = new Vec3b(0, imgPixel.Item1, imgPixel.Item2);
-                        }
-                    }
-                }
+                Mat white = rand.LessThanOrEqual(inputWindow.Low);
+                Mat black = rand.GreaterThanOrEqual(inputWindow.High);
+
+                addNoiseImg += black;
+                addNoiseImg -= white;
 
                 AddImageToListAndShow(addNoiseImg);
             }
@@ -749,11 +654,11 @@ namespace opencv
             MessageBox.Show("ctrl + ↑: 上一个工作序列\n" +
                             "ctrl + ↓: 下一个工作序列\n" + 
                             "ctrl + s: 保存第二张图片\n" + 
-                            "ctrl + z: 撤销一次处理操作\n" +
+                            "ctrl + z: 撤销处理操作\n" +
                             "ctrl + o: 覆盖上一张图片\n" +
-                            "alt + v: 查看处理历史\n" + 
-                            "ctrl + ←: 处理历史向左翻页\n" + 
-                            "ctrl + →: 处理历史向右翻页\n" + 
+                            "alt + v: 查看图片序列\n" + 
+                            "ctrl + ←: 图片序列向左翻页\n" +
+                            "ctrl + →: 图片序列向右翻页\n" + 
                             "ESC: 关闭窗口");
         }
 
@@ -768,18 +673,9 @@ namespace opencv
             var dialogRes = warnWindow.ShowDialog();
             if (dialogRes == DialogResult.OK)
             {
-                if (WorkingMats.Count == 2)
+                if (WorkingMats.Count >= 2)
                 {
-                    WorkingMats.RemoveAt(0);
-                    ShowMat(leftPictureBox, WorkingLeftMat);
-                    ShowMat(rightPictureBox, WorkingRightMat);
-                }
-
-                else if (WorkingMats.Count > 2)
-                {
-                    WorkingMats.RemoveAt(BoxIndices.LeftIndex);
-                    BoxIndices.LeftIndex--;
-                    BoxIndices.RightIndex--;
+                    WorkingMats.RemoveAt(WorkingMats.Count - 2);
                     ShowMat(leftPictureBox, WorkingLeftMat);
                     ShowMat(rightPictureBox, WorkingRightMat);
                 }
@@ -809,15 +705,43 @@ namespace opencv
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void LaplacianSharpen_Click(object sender, EventArgs e)
+        private void LaplacianSharpenButton_Click(object sender, EventArgs e)
         {
-            var originImg = GetImageToProcess();
-            Mat newOriginImg = new Mat(originImg.Size(),MatType.CV_16S);
-            originImg.ConvertTo(newOriginImg,MatType.CV_16S);
-            Mat sharpenImg = newOriginImg + originImg.Laplacian(MatType.CV_16S);
-            Mat resSharpenImg = new Mat(sharpenImg.Size(), MatType.CV_8U);
-            sharpenImg.ConvertTo(resSharpenImg, MatType.CV_8U);
-            AddImageToListAndShow(resSharpenImg);
+            var inputWindow = new CoefficientAlphaPopUp();
+            var dialogRes = inputWindow.ShowDialog();
+            if (dialogRes == DialogResult.OK)
+            {
+                var originImg = GetImageToProcess();
+                Mat newOriginImg = new Mat(originImg.Size(), MatType.CV_16S);
+                originImg.ConvertTo(newOriginImg, MatType.CV_16S);
+                // why minus works?
+                Mat sharpenImg = newOriginImg - originImg.Laplacian(MatType.CV_16S) * inputWindow.Alpha;
+                Mat resSharpenImg = new Mat(sharpenImg.Size(), MatType.CV_8U);
+                sharpenImg.ConvertTo(resSharpenImg, MatType.CV_8U);
+                AddImageToListAndShow(resSharpenImg);
+            }
+        }
+
+        /// <summary>
+        /// Sobel锐化
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SobelSharpenButton_Click(object sender, EventArgs e)
+        {
+            var w = new SobelCoefficientPopUp();
+            var dialogRes = w.ShowDialog();
+            if (dialogRes == DialogResult.OK)
+            {
+                var img = GetImageToProcess();
+                Mat newImg = new Mat(img.Size(), MatType.CV_16S);
+                img.ConvertTo(newImg, MatType.CV_16S);
+                // there plus works ?!
+                Mat sharpenImg = newImg + img.Sobel(MatType.CV_16S, w.XOrder,w.YOrder,w.WindowSize) * w.Alpha;
+                Mat resSharpenImg = new Mat(sharpenImg.Size(), MatType.CV_8U);
+                sharpenImg.ConvertTo(resSharpenImg, MatType.CV_8U);
+                AddImageToListAndShow(resSharpenImg);
+            }
         }
     }
 }

@@ -35,8 +35,8 @@
             this.pictureRightClickMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.rightClickSave = new System.Windows.Forms.ToolStripMenuItem();
             this.rightPictureBox = new System.Windows.Forms.PictureBox();
-            this.right_picture_label = new System.Windows.Forms.Label();
-            this.left_picture_label = new System.Windows.Forms.Label();
+            this.rightPictureLabel = new System.Windows.Forms.Label();
+            this.leftPictureLabel = new System.Windows.Forms.Label();
             this.upButton = new System.Windows.Forms.Button();
             this.downButton = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -61,6 +61,7 @@
             this.gaussianFilter = new System.Windows.Forms.ToolStripMenuItem();
             this.sharpenButton = new System.Windows.Forms.ToolStripMenuItem();
             this.LaplacianSharpenButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.SobelSharpenButton = new System.Windows.Forms.ToolStripMenuItem();
             this.barUniformButton = new System.Windows.Forms.ToolStripMenuItem();
             this.edgeButton = new System.Windows.Forms.ToolStripMenuItem();
             this.segButton = new System.Windows.Forms.ToolStripMenuItem();
@@ -120,23 +121,23 @@
             this.rightPictureBox.TabIndex = 2;
             this.rightPictureBox.TabStop = false;
             // 
-            // right_picture_label
+            // rightPictureLabel
             // 
-            this.right_picture_label.AutoSize = true;
-            this.right_picture_label.Location = new System.Drawing.Point(518, 36);
-            this.right_picture_label.Name = "right_picture_label";
-            this.right_picture_label.Size = new System.Drawing.Size(90, 17);
-            this.right_picture_label.TabIndex = 5;
-            this.right_picture_label.Text = "第 0 行 第 0 列";
+            this.rightPictureLabel.AutoSize = true;
+            this.rightPictureLabel.Location = new System.Drawing.Point(518, 36);
+            this.rightPictureLabel.Name = "rightPictureLabel";
+            this.rightPictureLabel.Size = new System.Drawing.Size(90, 17);
+            this.rightPictureLabel.TabIndex = 5;
+            this.rightPictureLabel.Text = "第 0 行 第 0 列";
             // 
-            // left_picture_label
+            // leftPictureLabel
             // 
-            this.left_picture_label.AutoSize = true;
-            this.left_picture_label.Location = new System.Drawing.Point(147, 36);
-            this.left_picture_label.Name = "left_picture_label";
-            this.left_picture_label.Size = new System.Drawing.Size(90, 17);
-            this.left_picture_label.TabIndex = 6;
-            this.left_picture_label.Text = "第 0 行 第 0 列";
+            this.leftPictureLabel.AutoSize = true;
+            this.leftPictureLabel.Location = new System.Drawing.Point(147, 36);
+            this.leftPictureLabel.Name = "leftPictureLabel";
+            this.leftPictureLabel.Size = new System.Drawing.Size(90, 17);
+            this.leftPictureLabel.TabIndex = 6;
+            this.leftPictureLabel.Text = "第 0 行 第 0 列";
             // 
             // upButton
             // 
@@ -318,8 +319,8 @@
             this.medianFilter,
             this.gaussianFilter});
             this.blurButton.Name = "blurButton";
-            this.blurButton.Size = new System.Drawing.Size(148, 22);
-            this.blurButton.Text = "平滑";
+            this.blurButton.Size = new System.Drawing.Size(158, 22);
+            this.blurButton.Text = "平滑/模糊/去噪";
             // 
             // averageFilter
             // 
@@ -345,9 +346,10 @@
             // sharpenButton
             // 
             this.sharpenButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.LaplacianSharpenButton});
+            this.LaplacianSharpenButton,
+            this.SobelSharpenButton});
             this.sharpenButton.Name = "sharpenButton";
-            this.sharpenButton.Size = new System.Drawing.Size(148, 22);
+            this.sharpenButton.Size = new System.Drawing.Size(158, 22);
             this.sharpenButton.Text = "锐化";
             // 
             // LaplacianSharpenButton
@@ -355,12 +357,19 @@
             this.LaplacianSharpenButton.Name = "LaplacianSharpenButton";
             this.LaplacianSharpenButton.Size = new System.Drawing.Size(130, 22);
             this.LaplacianSharpenButton.Text = "Laplacian";
-            this.LaplacianSharpenButton.Click += new System.EventHandler(this.LaplacianSharpen_Click);
+            this.LaplacianSharpenButton.Click += new System.EventHandler(this.LaplacianSharpenButton_Click);
+            // 
+            // SobelSharpenButton
+            // 
+            this.SobelSharpenButton.Name = "SobelSharpenButton";
+            this.SobelSharpenButton.Size = new System.Drawing.Size(130, 22);
+            this.SobelSharpenButton.Text = "Sobel";
+            this.SobelSharpenButton.Click += new System.EventHandler(this.SobelSharpenButton_Click);
             // 
             // barUniformButton
             // 
             this.barUniformButton.Name = "barUniformButton";
-            this.barUniformButton.Size = new System.Drawing.Size(148, 22);
+            this.barUniformButton.Size = new System.Drawing.Size(158, 22);
             this.barUniformButton.Text = "直方图均匀化";
             this.barUniformButton.Click += new System.EventHandler(this.BarUniformButton_Click);
             // 
@@ -447,8 +456,8 @@
             this.Controls.Add(this.leftPictureSize);
             this.Controls.Add(this.downButton);
             this.Controls.Add(this.upButton);
-            this.Controls.Add(this.left_picture_label);
-            this.Controls.Add(this.right_picture_label);
+            this.Controls.Add(this.leftPictureLabel);
+            this.Controls.Add(this.rightPictureLabel);
             this.Controls.Add(this.rightPictureBox);
             this.Controls.Add(this.leftPictureBox);
             this.Controls.Add(this.menuStrip1);
@@ -472,8 +481,8 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.PictureBox leftPictureBox;
         private System.Windows.Forms.PictureBox rightPictureBox;
-        private System.Windows.Forms.Label right_picture_label;
-        private System.Windows.Forms.Label left_picture_label;
+        private System.Windows.Forms.Label rightPictureLabel;
+        private System.Windows.Forms.Label leftPictureLabel;
         private System.Windows.Forms.Button upButton;
         private System.Windows.Forms.Button downButton;
         private System.Windows.Forms.MenuStrip menuStrip1;
@@ -487,17 +496,14 @@
         private System.Windows.Forms.ToolStripMenuItem segButton;
         private System.Windows.Forms.ToolStripMenuItem DFTButton;
         private System.Windows.Forms.ToolStripMenuItem preProcessButton;
-        private System.Windows.Forms.ToolStripMenuItem pre_gray;
         private System.Windows.Forms.ToolStripMenuItem addGaussianNoise;
         private System.Windows.Forms.ToolStripMenuItem waveletButton;
         private System.Windows.Forms.ToolStripMenuItem featureDetectButton;
         private System.Windows.Forms.ToolStripMenuItem objectRecognizeButton;
         private System.Windows.Forms.ToolStripMenuItem colorFortifyButton;
-        private System.Windows.Forms.ToolStripMenuItem add_uni_noise;
         private System.Windows.Forms.ToolStripMenuItem clearButton;
         private System.Windows.Forms.ToolStripMenuItem reverseButton;
         private System.Windows.Forms.ToolStripMenuItem imagesListButton;
-        private System.Windows.Forms.ToolStripMenuItem add_impulse_noise;
         private System.Windows.Forms.Label leftPictureSize;
         private System.Windows.Forms.Label rightPictureSize;
         private System.Windows.Forms.ContextMenuStrip pictureRightClickMenu;
@@ -514,6 +520,7 @@
         private System.Windows.Forms.ToolStripMenuItem gaussianFilter;
         private System.Windows.Forms.ToolStripMenuItem sharpenButton;
         private System.Windows.Forms.ToolStripMenuItem LaplacianSharpenButton;
+        private System.Windows.Forms.ToolStripMenuItem SobelSharpenButton;
     }
 }
 
