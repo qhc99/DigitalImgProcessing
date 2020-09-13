@@ -77,12 +77,12 @@
             this.GaussianThresholdSegButton = new System.Windows.Forms.ToolStripMenuItem();
             this.OtsuSegButton = new System.Windows.Forms.ToolStripMenuItem();
             this.transformButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.DFTTransformButton = new System.Windows.Forms.ToolStripMenuItem();
             this.featureDetectButton = new System.Windows.Forms.ToolStripMenuItem();
             this.objectRecognizeButton = new System.Windows.Forms.ToolStripMenuItem();
             this.shortCutHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.leftPictureSize = new System.Windows.Forms.Label();
             this.rightPictureSize = new System.Windows.Forms.Label();
-            this.DFTTransformButton = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.leftPictureBox)).BeginInit();
             this.pictureRightClickMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rightPictureBox)).BeginInit();
@@ -486,6 +486,13 @@
             this.transformButton.Size = new System.Drawing.Size(68, 21);
             this.transformButton.Text = "图像变换";
             // 
+            // DFTTransformButton
+            // 
+            this.DFTTransformButton.Name = "DFTTransformButton";
+            this.DFTTransformButton.Size = new System.Drawing.Size(136, 22);
+            this.DFTTransformButton.Text = "傅里叶变换";
+            this.DFTTransformButton.Click += new System.EventHandler(this.DFTTransformButton_Click);
+            // 
             // featureDetectButton
             // 
             this.featureDetectButton.Enabled = false;
@@ -524,12 +531,6 @@
             this.rightPictureSize.Size = new System.Drawing.Size(39, 17);
             this.rightPictureSize.TabIndex = 13;
             this.rightPictureSize.Text = "H: W:";
-            // 
-            // DFTTransformButton
-            // 
-            this.DFTTransformButton.Name = "DFTTransformButton";
-            this.DFTTransformButton.Size = new System.Drawing.Size(136, 22);
-            this.DFTTransformButton.Text = "傅里叶变换";
             // 
             // MainForm
             // 

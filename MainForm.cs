@@ -907,5 +907,39 @@ namespace opencv
             }
             AddImageToListAndShow(otsuImg);
         }
+
+        /// <summary>
+        /// 傅里叶变换
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DFTTransformButton_Click(object sender, EventArgs e)
+        {
+            // var img = GetImageToProcess();
+            // var f64Img = new Mat(img.Size(), MatType.CV_64FC1);
+            // img.ConvertTo(f64Img, MatType.CV_64FC1);
+            //
+            // Mat dftImg;
+            // try
+            // {
+            //     dftImg = f64Img.Dft();
+            // }
+            // catch (OpenCVException)
+            // {
+            //     MessageBox.Show(@"非灰度化图像");
+            //     return;
+            // }
+            //
+            // Mat resDftImg = new Mat(dftImg.Size(),MatType.CV_8U);
+            // dftImg.ConvertTo(resDftImg,MatType.CV_8U);
+            //
+            // AddImageToListAndShow(resDftImg);
+
+            //TODO Implement this
+            var img = GetImageToProcess();
+            var size = img.Size();
+            int rows = size.Height, cols = size.Width;
+            int m = Cv2.GetOptimalDFTSize(rows), n = Cv2.GetOptimalDFTSize(cols);
+        }
     }
 }

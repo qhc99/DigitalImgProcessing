@@ -13,6 +13,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\icon.ico" />
+    <None Remove="Resources\none.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\none.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="OpenCvSharp4" Version="4.4.0.20200725" />
     <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.4.0.20200725" />
   </ItemGroup>
