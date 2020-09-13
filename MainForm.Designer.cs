@@ -59,6 +59,8 @@
             this.averageFilter = new System.Windows.Forms.ToolStripMenuItem();
             this.medianFilter = new System.Windows.Forms.ToolStripMenuItem();
             this.gaussianFilter = new System.Windows.Forms.ToolStripMenuItem();
+            this.sharpenButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.LaplacianSharpenButton = new System.Windows.Forms.ToolStripMenuItem();
             this.barUniformButton = new System.Windows.Forms.ToolStripMenuItem();
             this.edgeButton = new System.Windows.Forms.ToolStripMenuItem();
             this.segButton = new System.Windows.Forms.ToolStripMenuItem();
@@ -302,6 +304,7 @@
             // 
             this.fortifyButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.blurButton,
+            this.sharpenButton,
             this.barUniformButton});
             this.fortifyButton.Enabled = false;
             this.fortifyButton.Name = "fortifyButton";
@@ -338,6 +341,21 @@
             this.gaussianFilter.Size = new System.Drawing.Size(124, 22);
             this.gaussianFilter.Text = "高斯滤波";
             this.gaussianFilter.Click += new System.EventHandler(this.GaussianBlur_Click);
+            // 
+            // sharpenButton
+            // 
+            this.sharpenButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.LaplacianSharpenButton});
+            this.sharpenButton.Name = "sharpenButton";
+            this.sharpenButton.Size = new System.Drawing.Size(148, 22);
+            this.sharpenButton.Text = "锐化";
+            // 
+            // LaplacianSharpenButton
+            // 
+            this.LaplacianSharpenButton.Name = "LaplacianSharpenButton";
+            this.LaplacianSharpenButton.Size = new System.Drawing.Size(130, 22);
+            this.LaplacianSharpenButton.Text = "Laplacian";
+            this.LaplacianSharpenButton.Click += new System.EventHandler(this.LaplacianSharpen_Click);
             // 
             // barUniformButton
             // 
@@ -494,6 +512,8 @@
         private System.Windows.Forms.ToolStripMenuItem averageFilter;
         private System.Windows.Forms.ToolStripMenuItem medianFilter;
         private System.Windows.Forms.ToolStripMenuItem gaussianFilter;
+        private System.Windows.Forms.ToolStripMenuItem sharpenButton;
+        private System.Windows.Forms.ToolStripMenuItem LaplacianSharpenButton;
     }
 }
 

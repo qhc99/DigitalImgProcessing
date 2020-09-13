@@ -59,6 +59,7 @@ namespace opencv
         private readonly Image _noneImage =
             Image.FromFile(Directory.GetCurrentDirectory() + "..\\..\\..\\..\\Resources\\none.jpg");
 
+        // ReSharper disable once UnusedMember.Local
         private void NotImplemented()
         {
             MessageBox.Show(@"为实现此功能");
@@ -67,7 +68,20 @@ namespace opencv
         /// <summary>
         /// 当前图片序列
         /// </summary>
-        private List<Mat> WorkingMats => _workingMatsProcesses[_currentProcessIndex];
+        private List<Mat> WorkingMats
+        {
+            get
+            {
+                if (_currentProcessIndex == -1)
+                {
+                    return new List<Mat>();
+                }
+                else
+                {
+                    return _workingMatsProcesses[_currentProcessIndex];
+                }
+            }
+        }
 
         /// <summary>
         /// 当前序列索引
@@ -85,17 +99,17 @@ namespace opencv
                     return _boxIndicesProcess[_currentProcessIndex];
                 }
             }
-            set
-            {
-                if (_currentProcessIndex == -1)
-                {
-                    throw new InvalidOperationException();
-                }
-                else
-                {
-                    _boxIndicesProcess[_currentProcessIndex] = value;
-                }
-            }
+            // set
+            // {
+            //     if (_currentProcessIndex == -1)
+            //     {
+            //         throw new InvalidOperationException();
+            //     }
+            //     else
+            //     {
+            //         _boxIndicesProcess[_currentProcessIndex] = value;
+            //     }
+            // }
         }
 
         /// <summary>
@@ -114,17 +128,17 @@ namespace opencv
                     return WorkingMats[BoxIndices.LeftIndex];
                 }
             }
-            set
-            {
-                if (BoxIndices.LeftIndex >= WorkingMats.Count || BoxIndices.LeftIndex < 0)
-                {
-                    throw new InvalidOperationException();
-                }
-                else
-                {
-                    WorkingMats[BoxIndices.LeftIndex] = value;
-                }
-            }
+            // set
+            // {
+            //     if (BoxIndices.LeftIndex >= WorkingMats.Count || BoxIndices.LeftIndex < 0)
+            //     {
+            //         throw new InvalidOperationException();
+            //     }
+            //     else
+            //     {
+            //         WorkingMats[BoxIndices.LeftIndex] = value;
+            //     }
+            // }
         }
 
         /// <summary>
@@ -143,17 +157,17 @@ namespace opencv
                     return WorkingMats[BoxIndices.RightIndex];
                 }
             }
-            set
-            {
-                if (BoxIndices.RightIndex >= WorkingMats.Count || BoxIndices.RightIndex < 0)
-                {
-                    throw new InvalidOperationException();
-                }
-                else
-                {
-                    WorkingMats[BoxIndices.RightIndex] = value;
-                }
-            }
+            // set
+            // {
+            //     if (BoxIndices.RightIndex >= WorkingMats.Count || BoxIndices.RightIndex < 0)
+            //     {
+            //         throw new InvalidOperationException();
+            //     }
+            //     else
+            //     {
+            //         WorkingMats[BoxIndices.RightIndex] = value;
+            //     }
+            // }
         }
 
         /// <summary>
@@ -471,7 +485,7 @@ namespace opencv
                         ShowMat(leftPictureBox, WorkingLeftMat);
                         ShowMat(rightPictureBox, WorkingRightMat);
                     }
-                    if (WorkingMats.Count > 2)
+                    else if (WorkingMats.Count > 2)
                     {
                         WorkingMats.RemoveAt(BoxIndices.RightIndex);
                         BoxIndices.LeftIndex--;
@@ -705,16 +719,22 @@ namespace opencv
         /// <param name="e"></param>
         private void RightClickSave_Click(object sender, EventArgs e)
         {
-            if (sender is ContextMenuStrip owner)
+            // Try to cast the sender to a ToolStripItem
+            if (sender is ToolStripItem menuItem)
             {
-                Control sourceControl = owner.SourceControl;
-                if (sourceControl == leftPictureBox && WorkingMats.Count >= 1)
+                // Retrieve the ContextMenuStrip that owns this ToolStripItem
+                if (menuItem.Owner is ContextMenuStrip owner)
                 {
-                    SaveMat(WorkingLeftMat);
-                }
-                else if (sourceControl == rightPictureBox && WorkingMats.Count >= 2)
-                {
-                    SaveMat(WorkingRightMat);
+                    // Get the control that is displaying this context menu
+                    Control sourceControl = owner.SourceControl;
+                    if (sourceControl == leftPictureBox && WorkingMats.Count >= 1)
+                    {
+                        SaveFirstButton_Click(this,EventArgs.Empty);
+                    }
+                    else if (sourceControl == rightPictureBox && WorkingMats.Count >= 2)
+                    {
+                        SaveSecondButton_Click(this,EventArgs.Empty);
+                    }
                 }
             }
         }
@@ -755,7 +775,7 @@ namespace opencv
                     ShowMat(rightPictureBox, WorkingRightMat);
                 }
 
-                if (WorkingMats.Count > 2)
+                else if (WorkingMats.Count > 2)
                 {
                     WorkingMats.RemoveAt(BoxIndices.LeftIndex);
                     BoxIndices.LeftIndex--;
@@ -782,6 +802,22 @@ namespace opencv
             {
                 MessageBox.Show(@"非灰度图像");
             }
+        }
+
+        /// <summary>
+        /// Laplacian锐化
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void LaplacianSharpen_Click(object sender, EventArgs e)
+        {
+            var originImg = GetImageToProcess();
+            Mat newOriginImg = new Mat(originImg.Size(),MatType.CV_16S);
+            originImg.ConvertTo(newOriginImg,MatType.CV_16S);
+            Mat sharpenImg = newOriginImg + originImg.Laplacian(MatType.CV_16S);
+            Mat resSharpenImg = new Mat(sharpenImg.Size(), MatType.CV_8U);
+            sharpenImg.ConvertTo(resSharpenImg, MatType.CV_8U);
+            AddImageToListAndShow(resSharpenImg);
         }
     }
 }
