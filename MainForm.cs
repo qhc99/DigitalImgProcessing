@@ -895,7 +895,16 @@ namespace opencv
         private void OtsuSegButton_Click(object sender, EventArgs e)
         {
             var img = GetImageToProcess();
-            var otsuImg = img.Threshold(0, 255, ThresholdTypes.Binary & ThresholdTypes.Otsu);
+            Mat otsuImg;
+            try
+            {
+                otsuImg = img.Threshold(0, 255, ThresholdTypes.Binary | ThresholdTypes.Otsu);
+            }
+            catch (OpenCVException)
+            {
+                MessageBox.Show(@"非灰度化图像");
+                return;
+            }
             AddImageToListAndShow(otsuImg);
         }
     }
