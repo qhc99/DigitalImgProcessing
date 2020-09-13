@@ -162,10 +162,10 @@ namespace opencv
             fortifyButton.Enabled = true;
             edgeButton.Enabled = true;
             thresholdSegButton.Enabled = true;
-            DFTButton.Enabled = true;
+            transformButton.Enabled = true;
             saveSecondFileButton.Enabled = true;
             saveFirstFileButton.Enabled = true;
-            waveletButton.Enabled = true;
+            transformButton.Enabled = true;
             featureDetectButton.Enabled = true;
             objectRecognizeButton.Enabled = true;
             pseudoColorFortifyButton.Enabled = true;
@@ -188,10 +188,10 @@ namespace opencv
             fortifyButton.Enabled = false;
             edgeButton.Enabled = false;
             thresholdSegButton.Enabled = false;
-            DFTButton.Enabled = false;
+            transformButton.Enabled = false;
             saveSecondFileButton.Enabled = false;
             saveFirstFileButton.Enabled = false;
-            waveletButton.Enabled = false;
+            transformButton.Enabled = false;
             featureDetectButton.Enabled = false;
             objectRecognizeButton.Enabled = false;
             pseudoColorFortifyButton.Enabled = false;

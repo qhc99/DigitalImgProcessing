@@ -76,13 +76,13 @@
             this.meanThresholdSegButton = new System.Windows.Forms.ToolStripMenuItem();
             this.GaussianThresholdSegButton = new System.Windows.Forms.ToolStripMenuItem();
             this.OtsuSegButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.DFTButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.waveletButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.transformButton = new System.Windows.Forms.ToolStripMenuItem();
             this.featureDetectButton = new System.Windows.Forms.ToolStripMenuItem();
             this.objectRecognizeButton = new System.Windows.Forms.ToolStripMenuItem();
             this.shortCutHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.leftPictureSize = new System.Windows.Forms.Label();
             this.rightPictureSize = new System.Windows.Forms.Label();
+            this.DFTTransformButton = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.leftPictureBox)).BeginInit();
             this.pictureRightClickMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rightPictureBox)).BeginInit();
@@ -182,8 +182,7 @@
             this.fortifyButton,
             this.edgeButton,
             this.thresholdSegButton,
-            this.DFTButton,
-            this.waveletButton,
+            this.transformButton,
             this.featureDetectButton,
             this.objectRecognizeButton,
             this.shortCutHelp});
@@ -478,19 +477,14 @@
             this.OtsuSegButton.Text = "Otsu门限分割";
             this.OtsuSegButton.Click += new System.EventHandler(this.OtsuSegButton_Click);
             // 
-            // DFTButton
+            // transformButton
             // 
-            this.DFTButton.Enabled = false;
-            this.DFTButton.Name = "DFTButton";
-            this.DFTButton.Size = new System.Drawing.Size(80, 21);
-            this.DFTButton.Text = "傅里叶变换";
-            // 
-            // waveletButton
-            // 
-            this.waveletButton.Enabled = false;
-            this.waveletButton.Name = "waveletButton";
-            this.waveletButton.Size = new System.Drawing.Size(68, 21);
-            this.waveletButton.Text = "小波变换";
+            this.transformButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.DFTTransformButton});
+            this.transformButton.Enabled = false;
+            this.transformButton.Name = "transformButton";
+            this.transformButton.Size = new System.Drawing.Size(68, 21);
+            this.transformButton.Text = "图像变换";
             // 
             // featureDetectButton
             // 
@@ -530,6 +524,12 @@
             this.rightPictureSize.Size = new System.Drawing.Size(39, 17);
             this.rightPictureSize.TabIndex = 13;
             this.rightPictureSize.Text = "H: W:";
+            // 
+            // DFTTransformButton
+            // 
+            this.DFTTransformButton.Name = "DFTTransformButton";
+            this.DFTTransformButton.Size = new System.Drawing.Size(136, 22);
+            this.DFTTransformButton.Text = "傅里叶变换";
             // 
             // MainForm
             // 
@@ -579,10 +579,9 @@
         private System.Windows.Forms.ToolStripMenuItem fortifyButton;
         private System.Windows.Forms.ToolStripMenuItem edgeButton;
         private System.Windows.Forms.ToolStripMenuItem thresholdSegButton;
-        private System.Windows.Forms.ToolStripMenuItem DFTButton;
+        private System.Windows.Forms.ToolStripMenuItem transformButton;
         private System.Windows.Forms.ToolStripMenuItem preProcessButton;
         private System.Windows.Forms.ToolStripMenuItem addGaussianNoise;
-        private System.Windows.Forms.ToolStripMenuItem waveletButton;
         private System.Windows.Forms.ToolStripMenuItem featureDetectButton;
         private System.Windows.Forms.ToolStripMenuItem objectRecognizeButton;
         private System.Windows.Forms.ToolStripMenuItem clearButton;
@@ -617,6 +616,7 @@
         private System.Windows.Forms.ToolStripMenuItem meanThresholdSegButton;
         private System.Windows.Forms.ToolStripMenuItem GaussianThresholdSegButton;
         private System.Windows.Forms.ToolStripMenuItem OtsuSegButton;
+        private System.Windows.Forms.ToolStripMenuItem DFTTransformButton;
     }
 }
 
