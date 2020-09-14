@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
 using Size = OpenCvSharp.Size;
+using static opencv.ImageProcessing;
 
 namespace opencv
 {
@@ -595,17 +596,7 @@ namespace opencv
         private void GrayButton_Click(object sender, EventArgs e)
         {
             var originImg = GetImageToProcess();
-            Mat grayImg;
-            try
-            {
-                grayImg = originImg.CvtColor(ColorConversionCodes.BGR2GRAY, 1);
-            }
-            catch (OpenCVException)
-            {
-                //ignore
-                return;
-            }
-
+            var grayImg = ConvertToGrayMat(originImg);
             AddMatToListAndShow(grayImg);
         }
 

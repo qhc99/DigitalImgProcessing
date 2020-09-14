@@ -1,7 +1,8 @@
 ﻿using System;
-using OpenCvSharp.Extensions;
+using static opencv.ImageProcessing;
 using System.Windows.Forms;
 using OpenCvSharp;
+using OpenCvSharp.Extensions;
 
 namespace opencv
 {
@@ -33,7 +34,7 @@ namespace opencv
             {
                 capture.Read(image); // same as cvQueryFrame
                 if (image.Empty()) break; // 摄像头大小:480*640
-                pictureBox1.Image = image.ToBitmap();
+                pictureBox1.Image = FaceLocate(image).ToBitmap();
                 Cv2.WaitKey(30);
             }
 
