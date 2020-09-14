@@ -516,7 +516,7 @@ namespace opencv
                             "ctrl + s: 保存第二张图片\n" +
                             "ctrl + z: 撤销处理操作\n" +
                             "ctrl + o: 覆盖上一张图片\n" +
-                            "ctrl + ENTER: 弹窗确认"+
+                            "ctrl + ENTER: 弹窗确认" +
                             "ctrl + ←: 图片序列向左翻页\n" +
                             "ctrl + →: 图片序列向右翻页\n" +
                             "alt + v: 查看图片序列\n" +
@@ -607,19 +607,12 @@ namespace opencv
         /// <param name="e"></param>
         private void AddGaussianNoise_Click(object sender, EventArgs e)
         {
-            var inputWindow = new MeanVariancePopUp();
-            var dialogResult = inputWindow.ShowDialog();
-
-            if (dialogResult == DialogResult.OK)
+            try
             {
-                var originImg = GetImageToProcess();
-
-                Mat gNoise = new Mat(originImg.Size(), originImg.Type());
-                gNoise.Randn(inputWindow.Mean, inputWindow.Variance);
-
-                Mat workRes = originImg + gNoise;
-
-                AddMatToListAndShow(workRes);
+                AddMatToListAndShow(AddGaussianNoise(GetImageToProcess()));
+            }
+            catch (ProcessCanceledException)
+            {
             }
         }
 
@@ -630,17 +623,13 @@ namespace opencv
         /// <param name="e"></param>
         private void AddUniformNoise_Click(object sender, EventArgs e)
         {
-            var inputWindow = new UpperLowerLimitPopUp();
-            var dRest = inputWindow.ShowDialog();
-            if (dRest == DialogResult.OK)
+            try
             {
-                var originImg = GetImageToProcess();
+                AddMatToListAndShow(AddUniformNoise(GetImageToProcess()));
+            }
+            catch (ProcessCanceledException)
+            {
 
-                Mat uNoise = new Mat(originImg.Size(), originImg.Type());
-                uNoise.Randu(inputWindow.Low, inputWindow.High);
-                Mat workRes = originImg + uNoise;
-
-                AddMatToListAndShow(workRes);
             }
         }
 
@@ -649,24 +638,15 @@ namespace opencv
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void AddImpulseNoise_Click(object sender, EventArgs e)
+        private void AddSaltAndPepperNoise_Click(object sender, EventArgs e)
         {
-            var inputWindow = new UpperLowerLimitPopUp();
-            var dialogRes = inputWindow.ShowDialog();
-            if (dialogRes == DialogResult.OK)
+            try
             {
-                var originImg = GetImageToProcess();
-                var addNoiseImg = originImg.Clone();
+                AddMatToListAndShow(AddSaltAndPepperNoise(GetImageToProcess()));
+            }
+            catch (ProcessCanceledException)
+            {
 
-                Mat rand = Mat.Zeros(new Size(addNoiseImg.Height, addNoiseImg.Width), addNoiseImg.Type());
-                rand.Randu(0, 255);
-                Mat white = rand.LessThanOrEqual(inputWindow.Low);
-                Mat black = rand.GreaterThanOrEqual(inputWindow.High);
-
-                addNoiseImg -= black;
-                addNoiseImg += white;
-
-                AddMatToListAndShow(addNoiseImg);
             }
         }
 
@@ -677,19 +657,13 @@ namespace opencv
         /// <param name="e"></param>
         private void MedianBlur_Click(object sender, EventArgs e)
         {
-            var inputWindow = new RectangleBoxSizePopUp();
-            var dRes = inputWindow.ShowDialog();
-            if (dRes == DialogResult.OK)
+            try
             {
-                if (inputWindow.WindowSize % 2 == 0 || inputWindow.WindowSize < 3)
-                {
-                    MessageBox.Show(@"输入应为奇数并且>=3");
-                    return;
-                }
+                AddMatToListAndShow(MedianBlur(GetImageToProcess()));
+            }
+            catch (ProcessCanceledException)
+            {
 
-                var originImg = GetImageToProcess();
-                var blurImg = originImg.MedianBlur(inputWindow.WindowSize);
-                AddMatToListAndShow(blurImg);
             }
         }
 
@@ -700,13 +674,13 @@ namespace opencv
         /// <param name="e"></param>
         private void AverageBlur_Click(object sender, EventArgs e)
         {
-            var inputWindow = new BoxHeightWidthPopUp();
-            var dRes = inputWindow.ShowDialog();
-            if (dRes == DialogResult.OK)
+            try
             {
-                var originImg = GetImageToProcess();
-                var blurImg = originImg.Blur(new Size(inputWindow.H, inputWindow.W));
-                AddMatToListAndShow(blurImg);
+                AddMatToListAndShow(AverageBlur(GetImageToProcess()));
+            }
+            catch (ProcessCanceledException)
+            {
+
             }
         }
 
@@ -717,13 +691,13 @@ namespace opencv
         /// <param name="e"></param>
         private void GaussianBlur_Click(object sender, EventArgs e)
         {
-            var inputWindow = new BoxHeightWidthPopUp();
-            var dRes = inputWindow.ShowDialog();
-            if (dRes == DialogResult.OK)
+            try
             {
-                var originImg = GetImageToProcess();
-                var blurImg = originImg.GaussianBlur(new Size(inputWindow.H, inputWindow.W), 0);
-                AddMatToListAndShow(blurImg);
+                AddMatToListAndShow(GaussianBlur(GetImageToProcess()));
+            }
+            catch (ProcessCanceledException)
+            {
+
             }
         }
 
@@ -751,21 +725,16 @@ namespace opencv
         /// <param name="e"></param>
         private void LaplacianSharpenButton_Click(object sender, EventArgs e)
         {
-            var inputWindow = new CoefficientAlphaPopUp();
-            var dialogRes = inputWindow.ShowDialog();
-            if (dialogRes == DialogResult.OK)
+            try
             {
-                var originImg = GetImageToProcess();
-                Mat newOriginImg = new Mat(originImg.Size(), MatType.CV_16S);
-                originImg.ConvertTo(newOriginImg, MatType.CV_16S);
-                // why minus works?
-                Mat sharpenImg = newOriginImg - originImg.Laplacian(MatType.CV_16S) * inputWindow.Alpha;
-                Mat resSharpenImg = new Mat(sharpenImg.Size(), MatType.CV_8U);
-                sharpenImg.ConvertTo(resSharpenImg, MatType.CV_8U);
-                AddMatToListAndShow(resSharpenImg);
+                AddMatToListAndShow(LaplacianSharpen(GetImageToProcess()));
+            }
+            catch (ProcessCanceledException)
+            {
+
             }
         }
-
+        //TODO refactor below
         /// <summary>
         /// Sobel锐化
         /// </summary>

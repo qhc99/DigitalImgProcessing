@@ -27,7 +27,7 @@ namespace opencv
             button2.Enabled = true;
             button1.Enabled = false;
             using VideoCapture capture = new VideoCapture(0);
-            Mat image = new Mat();
+            using Mat image = new Mat();
             // When the movie playback reaches end, Mat.data becomes NULL.
             _opening = true;
             while (_opening) //q键
@@ -63,9 +63,10 @@ namespace opencv
             switch (e.KeyCode)
             {
                 case Keys.Q:
-                    button2_Click(this,EventArgs.Empty);
+                    button2_Click(this, EventArgs.Empty);
                     break;
             }
+
             if (e.Modifiers == Keys.Control)
             {
                 switch (e.KeyCode)

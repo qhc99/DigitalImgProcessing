@@ -54,7 +54,7 @@
             this.addNoiseButton = new System.Windows.Forms.ToolStripMenuItem();
             this.addGaussianNoise = new System.Windows.Forms.ToolStripMenuItem();
             this.addUniNoise = new System.Windows.Forms.ToolStripMenuItem();
-            this.addImpulseNoise = new System.Windows.Forms.ToolStripMenuItem();
+            this.addSaltAndPepperNoise = new System.Windows.Forms.ToolStripMenuItem();
             this.fortifyButton = new System.Windows.Forms.ToolStripMenuItem();
             this.blurButton = new System.Windows.Forms.ToolStripMenuItem();
             this.averageFilter = new System.Windows.Forms.ToolStripMenuItem();
@@ -287,7 +287,7 @@
             this.addNoiseButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addGaussianNoise,
             this.addUniNoise,
-            this.addImpulseNoise});
+            this.addSaltAndPepperNoise});
             this.addNoiseButton.Enabled = false;
             this.addNoiseButton.Name = "addNoiseButton";
             this.addNoiseButton.Size = new System.Drawing.Size(68, 21);
@@ -307,12 +307,12 @@
             this.addUniNoise.Text = "均匀噪声";
             this.addUniNoise.Click += new System.EventHandler(this.AddUniformNoise_Click);
             // 
-            // addImpulseNoise
+            // addSaltAndPepperNoise
             // 
-            this.addImpulseNoise.Name = "addImpulseNoise";
-            this.addImpulseNoise.Size = new System.Drawing.Size(124, 22);
-            this.addImpulseNoise.Text = "椒盐噪声";
-            this.addImpulseNoise.Click += new System.EventHandler(this.AddImpulseNoise_Click);
+            this.addSaltAndPepperNoise.Name = "addSaltAndPepperNoise";
+            this.addSaltAndPepperNoise.Size = new System.Drawing.Size(124, 22);
+            this.addSaltAndPepperNoise.Text = "椒盐噪声";
+            this.addSaltAndPepperNoise.Click += new System.EventHandler(this.AddSaltAndPepperNoise_Click);
             // 
             // fortifyButton
             // 
@@ -641,7 +641,7 @@
         private System.Windows.Forms.ToolStripMenuItem overwriteButton;
         private System.Windows.Forms.ToolStripMenuItem grayButton;
         private System.Windows.Forms.ToolStripMenuItem addUniNoise;
-        private System.Windows.Forms.ToolStripMenuItem addImpulseNoise;
+        private System.Windows.Forms.ToolStripMenuItem addSaltAndPepperNoise;
         private System.Windows.Forms.ToolStripMenuItem barUniformButton;
         private System.Windows.Forms.ToolStripMenuItem blurButton;
         private System.Windows.Forms.ToolStripMenuItem averageFilter;
