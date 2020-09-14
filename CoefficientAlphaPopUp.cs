@@ -39,9 +39,15 @@ namespace opencv
                 case Keys.Escape:
                     Close();
                     break;
-                case Keys.Enter:
-                    button1_Click(this, EventArgs.Empty);
-                    break;
+            }
+            if (e.Modifiers == Keys.Control)
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.Enter:
+                        button1_Click(this, EventArgs.Empty);
+                        break;
+                }
             }
         }
     }

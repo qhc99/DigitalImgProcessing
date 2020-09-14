@@ -34,7 +34,7 @@ namespace opencv
         }
 
         private readonly Mat _noneMat =
-            ((Bitmap)Image.FromFile(Directory.GetCurrentDirectory() + "..\\..\\..\\..\\Resources\\none.jpg")).ToMat();
+            ((Bitmap) Image.FromFile(Directory.GetCurrentDirectory() + "..\\..\\..\\..\\Resources\\none.jpg")).ToMat();
 
         // ReSharper disable once UnusedMember.Local
         private void NotImplemented()
@@ -127,7 +127,7 @@ namespace opencv
             {
                 return m.Resize(new Size(row, col), 0, 0, InterpolationFlags.Cubic);
             }
-            catch(OpenCVException)
+            catch (OpenCVException)
             {
                 MessageBox.Show(@"只能打开图片文件");
                 return _noneMat;
@@ -323,28 +323,6 @@ namespace opencv
         }
 
         /// <summary>
-        /// 灰度化
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void GrayButton_Click(object sender, EventArgs e)
-        {
-            var originImg = GetImageToProcess();
-            Mat grayImg;
-            try
-            {
-                grayImg = originImg.CvtColor(ColorConversionCodes.BGR2GRAY, 1);
-            }
-            catch (OpenCVException)
-            {
-                //ignore
-                return;
-            }
-
-            AddMatToListAndShow(grayImg);
-        }
-
-        /// <summary>
         /// 上移一行
         /// </summary>
         /// <param name="sender"></param>
@@ -499,6 +477,139 @@ namespace opencv
         }
 
         /// <summary>
+        /// 图片上右击保存
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RightClickSave_Click(object sender, EventArgs e)
+        {
+            // Try to cast the sender to a ToolStripItem
+            if (sender is ToolStripItem menuItem)
+            {
+                // Retrieve the ContextMenuStrip that owns this ToolStripItem
+                if (menuItem.Owner is ContextMenuStrip owner)
+                {
+                    // Get the control that is displaying this context menu
+                    Control sourceControl = owner.SourceControl;
+                    if (sourceControl == leftPictureBox && WorkingMats.Count >= 1)
+                    {
+                        SaveFirstButton_Click(this, EventArgs.Empty);
+                    }
+                    else if (sourceControl == rightPictureBox && WorkingMats.Count >= 2)
+                    {
+                        SaveSecondButton_Click(this, EventArgs.Empty);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 快捷键提示
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ShortCutHelp_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("ctrl + ↑: 上一个工作序列\n" +
+                            "ctrl + ↓: 下一个工作序列\n" +
+                            "ctrl + s: 保存第二张图片\n" +
+                            "ctrl + z: 撤销处理操作\n" +
+                            "ctrl + o: 覆盖上一张图片\n" +
+                            "ctrl + ENTER: 弹窗确认"+
+                            "ctrl + ←: 图片序列向左翻页\n" +
+                            "ctrl + →: 图片序列向右翻页\n" +
+                            "alt + v: 查看图片序列\n" +
+                            "alt + o: 打开图片\n" +
+                            "ESC: 关闭弹窗\n" +
+                            "q: 停止录像");
+        }
+
+        /// <summary>
+        /// 覆盖上一张图片
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OverwriteButton_Click(object sender, EventArgs e)
+        {
+            var warnWindow = new WarningPopUp(@"覆盖不可撤销!请确认。");
+            var dialogRes = warnWindow.ShowDialog();
+            if (dialogRes == DialogResult.OK)
+            {
+                if (WorkingMats.Count >= 2)
+                {
+                    WorkingMats.RemoveAt(WorkingMats.Count - 2);
+                    ShowMat(leftPictureBox, WorkingLeftMat);
+                    ShowMat(rightPictureBox, WorkingRightMat);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 打开视频文件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void openVideoFile_Click(object sender, EventArgs e)
+        {
+            var result = openFileDialog1.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                using VideoCapture capture = new VideoCapture(openFileDialog1.FileName);
+
+                int sleepTime = (int) Math.Round(1000 / capture.Fps);
+
+                using Window window = new Window("file", WindowMode.AutoSize);
+                Mat image = new Mat();
+                // When the movie playback reaches end, Mat.data becomes NULL.
+                int key = -1;
+                while (key != 113)
+                {
+                    capture.Read(image); // same as cvQueryFrame
+                    if (image.Empty())
+                        break;
+
+                    window.ShowImage(image);
+                    key = Cv2.WaitKey(sleepTime);
+                }
+
+                Cv2.DestroyWindow("file");
+            }
+        }
+
+        /// <summary>
+        /// 打开摄像头
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void openCameraButton_Click(object sender, EventArgs e)
+        {
+            var videoWindow = new VideoForm();
+            videoWindow.ShowDialog();
+        }
+
+        /// <summary>
+        /// 灰度化
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GrayButton_Click(object sender, EventArgs e)
+        {
+            var originImg = GetImageToProcess();
+            Mat grayImg;
+            try
+            {
+                grayImg = originImg.CvtColor(ColorConversionCodes.BGR2GRAY, 1);
+            }
+            catch (OpenCVException)
+            {
+                //ignore
+                return;
+            }
+
+            AddMatToListAndShow(grayImg);
+        }
+
+        /// <summary>
         /// 加高斯噪声
         /// </summary>
         /// <param name="sender"></param>
@@ -622,73 +733,6 @@ namespace opencv
                 var originImg = GetImageToProcess();
                 var blurImg = originImg.GaussianBlur(new Size(inputWindow.H, inputWindow.W), 0);
                 AddMatToListAndShow(blurImg);
-            }
-        }
-
-        /// <summary>
-        /// 图片上右击保存
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void RightClickSave_Click(object sender, EventArgs e)
-        {
-            // Try to cast the sender to a ToolStripItem
-            if (sender is ToolStripItem menuItem)
-            {
-                // Retrieve the ContextMenuStrip that owns this ToolStripItem
-                if (menuItem.Owner is ContextMenuStrip owner)
-                {
-                    // Get the control that is displaying this context menu
-                    Control sourceControl = owner.SourceControl;
-                    if (sourceControl == leftPictureBox && WorkingMats.Count >= 1)
-                    {
-                        SaveFirstButton_Click(this, EventArgs.Empty);
-                    }
-                    else if (sourceControl == rightPictureBox && WorkingMats.Count >= 2)
-                    {
-                        SaveSecondButton_Click(this, EventArgs.Empty);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 快捷键提示
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ShortCutHelp_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("ctrl + ↑: 上一个工作序列\n" +
-                            "ctrl + ↓: 下一个工作序列\n" +
-                            "ctrl + s: 保存第二张图片\n" +
-                            "ctrl + z: 撤销处理操作\n" +
-                            "ctrl + o: 覆盖上一张图片\n" +
-                            "alt + v: 查看图片序列\n" +
-                            "alt + o: 打开图片\n" +
-                            "ctrl + ←: 图片序列向左翻页\n" +
-                            "ctrl + →: 图片序列向右翻页\n" +
-                            "ESC: 关闭弹出窗口\n" +
-                            "q: 关闭摄像头窗口");
-        }
-
-        /// <summary>
-        /// 覆盖上一张图片
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OverwriteButton_Click(object sender, EventArgs e)
-        {
-            var warnWindow = new WarningPopUp(@"覆盖不可撤销!请确认。");
-            var dialogRes = warnWindow.ShowDialog();
-            if (dialogRes == DialogResult.OK)
-            {
-                if (WorkingMats.Count >= 2)
-                {
-                    WorkingMats.RemoveAt(WorkingMats.Count - 2);
-                    ShowMat(leftPictureBox, WorkingLeftMat);
-                    ShowMat(rightPictureBox, WorkingRightMat);
-                }
             }
         }
 
@@ -936,12 +980,12 @@ namespace opencv
             Mat padded = new Mat(); //expand input image to optimal size
             int m = Cv2.GetOptimalDFTSize(I.Rows), n = Cv2.GetOptimalDFTSize(I.Cols); // on the border add zero values
             Cv2.CopyMakeBorder(I, padded, 0, m - I.Rows, 0, n - I.Cols, BorderTypes.Constant, Scalar.All(0));
-            
-            padded.ConvertTo(padded,MatType.CV_32F);
+
+            padded.ConvertTo(padded, MatType.CV_32F);
             Mat[] planes = {padded, Mat.Zeros(padded.Size(), MatType.CV_32F)};
             Mat complexI = new Mat();
-            Cv2.Merge(planes,complexI);// Add to the expanded another plane with zeros
-            
+            Cv2.Merge(planes, complexI); // Add to the expanded another plane with zeros
+
             try
             {
                 Cv2.Dft(complexI, complexI);
@@ -951,40 +995,41 @@ namespace opencv
                 MessageBox.Show(@"非灰度化图像");
                 return;
             }
+
             // this way the result may fit in the source matrix
             // compute the magnitude and switch to logarithmic scale
             // => log(1 + sqrt(Re(DFT(I))^2 + Im(DFT(I))^2))
             Cv2.Split(complexI, out planes); // planes.get(0) = Re(DFT(I)// planes.get(1) = Im(DFT(I))
-            Cv2.Magnitude(planes[0],planes[1],planes[0]); // planes.get(0) = magnitude
+            Cv2.Magnitude(planes[0], planes[1], planes[0]); // planes.get(0) = magnitude
             Mat magI = planes[0];
-            
+
             Mat matOfOnes = Mat.Ones(magI.Size(), magI.Type());
             Cv2.Add(matOfOnes, magI, magI); // switch to logarithmic scale
             Cv2.Log(magI, magI);
-            
+
             // crop the spectrum, if it has an odd number of rows or columns
-            magI = new Mat(magI,new Rect(0, 0, magI.Cols & -2, magI.Rows & -2));
+            magI = new Mat(magI, new Rect(0, 0, magI.Cols & -2, magI.Rows & -2));
             int cx = magI.Cols / 2, cy = magI.Rows / 2;
-            Mat q0 = new Mat(magI, new Rect(0, 0, cx, cy));   // Top-Left - Create a ROI per quadrant
-            Mat q1 = new Mat(magI, new Rect(cx, 0, cx, cy));  // Top-Right
-            Mat q2 = new Mat(magI, new Rect(0, cy, cx, cy));  // Bottom-Left
+            Mat q0 = new Mat(magI, new Rect(0, 0, cx, cy)); // Top-Left - Create a ROI per quadrant
+            Mat q1 = new Mat(magI, new Rect(cx, 0, cx, cy)); // Top-Right
+            Mat q2 = new Mat(magI, new Rect(0, cy, cx, cy)); // Bottom-Left
             Mat q3 = new Mat(magI, new Rect(cx, cy, cx, cy)); // Bottom-Right
-            
-            Mat tmp = new Mat();               // swap quadrants (Top-Left with Bottom-Right)
+
+            Mat tmp = new Mat(); // swap quadrants (Top-Left with Bottom-Right)
             q0.CopyTo(tmp);
             q3.CopyTo(q0);
             tmp.CopyTo(q3);
-            
-            q1.CopyTo(tmp);                    // swap quadrant (Top-Right with Bottom-Left)
+
+            q1.CopyTo(tmp); // swap quadrant (Top-Right with Bottom-Left)
             q2.CopyTo(q1);
             tmp.CopyTo(q2);
-            
+
             magI.ConvertTo(magI, MatType.CV_8UC1);
-            Cv2.Normalize(magI, magI, 0, 255, NormTypes.MinMax, MatType.CV_8UC1); 
+            Cv2.Normalize(magI, magI, 0, 255, NormTypes.MinMax, MatType.CV_8UC1);
             // Transform the matrix with float values
             // into a viewable image form (float between
             // values 0 and 255).
-            
+
             AddMatToListAndShow(magI);
         }
 
@@ -1019,49 +1064,6 @@ namespace opencv
         {
             //TODO
             NotImplemented();
-        }
-
-        /// <summary>
-        /// 打开视频文件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void openVideoFile_Click(object sender, EventArgs e)
-        {
-            
-            var result = openFileDialog1.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                using VideoCapture capture = new VideoCapture(openFileDialog1.FileName);
-
-                int sleepTime = (int)Math.Round(1000 / capture.Fps);
-
-                using Window window = new Window("file",WindowMode.AutoSize);
-                Mat image = new Mat();
-                // When the movie playback reaches end, Mat.data becomes NULL.
-                int key = -1;
-                while (key != 113)
-                {
-                    capture.Read(image); // same as cvQueryFrame
-                    if (image.Empty())
-                        break;
-
-                    window.ShowImage(image);
-                    key = Cv2.WaitKey(sleepTime);
-                }
-                Cv2.DestroyWindow("file");
-            }
-        }
-
-        /// <summary>
-        /// 打开摄像头
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void openCameraButton_Click(object sender, EventArgs e)
-        {
-            var videoWindow = new CameraPopUp();
-            videoWindow.ShowDialog();
         }
     }
 }
