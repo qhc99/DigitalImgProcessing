@@ -485,6 +485,9 @@ namespace opencv
                         }
 
                         break;
+                    case Keys.O:
+                        LoadButton_Click(this, EventArgs.Empty);
+                        break;
                 }
             }
         }
@@ -644,7 +647,7 @@ namespace opencv
         }
 
         /// <summary>
-        /// 显示快捷键提示
+        /// 快捷键提示
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -656,6 +659,7 @@ namespace opencv
                             "ctrl + z: 撤销处理操作\n" +
                             "ctrl + o: 覆盖上一张图片\n" +
                             "alt + v: 查看图片序列\n" +
+                            "alt + o: 打开图片\n" +
                             "ctrl + ←: 图片序列向左翻页\n" +
                             "ctrl + →: 图片序列向右翻页\n" +
                             "ESC: 关闭窗口");
@@ -850,15 +854,17 @@ namespace opencv
                 var img = GetImageToProcess();
                 Mat seg;
                 try
-                { 
-                    seg = img.AdaptiveThreshold(255, AdaptiveThresholdTypes.MeanC, w.SelectedTypes, w.WindowSize, w.Constant);
+                {
+                    seg = img.AdaptiveThreshold(255, AdaptiveThresholdTypes.MeanC, w.SelectedTypes, w.WindowSize,
+                        w.Constant);
                 }
                 catch (OpenCVException)
                 {
                     MessageBox.Show(@"非灰度图像");
                     return;
                 }
-                AddImageToListAndShow(seg);
+
+                AddImageToListAndShow(seg.GreaterThan(0));
             }
         }
 
@@ -885,7 +891,8 @@ namespace opencv
                     MessageBox.Show(@"非灰度图像");
                     return;
                 }
-                AddImageToListAndShow(seg);
+
+                AddImageToListAndShow(seg.GreaterThan(0));
             }
         }
 
@@ -907,6 +914,7 @@ namespace opencv
                 MessageBox.Show(@"非灰度化图像");
                 return;
             }
+
             AddImageToListAndShow(otsuImg);
         }
 
@@ -917,31 +925,61 @@ namespace opencv
         /// <param name="e"></param>
         private void DFTTransformButton_Click(object sender, EventArgs e)
         {
-            // var img = GetImageToProcess();
-            // var f64Img = new Mat(img.Size(), MatType.CV_64FC1);
-            // img.ConvertTo(f64Img, MatType.CV_64FC1);
-            //
-            // Mat dftImg;
-            // try
-            // {
-            //     dftImg = f64Img.Dft();
-            // }
-            // catch (OpenCVException)
-            // {
-            //     MessageBox.Show(@"非灰度化图像");
-            //     return;
-            // }
-            //
-            // Mat resDftImg = new Mat(dftImg.Size(),MatType.CV_8U);
-            // dftImg.ConvertTo(resDftImg,MatType.CV_8U);
-            //
-            // AddImageToListAndShow(resDftImg);
+            var I = GetImageToProcess();
+            Mat padded = new Mat(); //expand input image to optimal size
+            int m = Cv2.GetOptimalDFTSize(I.Rows), n = Cv2.GetOptimalDFTSize(I.Cols); // on the border add zero values
+            Cv2.CopyMakeBorder(I, padded, 0, m - I.Rows, 0, n - I.Cols, BorderTypes.Constant, Scalar.All(0));
+           
+            padded.ConvertTo(padded,MatType.CV_32F);
+            Mat[] planes = {padded, Mat.Zeros(padded.Size(), MatType.CV_32F)};
+            Mat complexI = new Mat();
+            Cv2.Merge(planes,complexI);// Add to the expanded another plane with zeros
 
-            //TODO Implement this
-            var img = GetImageToProcess();
-            var size = img.Size();
-            int rows = size.Height, cols = size.Width;
-            int m = Cv2.GetOptimalDFTSize(rows), n = Cv2.GetOptimalDFTSize(cols);
+            try
+            {
+                Cv2.Dft(complexI, complexI);
+            }
+            catch (OpenCVException)
+            {
+                MessageBox.Show(@"非灰度化图像");
+                return;
+            }
+            // this way the result may fit in the source matrix
+            // compute the magnitude and switch to logarithmic scale
+            // => log(1 + sqrt(Re(DFT(I))^2 + Im(DFT(I))^2))
+            Cv2.Split(complexI, out planes); // planes.get(0) = Re(DFT(I)// planes.get(1) = Im(DFT(I))
+            Cv2.Magnitude(planes[0],planes[1],planes[0]); // planes.get(0) = magnitude
+            Mat magI = planes[0];
+
+            Mat matOfOnes = Mat.Ones(magI.Size(), magI.Type());
+            Cv2.Add(matOfOnes, magI, magI); // switch to logarithmic scale
+            Cv2.Log(magI, magI);
+
+            // crop the spectrum, if it has an odd number of rows or columns
+            magI = new Mat(magI,new Rect(0, 0, magI.Cols & -2, magI.Rows & -2));
+            int cx = magI.Cols / 2, cy = magI.Rows / 2;
+            Mat q0 = new Mat(magI, new Rect(0, 0, cx, cy));   // Top-Left - Create a ROI per quadrant
+            Mat q1 = new Mat(magI, new Rect(cx, 0, cx, cy));  // Top-Right
+            Mat q2 = new Mat(magI, new Rect(0, cy, cx, cy));  // Bottom-Left
+            Mat q3 = new Mat(magI, new Rect(cx, cy, cx, cy)); // Bottom-Right
+
+            Mat tmp = new Mat();               // swap quadrants (Top-Left with Bottom-Right)
+            q0.CopyTo(tmp);
+            q3.CopyTo(q0);
+            tmp.CopyTo(q3);
+
+            q1.CopyTo(tmp);                    // swap quadrant (Top-Right with Bottom-Left)
+            q2.CopyTo(q1);
+            tmp.CopyTo(q2);
+
+            magI.ConvertTo(magI, MatType.CV_8UC1);
+            Cv2.Normalize(magI, magI, 0, 255, NormTypes.MinMax, MatType.CV_8UC1); 
+            // Transform the matrix with float values
+            // into a viewable image form (float between
+            // values 0 and 255).
+
+            AddImageToListAndShow(magI);
+
         }
     }
 }
