@@ -167,7 +167,7 @@ namespace opencv
             saveFirstFileButton.Enabled = true;
             transformButton.Enabled = true;
             featureDetectButton.Enabled = true;
-            objectRecognizeButton.Enabled = true;
+            videoProcessButton.Enabled = true;
             pseudoColorFortifyButton.Enabled = true;
             clearButton.Enabled = true;
             reverseButton.Enabled = true;
@@ -193,7 +193,7 @@ namespace opencv
             saveFirstFileButton.Enabled = false;
             transformButton.Enabled = false;
             featureDetectButton.Enabled = false;
-            objectRecognizeButton.Enabled = false;
+            videoProcessButton.Enabled = false;
             pseudoColorFortifyButton.Enabled = false;
             clearButton.Enabled = false;
             reverseButton.Enabled = false;
@@ -235,7 +235,7 @@ namespace opencv
         /// 处理结果存入内存并显示
         /// </summary>
         /// <param name="img"></param>
-        private void AddImageToListAndShow(Mat img)
+        private void AddMatToListAndShow(Mat img)
         {
             WorkingMats.Add(img);
             ShowMat(leftPictureBox, WorkingLeftMat);
@@ -335,7 +335,7 @@ namespace opencv
                 return;
             }
 
-            AddImageToListAndShow(grayImg);
+            AddMatToListAndShow(grayImg);
         }
 
         /// <summary>
@@ -511,7 +511,7 @@ namespace opencv
 
                 Mat workRes = originImg + gNoise;
 
-                AddImageToListAndShow(workRes);
+                AddMatToListAndShow(workRes);
             }
         }
 
@@ -532,7 +532,7 @@ namespace opencv
                 uNoise.Randu(inputWindow.Low, inputWindow.High);
                 Mat workRes = originImg + uNoise;
 
-                AddImageToListAndShow(workRes);
+                AddMatToListAndShow(workRes);
             }
         }
 
@@ -558,7 +558,7 @@ namespace opencv
                 addNoiseImg -= black;
                 addNoiseImg += white;
 
-                AddImageToListAndShow(addNoiseImg);
+                AddMatToListAndShow(addNoiseImg);
             }
         }
 
@@ -581,7 +581,7 @@ namespace opencv
 
                 var originImg = GetImageToProcess();
                 var blurImg = originImg.MedianBlur(inputWindow.WindowSize);
-                AddImageToListAndShow(blurImg);
+                AddMatToListAndShow(blurImg);
             }
         }
 
@@ -598,7 +598,7 @@ namespace opencv
             {
                 var originImg = GetImageToProcess();
                 var blurImg = originImg.Blur(new Size(inputWindow.H, inputWindow.W));
-                AddImageToListAndShow(blurImg);
+                AddMatToListAndShow(blurImg);
             }
         }
 
@@ -615,7 +615,7 @@ namespace opencv
             {
                 var originImg = GetImageToProcess();
                 var blurImg = originImg.GaussianBlur(new Size(inputWindow.H, inputWindow.W), 0);
-                AddImageToListAndShow(blurImg);
+                AddMatToListAndShow(blurImg);
             }
         }
 
@@ -694,7 +694,7 @@ namespace opencv
         {
             try
             {
-                AddImageToListAndShow(GetImageToProcess().EqualizeHist());
+                AddMatToListAndShow(GetImageToProcess().EqualizeHist());
             }
             catch (OpenCVException)
             {
@@ -720,7 +720,7 @@ namespace opencv
                 Mat sharpenImg = newOriginImg - originImg.Laplacian(MatType.CV_16S) * inputWindow.Alpha;
                 Mat resSharpenImg = new Mat(sharpenImg.Size(), MatType.CV_8U);
                 sharpenImg.ConvertTo(resSharpenImg, MatType.CV_8U);
-                AddImageToListAndShow(resSharpenImg);
+                AddMatToListAndShow(resSharpenImg);
             }
         }
 
@@ -742,7 +742,7 @@ namespace opencv
                 Mat sharpenImg = newImg + img.Sobel(MatType.CV_16S, w.XOrder, w.YOrder, w.WindowSize) * w.Alpha;
                 Mat resSharpenImg = new Mat(sharpenImg.Size(), MatType.CV_8U);
                 sharpenImg.ConvertTo(resSharpenImg, MatType.CV_8U);
-                AddImageToListAndShow(resSharpenImg);
+                AddMatToListAndShow(resSharpenImg);
             }
         }
 
@@ -782,7 +782,7 @@ namespace opencv
                 var img = GetImageToProcess();
                 Mat cImg = new Mat(img.Size(), img.Type());
                 Cv2.ApplyColorMap(img, cImg, w.SelectedTypes);
-                AddImageToListAndShow(cImg);
+                AddMatToListAndShow(cImg);
             }
         }
 
@@ -799,7 +799,7 @@ namespace opencv
             Mat edgeImg = originImg.Laplacian(MatType.CV_16S);
             Mat resEdgeImg = new Mat(edgeImg.Size(), MatType.CV_8U);
             edgeImg.ConvertTo(resEdgeImg, MatType.CV_8U);
-            AddImageToListAndShow(resEdgeImg);
+            AddMatToListAndShow(resEdgeImg);
         }
 
         /// <summary>
@@ -815,7 +815,7 @@ namespace opencv
             {
                 var img = GetImageToProcess();
                 Mat edgeImg = img.Canny(w.Low, w.High, w.ApertureSize);
-                AddImageToListAndShow(edgeImg);
+                AddMatToListAndShow(edgeImg);
             }
         }
 
@@ -836,7 +836,7 @@ namespace opencv
                 Mat edgeImg = img.Sobel(MatType.CV_16S, w.XOrder, w.YOrder, w.WindowSize);
                 Mat resEdgeImg = new Mat(edgeImg.Size(), MatType.CV_8U);
                 edgeImg.ConvertTo(resEdgeImg, MatType.CV_8U);
-                AddImageToListAndShow(resEdgeImg);
+                AddMatToListAndShow(resEdgeImg);
             }
         }
 
@@ -864,7 +864,7 @@ namespace opencv
                     return;
                 }
 
-                AddImageToListAndShow(seg.GreaterThan(0));
+                AddMatToListAndShow(seg.GreaterThan(0));
             }
         }
 
@@ -892,7 +892,7 @@ namespace opencv
                     return;
                 }
 
-                AddImageToListAndShow(seg.GreaterThan(0));
+                AddMatToListAndShow(seg.GreaterThan(0));
             }
         }
 
@@ -915,7 +915,7 @@ namespace opencv
                 return;
             }
 
-            AddImageToListAndShow(otsuImg);
+            AddMatToListAndShow(otsuImg);
         }
 
         /// <summary>
@@ -929,12 +929,12 @@ namespace opencv
             Mat padded = new Mat(); //expand input image to optimal size
             int m = Cv2.GetOptimalDFTSize(I.Rows), n = Cv2.GetOptimalDFTSize(I.Cols); // on the border add zero values
             Cv2.CopyMakeBorder(I, padded, 0, m - I.Rows, 0, n - I.Cols, BorderTypes.Constant, Scalar.All(0));
-           
+            
             padded.ConvertTo(padded,MatType.CV_32F);
             Mat[] planes = {padded, Mat.Zeros(padded.Size(), MatType.CV_32F)};
             Mat complexI = new Mat();
             Cv2.Merge(planes,complexI);// Add to the expanded another plane with zeros
-
+            
             try
             {
                 Cv2.Dft(complexI, complexI);
@@ -950,11 +950,11 @@ namespace opencv
             Cv2.Split(complexI, out planes); // planes.get(0) = Re(DFT(I)// planes.get(1) = Im(DFT(I))
             Cv2.Magnitude(planes[0],planes[1],planes[0]); // planes.get(0) = magnitude
             Mat magI = planes[0];
-
+            
             Mat matOfOnes = Mat.Ones(magI.Size(), magI.Type());
             Cv2.Add(matOfOnes, magI, magI); // switch to logarithmic scale
             Cv2.Log(magI, magI);
-
+            
             // crop the spectrum, if it has an odd number of rows or columns
             magI = new Mat(magI,new Rect(0, 0, magI.Cols & -2, magI.Rows & -2));
             int cx = magI.Cols / 2, cy = magI.Rows / 2;
@@ -962,24 +962,34 @@ namespace opencv
             Mat q1 = new Mat(magI, new Rect(cx, 0, cx, cy));  // Top-Right
             Mat q2 = new Mat(magI, new Rect(0, cy, cx, cy));  // Bottom-Left
             Mat q3 = new Mat(magI, new Rect(cx, cy, cx, cy)); // Bottom-Right
-
+            
             Mat tmp = new Mat();               // swap quadrants (Top-Left with Bottom-Right)
             q0.CopyTo(tmp);
             q3.CopyTo(q0);
             tmp.CopyTo(q3);
-
+            
             q1.CopyTo(tmp);                    // swap quadrant (Top-Right with Bottom-Left)
             q2.CopyTo(q1);
             tmp.CopyTo(q2);
-
+            
             magI.ConvertTo(magI, MatType.CV_8UC1);
             Cv2.Normalize(magI, magI, 0, 255, NormTypes.MinMax, MatType.CV_8UC1); 
             // Transform the matrix with float values
             // into a viewable image form (float between
             // values 0 and 255).
+            
+            AddMatToListAndShow(magI);
+        }
 
-            AddImageToListAndShow(magI);
-
+        /// <summary>
+        /// 小波变换
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void waveletTransformButton_Click(object sender, EventArgs e)
+        {
+            //TODO
+            NotImplemented();
         }
     }
 }

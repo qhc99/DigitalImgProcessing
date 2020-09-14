@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImagesListForm));
             this.leftPictureBox = new System.Windows.Forms.PictureBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.save = new System.Windows.Forms.ToolStripMenuItem();
@@ -150,6 +151,7 @@
             this.Controls.Add(this.leftButton);
             this.Controls.Add(this.rightPictureBox);
             this.Controls.Add(this.leftPictureBox);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "ImagesListForm";
             this.Text = "图片序列";

@@ -78,11 +78,16 @@
             this.OtsuSegButton = new System.Windows.Forms.ToolStripMenuItem();
             this.transformButton = new System.Windows.Forms.ToolStripMenuItem();
             this.DFTTransformButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.waveletTransformButton = new System.Windows.Forms.ToolStripMenuItem();
             this.featureDetectButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.objectRecognizeButton = new System.Windows.Forms.ToolStripMenuItem();
             this.shortCutHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.leftPictureSize = new System.Windows.Forms.Label();
             this.rightPictureSize = new System.Windows.Forms.Label();
+            this.featureExtractButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.faceLocateButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.videoProcessButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.openCameraButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.openVideoFile = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.leftPictureBox)).BeginInit();
             this.pictureRightClickMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rightPictureBox)).BeginInit();
@@ -184,7 +189,7 @@
             this.thresholdSegButton,
             this.transformButton,
             this.featureDetectButton,
-            this.objectRecognizeButton,
+            this.videoProcessButton,
             this.shortCutHelp});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -480,7 +485,8 @@
             // transformButton
             // 
             this.transformButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.DFTTransformButton});
+            this.DFTTransformButton,
+            this.waveletTransformButton});
             this.transformButton.Enabled = false;
             this.transformButton.Name = "transformButton";
             this.transformButton.Size = new System.Drawing.Size(68, 21);
@@ -493,19 +499,22 @@
             this.DFTTransformButton.Text = "傅里叶变换";
             this.DFTTransformButton.Click += new System.EventHandler(this.DFTTransformButton_Click);
             // 
+            // waveletTransformButton
+            // 
+            this.waveletTransformButton.Name = "waveletTransformButton";
+            this.waveletTransformButton.Size = new System.Drawing.Size(136, 22);
+            this.waveletTransformButton.Text = "小波变换";
+            this.waveletTransformButton.Click += new System.EventHandler(this.waveletTransformButton_Click);
+            // 
             // featureDetectButton
             // 
+            this.featureDetectButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.featureExtractButton,
+            this.faceLocateButton});
             this.featureDetectButton.Enabled = false;
             this.featureDetectButton.Name = "featureDetectButton";
             this.featureDetectButton.Size = new System.Drawing.Size(68, 21);
-            this.featureDetectButton.Text = "特征提取";
-            // 
-            // objectRecognizeButton
-            // 
-            this.objectRecognizeButton.Enabled = false;
-            this.objectRecognizeButton.Name = "objectRecognizeButton";
-            this.objectRecognizeButton.Size = new System.Drawing.Size(68, 21);
-            this.objectRecognizeButton.Text = "目标识别";
+            this.featureDetectButton.Text = "特征识别";
             // 
             // shortCutHelp
             // 
@@ -531,6 +540,40 @@
             this.rightPictureSize.Size = new System.Drawing.Size(39, 17);
             this.rightPictureSize.TabIndex = 13;
             this.rightPictureSize.Text = "H: W:";
+            // 
+            // featureExtractButton
+            // 
+            this.featureExtractButton.Name = "featureExtractButton";
+            this.featureExtractButton.Size = new System.Drawing.Size(124, 22);
+            this.featureExtractButton.Text = "特征提取";
+            // 
+            // faceLocateButton
+            // 
+            this.faceLocateButton.Name = "faceLocateButton";
+            this.faceLocateButton.Size = new System.Drawing.Size(124, 22);
+            this.faceLocateButton.Text = "人脸定位";
+            // 
+            // videoProcessButton
+            // 
+            this.videoProcessButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openCameraButton,
+            this.openVideoFile});
+            this.videoProcessButton.Enabled = false;
+            this.videoProcessButton.Name = "videoProcessButton";
+            this.videoProcessButton.Size = new System.Drawing.Size(68, 21);
+            this.videoProcessButton.Text = "视频处理";
+            // 
+            // openCameraButton
+            // 
+            this.openCameraButton.Name = "openCameraButton";
+            this.openCameraButton.Size = new System.Drawing.Size(136, 22);
+            this.openCameraButton.Text = "开启摄像头";
+            // 
+            // openVideoFile
+            // 
+            this.openVideoFile.Name = "openVideoFile";
+            this.openVideoFile.Size = new System.Drawing.Size(136, 22);
+            this.openVideoFile.Text = "打开文件";
             // 
             // MainForm
             // 
@@ -584,7 +627,6 @@
         private System.Windows.Forms.ToolStripMenuItem preProcessButton;
         private System.Windows.Forms.ToolStripMenuItem addGaussianNoise;
         private System.Windows.Forms.ToolStripMenuItem featureDetectButton;
-        private System.Windows.Forms.ToolStripMenuItem objectRecognizeButton;
         private System.Windows.Forms.ToolStripMenuItem clearButton;
         private System.Windows.Forms.ToolStripMenuItem reverseButton;
         private System.Windows.Forms.ToolStripMenuItem imagesListButton;
@@ -618,6 +660,12 @@
         private System.Windows.Forms.ToolStripMenuItem GaussianThresholdSegButton;
         private System.Windows.Forms.ToolStripMenuItem OtsuSegButton;
         private System.Windows.Forms.ToolStripMenuItem DFTTransformButton;
+        private System.Windows.Forms.ToolStripMenuItem waveletTransformButton;
+        private System.Windows.Forms.ToolStripMenuItem featureExtractButton;
+        private System.Windows.Forms.ToolStripMenuItem faceLocateButton;
+        private System.Windows.Forms.ToolStripMenuItem videoProcessButton;
+        private System.Windows.Forms.ToolStripMenuItem openCameraButton;
+        private System.Windows.Forms.ToolStripMenuItem openVideoFile;
     }
 }
 
