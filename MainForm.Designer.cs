@@ -80,14 +80,14 @@
             this.DFTTransformButton = new System.Windows.Forms.ToolStripMenuItem();
             this.waveletTransformButton = new System.Windows.Forms.ToolStripMenuItem();
             this.featureDetectButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortCutHelp = new System.Windows.Forms.ToolStripMenuItem();
-            this.leftPictureSize = new System.Windows.Forms.Label();
-            this.rightPictureSize = new System.Windows.Forms.Label();
             this.featureExtractButton = new System.Windows.Forms.ToolStripMenuItem();
             this.faceLocateButton = new System.Windows.Forms.ToolStripMenuItem();
             this.videoProcessButton = new System.Windows.Forms.ToolStripMenuItem();
             this.openCameraButton = new System.Windows.Forms.ToolStripMenuItem();
             this.openVideoFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortCutHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.leftPictureSize = new System.Windows.Forms.Label();
+            this.rightPictureSize = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.leftPictureBox)).BeginInit();
             this.pictureRightClickMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rightPictureBox)).BeginInit();
@@ -516,6 +516,43 @@
             this.featureDetectButton.Size = new System.Drawing.Size(68, 21);
             this.featureDetectButton.Text = "特征识别";
             // 
+            // featureExtractButton
+            // 
+            this.featureExtractButton.Name = "featureExtractButton";
+            this.featureExtractButton.Size = new System.Drawing.Size(124, 22);
+            this.featureExtractButton.Text = "特征提取";
+            this.featureExtractButton.Click += new System.EventHandler(this.featureExtractButton_Click);
+            // 
+            // faceLocateButton
+            // 
+            this.faceLocateButton.Name = "faceLocateButton";
+            this.faceLocateButton.Size = new System.Drawing.Size(124, 22);
+            this.faceLocateButton.Text = "人脸定位";
+            this.faceLocateButton.Click += new System.EventHandler(this.faceLocateButton_Click);
+            // 
+            // videoProcessButton
+            // 
+            this.videoProcessButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openCameraButton,
+            this.openVideoFile});
+            this.videoProcessButton.Name = "videoProcessButton";
+            this.videoProcessButton.Size = new System.Drawing.Size(68, 21);
+            this.videoProcessButton.Text = "视频处理";
+            // 
+            // openCameraButton
+            // 
+            this.openCameraButton.Name = "openCameraButton";
+            this.openCameraButton.Size = new System.Drawing.Size(136, 22);
+            this.openCameraButton.Text = "开启摄像头";
+            this.openCameraButton.Click += new System.EventHandler(this.openCameraButton_Click);
+            // 
+            // openVideoFile
+            // 
+            this.openVideoFile.Name = "openVideoFile";
+            this.openVideoFile.Size = new System.Drawing.Size(136, 22);
+            this.openVideoFile.Text = "打开文件";
+            this.openVideoFile.Click += new System.EventHandler(this.openVideoFile_Click);
+            // 
             // shortCutHelp
             // 
             this.shortCutHelp.Name = "shortCutHelp";
@@ -540,40 +577,6 @@
             this.rightPictureSize.Size = new System.Drawing.Size(39, 17);
             this.rightPictureSize.TabIndex = 13;
             this.rightPictureSize.Text = "H: W:";
-            // 
-            // featureExtractButton
-            // 
-            this.featureExtractButton.Name = "featureExtractButton";
-            this.featureExtractButton.Size = new System.Drawing.Size(124, 22);
-            this.featureExtractButton.Text = "特征提取";
-            // 
-            // faceLocateButton
-            // 
-            this.faceLocateButton.Name = "faceLocateButton";
-            this.faceLocateButton.Size = new System.Drawing.Size(124, 22);
-            this.faceLocateButton.Text = "人脸定位";
-            // 
-            // videoProcessButton
-            // 
-            this.videoProcessButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openCameraButton,
-            this.openVideoFile});
-            this.videoProcessButton.Enabled = false;
-            this.videoProcessButton.Name = "videoProcessButton";
-            this.videoProcessButton.Size = new System.Drawing.Size(68, 21);
-            this.videoProcessButton.Text = "视频处理";
-            // 
-            // openCameraButton
-            // 
-            this.openCameraButton.Name = "openCameraButton";
-            this.openCameraButton.Size = new System.Drawing.Size(136, 22);
-            this.openCameraButton.Text = "开启摄像头";
-            // 
-            // openVideoFile
-            // 
-            this.openVideoFile.Name = "openVideoFile";
-            this.openVideoFile.Size = new System.Drawing.Size(136, 22);
-            this.openVideoFile.Text = "打开文件";
             // 
             // MainForm
             // 

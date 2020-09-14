@@ -167,7 +167,7 @@ namespace opencv
             saveFirstFileButton.Enabled = true;
             transformButton.Enabled = true;
             featureDetectButton.Enabled = true;
-            videoProcessButton.Enabled = true;
+            // videoProcessButton.Enabled = true;
             pseudoColorFortifyButton.Enabled = true;
             clearButton.Enabled = true;
             reverseButton.Enabled = true;
@@ -193,7 +193,7 @@ namespace opencv
             saveFirstFileButton.Enabled = false;
             transformButton.Enabled = false;
             featureDetectButton.Enabled = false;
-            videoProcessButton.Enabled = false;
+            // videoProcessButton.Enabled = false;
             pseudoColorFortifyButton.Enabled = false;
             clearButton.Enabled = false;
             reverseButton.Enabled = false;
@@ -662,7 +662,8 @@ namespace opencv
                             "alt + o: 打开图片\n" +
                             "ctrl + ←: 图片序列向左翻页\n" +
                             "ctrl + →: 图片序列向右翻页\n" +
-                            "ESC: 关闭窗口");
+                            "ESC: 关闭弹出窗口\n" +
+                            "q: 关闭摄像头窗口");
         }
 
         /// <summary>
@@ -990,6 +991,61 @@ namespace opencv
         {
             //TODO
             NotImplemented();
+        }
+
+        /// <summary>
+        /// 特征提取
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void featureExtractButton_Click(object sender, EventArgs e)
+        {
+            //TODO
+            NotImplemented();
+        }
+
+        /// <summary>
+        /// 人脸定位
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void faceLocateButton_Click(object sender, EventArgs e)
+        {
+            //TODO
+            NotImplemented();
+        }
+
+        /// <summary>
+        /// 打开视频文件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void openVideoFile_Click(object sender, EventArgs e)
+        {
+            //TODO
+            NotImplemented();
+        }
+
+        /// <summary>
+        /// 打开摄像头
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void openCameraButton_Click(object sender, EventArgs e)
+        {
+            VideoCapture capture = new VideoCapture(0);
+            using Window window = new Window("Camera");
+            using Mat image = new Mat();
+            // When the movie playback reaches end, Mat.data becomes NULL.
+            int key = -1;
+            while (key != 113)
+            {
+                capture.Read(image); // same as cvQueryFrame
+                if (image.Empty()) break;
+                window.ShowImage(image);
+                key = Cv2.WaitKey(30);
+            }
+            Cv2.DestroyWindow("Camera");
         }
     }
 }
