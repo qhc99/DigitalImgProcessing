@@ -30,13 +30,11 @@ namespace opencv
         /// <param name="pb"></param>
         private void LoadNoneImg(PictureBox pb)
         {
-            Mat none = ((Bitmap) _noneImage).ToMat();
-            none.Resize(new Size(leftPictureBox.Height, leftPictureBox.Width));
-            ShowMat(pb, none);
+            ShowMat(pb, _noneMat);
         }
 
-        private readonly Image _noneImage =
-            Image.FromFile(Directory.GetCurrentDirectory() + "..\\..\\..\\..\\Resources\\none.jpg");
+        private readonly Mat _noneMat =
+            ((Bitmap)Image.FromFile(Directory.GetCurrentDirectory() + "..\\..\\..\\..\\Resources\\none.jpg")).ToMat();
 
         // ReSharper disable once UnusedMember.Local
         private void NotImplemented()
@@ -71,7 +69,7 @@ namespace opencv
             {
                 return WorkingMats.Count switch
                 {
-                    0 => ((Bitmap) _noneImage).ToMat(),
+                    0 => _noneMat,
                     1 => WorkingMats[0],
                     _ => WorkingMats[^2]
                 };
@@ -87,7 +85,7 @@ namespace opencv
             {
                 if (WorkingMats.Count <= 1)
                 {
-                    return ((Bitmap) _noneImage).ToMat();
+                    return _noneMat;
                 }
                 else
                 {
@@ -125,7 +123,15 @@ namespace opencv
         {
             var (row, col) = ComputeSize(m.Rows, m.Cols,
                 leftPictureBox.Size.Height, leftPictureBox.Size.Width);
-            return m.Resize(new Size(row, col), 0, 0, InterpolationFlags.Cubic);
+            try
+            {
+                return m.Resize(new Size(row, col), 0, 0, InterpolationFlags.Cubic);
+            }
+            catch(OpenCVException)
+            {
+                MessageBox.Show(@"只能打开图片文件");
+                return _noneMat;
+            }
 
             static Tuple<int, int> ComputeSize(int imgRow, int imgCol, int boxRow, int boxCol)
             {
@@ -1022,8 +1028,29 @@ namespace opencv
         /// <param name="e"></param>
         private void openVideoFile_Click(object sender, EventArgs e)
         {
-            //TODO
-            NotImplemented();
+            
+            var result = openFileDialog1.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                using VideoCapture capture = new VideoCapture(openFileDialog1.FileName);
+
+                int sleepTime = (int)Math.Round(1000 / capture.Fps);
+
+                using Window window = new Window("file",WindowMode.AutoSize);
+                Mat image = new Mat();
+                // When the movie playback reaches end, Mat.data becomes NULL.
+                int key = -1;
+                while (key != 113)
+                {
+                    capture.Read(image); // same as cvQueryFrame
+                    if (image.Empty())
+                        break;
+
+                    window.ShowImage(image);
+                    key = Cv2.WaitKey(sleepTime);
+                }
+                Cv2.DestroyWindow("file");
+            }
         }
 
         /// <summary>
@@ -1033,19 +1060,8 @@ namespace opencv
         /// <param name="e"></param>
         private void openCameraButton_Click(object sender, EventArgs e)
         {
-            VideoCapture capture = new VideoCapture(0);
-            using Window window = new Window("Camera");
-            using Mat image = new Mat();
-            // When the movie playback reaches end, Mat.data becomes NULL.
-            int key = -1;
-            while (key != 113)
-            {
-                capture.Read(image); // same as cvQueryFrame
-                if (image.Empty()) break;
-                window.ShowImage(image);
-                key = Cv2.WaitKey(30);
-            }
-            Cv2.DestroyWindow("Camera");
+            var videoWindow = new CameraPopUp();
+            videoWindow.ShowDialog();
         }
     }
 }
