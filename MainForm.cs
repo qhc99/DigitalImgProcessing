@@ -126,7 +126,7 @@ namespace opencv
                 leftPictureBox.Size.Height, leftPictureBox.Size.Width);
             try
             {
-                return m.Resize(new Size(row, col), 0, 0, InterpolationFlags.Cubic);
+                return m.Resize(new Size(col, row), 0, 0, InterpolationFlags.Cubic);
             }
             catch (OpenCVException)
             {
@@ -767,8 +767,14 @@ namespace opencv
         /// <param name="e"></param>
         private void HomoFilterButton_Click(object sender, EventArgs e)
         {
-            //TODO implement
-            NotImplemented();
+            try
+            {
+                AddMatToListAndShow(HomoFilter(GetImageToProcess()));
+            }
+            catch (NotGrayImageException)
+            {
+                MessageBox.Show(@"非灰度化图像");
+            }
         }
 
         /// <summary>
@@ -1053,6 +1059,16 @@ namespace opencv
         private void MSERFeatureDetectButton_Click(object sender, EventArgs e)
         {
             AddMatToListAndShow(MSERFeatureDetect(GetImageToProcess()));
+        }
+
+        /// <summary>
+        /// Retinex照度增强
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void retinexButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

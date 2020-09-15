@@ -66,7 +66,6 @@
             this.sharpenButton = new System.Windows.Forms.ToolStripMenuItem();
             this.LaplacianSharpenButton = new System.Windows.Forms.ToolStripMenuItem();
             this.SobelSharpenButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.illuminanceButton = new System.Windows.Forms.ToolStripMenuItem();
             this.homoFilterButton = new System.Windows.Forms.ToolStripMenuItem();
             this.barUniformButton = new System.Windows.Forms.ToolStripMenuItem();
             this.HazeRemovalButton = new System.Windows.Forms.ToolStripMenuItem();
@@ -349,7 +348,7 @@
             this.fortifyButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.blurButton,
             this.sharpenButton,
-            this.illuminanceButton,
+            this.homoFilterButton,
             this.barUniformButton,
             this.HazeRemovalButton,
             this.pseudoColorFortifyButton});
@@ -412,18 +411,10 @@
             this.SobelSharpenButton.Text = "Sobel";
             this.SobelSharpenButton.Click += new System.EventHandler(this.SobelSharpenButton_Click);
             // 
-            // illuminanceButton
-            // 
-            this.illuminanceButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.homoFilterButton});
-            this.illuminanceButton.Name = "illuminanceButton";
-            this.illuminanceButton.Size = new System.Drawing.Size(160, 22);
-            this.illuminanceButton.Text = "照度增强";
-            // 
             // homoFilterButton
             // 
             this.homoFilterButton.Name = "homoFilterButton";
-            this.homoFilterButton.Size = new System.Drawing.Size(124, 22);
+            this.homoFilterButton.Size = new System.Drawing.Size(160, 22);
             this.homoFilterButton.Text = "同态滤波";
             this.homoFilterButton.Click += new System.EventHandler(this.HomoFilterButton_Click);
             // 
@@ -679,10 +670,9 @@
         private System.Windows.Forms.ToolStripMenuItem sharpenButton;
         private System.Windows.Forms.ToolStripMenuItem LaplacianSharpenButton;
         private System.Windows.Forms.ToolStripMenuItem SobelSharpenButton;
-        private System.Windows.Forms.ToolStripMenuItem illuminanceButton;
+        private System.Windows.Forms.ToolStripMenuItem homoFilterButton;
         private System.Windows.Forms.ToolStripMenuItem homoFilter;
         private System.Windows.Forms.ToolStripMenuItem DeFog;
-        private System.Windows.Forms.ToolStripMenuItem homoFilterButton;
         private System.Windows.Forms.ToolStripMenuItem HazeRemovalButton;
         private System.Windows.Forms.ToolStripMenuItem pseudoColorFortifyButton;
         private System.Windows.Forms.ToolStripMenuItem LaplacianEdgeDetection;

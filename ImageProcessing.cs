@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 using OpenCvSharp;
 using OpenCvSharp.XFeatures2D;
 
@@ -111,8 +112,7 @@ namespace opencv
         /// <param name="img"></param>
         /// <returns></returns>
         /// <exception cref="ProcessCanceledException"></exception>
-        /// <exception cref="System.InvalidOperationException">Ignore.</exception>
-        /// <exception cref="opencv.ProcessCanceledException"></exception>
+        /// <exception cref="ProcessCanceledException"></exception>
         public static Mat AddGaussianNoise(Mat img)
         {
             var inputWindow = new MeanVariancePopUp();
@@ -139,7 +139,6 @@ namespace opencv
         /// <param name="img"></param>
         /// <returns></returns>
         /// <exception cref="ProcessCanceledException"></exception>
-        /// <exception cref="System.InvalidOperationException">Ignore.</exception>
         public static Mat AddUniformNoise(Mat img)
         {
             var inputWindow = new UpperLowerLimitPopUp();
@@ -163,8 +162,7 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
-        /// <exception cref="opencv.ProcessCanceledException"></exception>
-        /// <exception cref="System.InvalidOperationException">Ignore.</exception>
+        /// <exception cref="ProcessCanceledException"></exception>
         public static Mat AddSaltAndPepperNoise(Mat img)
         {
             var inputWindow = new UpperLowerLimitPopUp();
@@ -194,9 +192,8 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
-        /// <exception cref="opencv.NotGrayImageException"></exception>
-        /// <exception cref="opencv.ProcessCanceledException"></exception>
-        /// <exception cref="System.InvalidOperationException">Ignore.</exception>
+        /// <exception cref="NotGrayImageException"></exception>
+        /// <exception cref="ProcessCanceledException"></exception>
         public static Mat MedianBlur(Mat img)
         {
             var inputWindow = new RectangleBoxSizePopUp();
@@ -222,8 +219,7 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
-        /// <exception cref="opencv.ProcessCanceledException">Thrown.</exception>
-        /// <exception cref="System.InvalidOperationException">Ignore.</exception>
+        /// <exception cref="ProcessCanceledException">Thrown.</exception>
         public static Mat AverageBlur(Mat img)
         {
             var inputWindow = new BoxHeightWidthPopUp();
@@ -243,8 +239,7 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
-        /// <exception cref="System.InvalidOperationException">Ignore.</exception>
-        /// <exception cref="opencv.ProcessCanceledException"></exception>
+        /// <exception cref="ProcessCanceledException"></exception>
         public static Mat GaussianBlur(Mat img)
         {
             var inputWindow = new BoxHeightWidthPopUp();
@@ -264,8 +259,7 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
-        /// <exception cref="opencv.ProcessCanceledException">Thrown.</exception>
-        /// <exception cref="System.InvalidOperationException">Ignore.</exception>
+        /// <exception cref="ProcessCanceledException">Thrown.</exception>
         public static Mat LaplacianSharpen(Mat img)
         {
             var inputWindow = new CoefficientAlphaPopUp();
@@ -292,8 +286,7 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
-        /// <exception cref="opencv.ProcessCanceledException">Thrown.</exception>
-        /// <exception cref="System.InvalidOperationException">Ignore.</exception>
+        /// <exception cref="ProcessCanceledException">Thrown.</exception>
         public static Mat SobelSharpen(Mat img)
         {
             var w = new SobelCoefficientPopUp();
@@ -319,8 +312,7 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
-        /// <exception cref="opencv.ProcessCanceledException">Thrown</exception>
-        /// <exception cref="System.InvalidOperationException">Ignore.</exception>
+        /// <exception cref="ProcessCanceledException">Thrown</exception>
         public static Mat PseudoColorFortify(Mat img)
         {
             var w = new ColorMapComboPopUp();
@@ -359,8 +351,7 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
-        /// <exception cref="System.InvalidOperationException">Ignore.</exception>
-        /// <exception cref="opencv.ProcessCanceledException">Thrown.</exception>
+        /// <exception cref="ProcessCanceledException">Thrown.</exception>
         public static Mat SobelEdgeDetect(Mat img)
         {
             //TODO fix bug
@@ -387,8 +378,7 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
-        /// <exception cref="opencv.ProcessCanceledException"></exception>
-        /// <exception cref="System.InvalidOperationException">Ignore.</exception>
+        /// <exception cref="ProcessCanceledException"></exception>
         public static Mat CannyEdgeDetect(Mat img)
         {
             var w = new UpperLowerLimitPopUp(true);
@@ -410,9 +400,8 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
-        /// <exception cref="opencv.NotGrayImageException">Thrown</exception>
-        /// <exception cref="opencv.ProcessCanceledException">Thrown.</exception>
-        /// <exception cref="System.InvalidOperationException">Ignore.</exception>
+        /// <exception cref="NotGrayImageException">Thrown</exception>
+        /// <exception cref="ProcessCanceledException">Thrown.</exception>
         public static Mat MeanThresholdSeg(Mat img)
         {
             var w = new AdaptiveSegmentationComboPopUp();
@@ -443,9 +432,8 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
-        /// <exception cref="opencv.NotGrayImageException"></exception>
-        /// <exception cref="opencv.ProcessCanceledException"></exception>
-        /// <exception cref="System.InvalidOperationException">Ignore.</exception>
+        /// <exception cref="NotGrayImageException"></exception>
+        /// <exception cref="ProcessCanceledException"></exception>
         public static Mat GaussianThresholdSeg(Mat img)
         {
             var w = new AdaptiveSegmentationComboPopUp();
@@ -477,7 +465,7 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
-        /// <exception cref="opencv.NotGrayImageException"></exception>
+        /// <exception cref="NotGrayImageException"></exception>
         public static Mat OtsuSeg(Mat img)
         {
             try
@@ -496,7 +484,7 @@ namespace opencv
         /// </summary>
         /// <param name="I"></param>
         /// <returns></returns>
-        /// <exception cref="opencv.NotGrayImageException"></exception>
+        /// <exception cref="NotGrayImageException"></exception>
         public static Mat DftTransform(Mat I)
         {
             Mat padded = new Mat(); //expand input image to optimal size
@@ -676,16 +664,79 @@ namespace opencv
             return newImg;
         }
 
+        /// <summary>
+        /// 同态滤波
+        /// </summary>
+        /// <param name="img"></param>
+        /// <returns></returns>
+        /// <exception cref="NotGrayImageException"></exception>
         public static Mat HomoFilter(Mat img)
         {
             //TODO implement this
-            Mat newImg = new Mat<Vec3b>(img);
-            newImg.ConvertTo(newImg, MatType.CV_64FC1);
+            Mat newImg = new Mat();
+            img.ConvertTo(newImg, MatType.CV_64FC1);
+            Size nImgSize = newImg.Size();
+            //dct函数只能处理偶数大小图片
+            if (nImgSize.Height % 2 != 0)
+            {
+                if (nImgSize.Width % 2 != 0)
+                {
+                    newImg = newImg.Resize(new Size( nImgSize.Width-1,nImgSize.Height-1),0,0,InterpolationFlags.Cubic);
+                }
+                else
+                {
+                    newImg = newImg.Resize(new Size(nImgSize.Width,nImgSize.Height-1),0,0,InterpolationFlags.Cubic);
+                }
+            }
+            else if (nImgSize.Width % 2 != 0)
+            {
+                newImg = newImg.Resize(new Size(nImgSize.Width - 1,nImgSize.Height),0,0,InterpolationFlags.Cubic);
+            }
+
+            newImg = (newImg + 0.0001);
+            newImg = newImg.Log();
+
             Mat dst = new Mat();
             dst.ConvertTo(dst, MatType.CV_64FC1);
 
+            Mat matDct = new Mat(newImg.Size(), MatType.CV_64FC1);
+            try
+            {
+                Cv2.Dct(newImg, matDct);
+            }
+            catch (OpenCVException)
+            {
+                throw new NotGrayImageException();
+            }
 
+            const double gammaH = 1.5;
+            const double gammaL = 0.5;
+            const double c = 1;
+            double d0 = (newImg.Rows/2)*(newImg.Rows/2) + (newImg.Cols/2)*(newImg.Cols/2);
+            Mat hUv = Mat.Zeros(newImg.Size(), MatType.CV_64FC1);
 
+            var indexer = hUv.GetGenericIndexer<Vec3d>();
+            for (int h = 0; h < newImg.Rows; h++)
+            {
+                for (int w = 0; w < newImg.Cols; w++)
+                {
+                    var d2 = Math.Pow(h, 2) + Math.Pow(w, 2);
+                    indexer[h,w] = new Vec3d((gammaH - gammaL)*(1 - Math.Exp(-c*d2/d0)) + gammaL, indexer[h,w].Item1,indexer[h,w].Item2);
+                }
+            }
+
+            indexer[0, 0] = new Vec3d(1.1,indexer[0,0].Item1,indexer[0,0].Item2);
+
+            matDct = matDct.Mul(matDct);
+            Cv2.Idct(matDct,dst);
+
+            var tmp = newImg.GaussianBlur(new Size(9, 9), 1.5, 1.5);
+            const double alpha = 0.5;
+            dst = (1 + alpha) * newImg - alpha * tmp;
+
+            dst = dst.Exp();
+
+            dst.ConvertTo(dst,MatType.CV_8UC1);
             return dst;
         }
     }
