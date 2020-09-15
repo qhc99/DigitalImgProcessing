@@ -665,6 +665,10 @@ namespace opencv
             {
 
             }
+            catch (NotGrayImageException)
+            {
+
+            }
         }
 
         /// <summary>
@@ -734,7 +738,7 @@ namespace opencv
 
             }
         }
-        //TODO refactor below
+
         /// <summary>
         /// Sobel锐化
         /// </summary>
@@ -742,18 +746,13 @@ namespace opencv
         /// <param name="e"></param>
         private void SobelSharpenButton_Click(object sender, EventArgs e)
         {
-            var w = new SobelCoefficientPopUp();
-            var dialogRes = w.ShowDialog();
-            if (dialogRes == DialogResult.OK)
+            try
             {
-                var img = GetImageToProcess();
-                Mat newImg = new Mat(img.Size(), MatType.CV_16S);
-                img.ConvertTo(newImg, MatType.CV_16S);
-                // there plus works ?!
-                Mat sharpenImg = newImg + img.Sobel(MatType.CV_16S, w.XOrder, w.YOrder, w.WindowSize) * w.Alpha;
-                Mat resSharpenImg = new Mat(sharpenImg.Size(), MatType.CV_8U);
-                sharpenImg.ConvertTo(resSharpenImg, MatType.CV_8U);
-                AddMatToListAndShow(resSharpenImg);
+                AddMatToListAndShow(SobelSharpen(GetImageToProcess()));
+            }
+            catch (ProcessCanceledException)
+            {
+
             }
         }
 
@@ -786,14 +785,13 @@ namespace opencv
         /// <param name="e"></param>
         private void PseudoColorFortifyButton_Click(object sender, EventArgs e)
         {
-            var w = new ColorMapComboPopUp();
-            var dialogRes = w.ShowDialog();
-            if (dialogRes == DialogResult.OK)
+            try
             {
-                var img = GetImageToProcess();
-                Mat cImg = new Mat(img.Size(), img.Type());
-                Cv2.ApplyColorMap(img, cImg, w.SelectedTypes);
-                AddMatToListAndShow(cImg);
+                AddMatToListAndShow(PseudoColorFortify(GetImageToProcess()));
+            }
+            catch (ProcessCanceledException)
+            {
+
             }
         }
 
@@ -804,13 +802,7 @@ namespace opencv
         /// <param name="e"></param>
         private void LaplacianEdgeDetection_Click(object sender, EventArgs e)
         {
-            var originImg = GetImageToProcess();
-            Mat newOriginImg = new Mat(originImg.Size(), MatType.CV_16S);
-            originImg.ConvertTo(newOriginImg, MatType.CV_16S);
-            Mat edgeImg = originImg.Laplacian(MatType.CV_16S);
-            Mat resEdgeImg = new Mat(edgeImg.Size(), MatType.CV_8U);
-            edgeImg.ConvertTo(resEdgeImg, MatType.CV_8U);
-            AddMatToListAndShow(resEdgeImg);
+            AddMatToListAndShow(LaplacianEdgeDetect(GetImageToProcess()));
         }
 
         /// <summary>
@@ -820,13 +812,13 @@ namespace opencv
         /// <param name="e"></param>
         private void CannyEdgeDetection_Click(object sender, EventArgs e)
         {
-            var w = new UpperLowerLimitPopUp(true);
-            var dialogRes = w.ShowDialog();
-            if (dialogRes == DialogResult.OK)
+            try
             {
-                var img = GetImageToProcess();
-                Mat edgeImg = img.Canny(w.Low, w.High, w.ApertureSize);
-                AddMatToListAndShow(edgeImg);
+                AddMatToListAndShow(CannyEdgeDetect(GetImageToProcess()));
+            }
+            catch (ProcessCanceledException)
+            {
+
             }
         }
 
@@ -837,17 +829,13 @@ namespace opencv
         /// <param name="e"></param>
         private void SobelEdgeDetection_Click(object sender, EventArgs e)
         {
-            var w = new SobelCoefficientPopUp(true);
-            var dialogRes = w.ShowDialog();
-            if (dialogRes == DialogResult.OK)
+            try
             {
-                var img = GetImageToProcess();
-                Mat newImg = new Mat(img.Size(), MatType.CV_16S);
-                img.ConvertTo(newImg, MatType.CV_16S);
-                Mat edgeImg = img.Sobel(MatType.CV_16S, w.XOrder, w.YOrder, w.WindowSize);
-                Mat resEdgeImg = new Mat(edgeImg.Size(), MatType.CV_8U);
-                edgeImg.ConvertTo(resEdgeImg, MatType.CV_8U);
-                AddMatToListAndShow(resEdgeImg);
+                AddMatToListAndShow(SobelEdgeDetect(GetImageToProcess()));
+            }
+            catch (ProcessCanceledException)
+            {
+
             }
         }
 
@@ -858,24 +846,17 @@ namespace opencv
         /// <param name="e"></param>
         private void meanThresholdSegButton_Click(object sender, EventArgs e)
         {
-            var w = new AdaptiveSegmentationComboPopUp();
-            var dialogRes = w.ShowDialog();
-            if (dialogRes == DialogResult.OK)
+            try
             {
-                var img = GetImageToProcess();
-                Mat seg;
-                try
-                {
-                    seg = img.AdaptiveThreshold(255, AdaptiveThresholdTypes.MeanC, w.SelectedTypes, w.WindowSize,
-                        w.Constant);
-                }
-                catch (OpenCVException)
-                {
-                    MessageBox.Show(@"非灰度图像");
-                    return;
-                }
+                AddMatToListAndShow(MeanThresholdSeg(GetImageToProcess()).GreaterThan(0));
+            }
+            catch (ProcessCanceledException)
+            {
 
-                AddMatToListAndShow(seg.GreaterThan(0));
+            }
+            catch (NotGrayImageException)
+            {
+                MessageBox.Show(@"非灰度化图像");
             }
         }
 
@@ -886,24 +867,17 @@ namespace opencv
         /// <param name="e"></param>
         private void GaussianThresholdSegButton_Click(object sender, EventArgs e)
         {
-            var w = new AdaptiveSegmentationComboPopUp();
-            var dialogRes = w.ShowDialog();
-            if (dialogRes == DialogResult.OK)
+            try
             {
-                var img = GetImageToProcess();
-                Mat seg;
-                try
-                {
-                    seg = img.AdaptiveThreshold(255, AdaptiveThresholdTypes.GaussianC, w.SelectedTypes, w.WindowSize,
-                        w.Constant);
-                }
-                catch (OpenCVException)
-                {
-                    MessageBox.Show(@"非灰度图像");
-                    return;
-                }
+                AddMatToListAndShow(GaussianThresholdSeg(GetImageToProcess()).GreaterThan(0));
+            }
+            catch (ProcessCanceledException)
+            {
 
-                AddMatToListAndShow(seg.GreaterThan(0));
+            }
+            catch (NotGrayImageException)
+            {
+                MessageBox.Show(@"非灰度图像");
             }
         }
 
@@ -914,19 +888,14 @@ namespace opencv
         /// <param name="e"></param>
         private void OtsuSegButton_Click(object sender, EventArgs e)
         {
-            var img = GetImageToProcess();
-            Mat otsuImg;
             try
             {
-                otsuImg = img.Threshold(0, 255, ThresholdTypes.Binary | ThresholdTypes.Otsu);
+                AddMatToListAndShow(OtsuSeg(GetImageToProcess()));
             }
-            catch (OpenCVException)
+            catch (NotGrayImageException)
             {
                 MessageBox.Show(@"非灰度化图像");
-                return;
             }
-
-            AddMatToListAndShow(otsuImg);
         }
 
         /// <summary>
@@ -936,61 +905,7 @@ namespace opencv
         /// <param name="e"></param>
         private void DFTTransformButton_Click(object sender, EventArgs e)
         {
-            var I = GetImageToProcess();
-            Mat padded = new Mat(); //expand input image to optimal size
-            int m = Cv2.GetOptimalDFTSize(I.Rows), n = Cv2.GetOptimalDFTSize(I.Cols); // on the border add zero values
-            Cv2.CopyMakeBorder(I, padded, 0, m - I.Rows, 0, n - I.Cols, BorderTypes.Constant, Scalar.All(0));
-
-            padded.ConvertTo(padded, MatType.CV_32F);
-            Mat[] planes = {padded, Mat.Zeros(padded.Size(), MatType.CV_32F)};
-            Mat complexI = new Mat();
-            Cv2.Merge(planes, complexI); // Add to the expanded another plane with zeros
-
-            try
-            {
-                Cv2.Dft(complexI, complexI);
-            }
-            catch (OpenCVException)
-            {
-                MessageBox.Show(@"非灰度化图像");
-                return;
-            }
-
-            // this way the result may fit in the source matrix
-            // compute the magnitude and switch to logarithmic scale
-            // => log(1 + sqrt(Re(DFT(I))^2 + Im(DFT(I))^2))
-            Cv2.Split(complexI, out planes); // planes.get(0) = Re(DFT(I)// planes.get(1) = Im(DFT(I))
-            Cv2.Magnitude(planes[0], planes[1], planes[0]); // planes.get(0) = magnitude
-            Mat magI = planes[0];
-
-            Mat matOfOnes = Mat.Ones(magI.Size(), magI.Type());
-            Cv2.Add(matOfOnes, magI, magI); // switch to logarithmic scale
-            Cv2.Log(magI, magI);
-
-            // crop the spectrum, if it has an odd number of rows or columns
-            magI = new Mat(magI, new Rect(0, 0, magI.Cols & -2, magI.Rows & -2));
-            int cx = magI.Cols / 2, cy = magI.Rows / 2;
-            Mat q0 = new Mat(magI, new Rect(0, 0, cx, cy)); // Top-Left - Create a ROI per quadrant
-            Mat q1 = new Mat(magI, new Rect(cx, 0, cx, cy)); // Top-Right
-            Mat q2 = new Mat(magI, new Rect(0, cy, cx, cy)); // Bottom-Left
-            Mat q3 = new Mat(magI, new Rect(cx, cy, cx, cy)); // Bottom-Right
-
-            Mat tmp = new Mat(); // swap quadrants (Top-Left with Bottom-Right)
-            q0.CopyTo(tmp);
-            q3.CopyTo(q0);
-            tmp.CopyTo(q3);
-
-            q1.CopyTo(tmp); // swap quadrant (Top-Right with Bottom-Left)
-            q2.CopyTo(q1);
-            tmp.CopyTo(q2);
-
-            magI.ConvertTo(magI, MatType.CV_8UC1);
-            Cv2.Normalize(magI, magI, 0, 255, NormTypes.MinMax, MatType.CV_8UC1);
-            // Transform the matrix with float values
-            // into a viewable image form (float between
-            // values 0 and 255).
-
-            AddMatToListAndShow(magI);
+            
         }
 
         /// <summary>
