@@ -932,6 +932,7 @@ namespace opencv
                         }
                         catch (NotGrayImageException)
                         {
+                            Cv2.DestroyWindow("Spectrum Magnitude");
                             MessageBox.Show(@"非灰度化图像");
                         }
                     }
@@ -944,6 +945,7 @@ namespace opencv
                         }
                         catch (NotGrayImageException)
                         {
+                            Cv2.DestroyWindow("Spectrum Magnitude");
                             MessageBox.Show(@"非灰度化图像");
                         }
                     }
@@ -958,8 +960,27 @@ namespace opencv
         /// <param name="e"></param>
         private void waveletTransformButton_Click(object sender, EventArgs e)
         {
-            //TODO
-            NotImplemented();
+            
+            // Try to cast the sender to a ToolStripItem
+            if (sender is ToolStripItem menuItem)
+            {
+                // Retrieve the ContextMenuStrip that owns this ToolStripItem
+                if (menuItem.Owner is ContextMenuStrip owner)
+                {
+                    // Get the control that is displaying this context menu
+                    Control sourceControl = owner.SourceControl;
+                    if (sourceControl == leftPictureBox && WorkingMats.Count >= 1)
+                    {
+                        using Window dftWindow = new Window("Wavelet", WindowMode.KeepRatio | WindowMode.AutoSize);
+                        Cv2.ImShow("Wavelet",WaveletTransform(WorkingLeftMat));
+                    }
+                    else if (sourceControl == rightPictureBox && WorkingMats.Count >= 2)
+                    {
+                        using Window dftWindow = new Window("Wavelet", WindowMode.KeepRatio | WindowMode.AutoSize);
+                        Cv2.ImShow("Wavelet",WaveletTransform(WorkingRightMat));
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -1059,16 +1080,6 @@ namespace opencv
         private void MSERFeatureDetectButton_Click(object sender, EventArgs e)
         {
             AddMatToListAndShow(MSERFeatureDetect(GetImageToProcess()));
-        }
-
-        /// <summary>
-        /// Retinex照度增强
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void retinexButton_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

@@ -672,7 +672,6 @@ namespace opencv
         /// <exception cref="NotGrayImageException"></exception>
         public static Mat HomoFilter(Mat img)
         {
-            //TODO implement this
             Mat newImg = new Mat();
             img.ConvertTo(newImg, MatType.CV_64FC1);
             Size nImgSize = newImg.Size();
@@ -738,6 +737,44 @@ namespace opencv
 
             dst.ConvertTo(dst,MatType.CV_8UC1);
             return dst;
+        }
+
+        /// <summary>
+        /// 小波变换
+        /// </summary>
+        /// <param name="img"></param>
+        /// <returns></returns>
+        public static Mat WaveletTransform(Mat img)
+        {
+            int height = img.Cols;
+            int width = img.Rows;
+            int depth = 3;    //分解深度
+            int depthCount = 1; 
+            Mat tmp = Mat.Ones(new Size(width, height), MatType.CV_32FC1);
+            Mat wavelet = Mat.Ones(new Size(width, height), MatType.CV_32FC1);
+            Mat imgTmp = img.Clone();
+            imgTmp.ConvertTo(imgTmp, MatType.CV_32FC1);
+            while (depthCount<=depth){
+                width = img.Rows / depthCount;
+                height = img.Cols / depthCount;
+
+                for (int i = 0; i < width; i++){
+                    for (int j = 0; j < height / 2; j++){
+                        tmp.At<float>(i, j) = (imgTmp.At<float>(i, 2 * j) + imgTmp.At<float>(i, 2 * j + 1)) / 2;
+                        tmp.At<float>(i, j + height / 2) = (imgTmp.At<float>(i, 2 * j) - imgTmp.At<float>(i, 2 * j + 1)) / 2;
+                    }
+                }
+                for (int i = 0; i < width / 2; i++){
+                    for (int j = 0; j < height; j++){
+                        wavelet.At<float>(i, j) = (tmp.At<float>(2 * i, j) + tmp.At<float>(2 * i + 1, j)) / 2;
+                        wavelet.At<float>(i + width / 2, j) = (tmp.At<float>(2 * i, j) - tmp.At<float>(2 * i + 1, j)) / 2;
+                    }
+                }
+                imgTmp = wavelet;
+                depthCount++;
+            }
+
+            return wavelet;
         }
     }
 }
