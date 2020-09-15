@@ -171,7 +171,7 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
-        /// <exception cref="ProcessCanceledException"></exception>
+        /// <exception cref="opencv.ProcessCanceledException"></exception>
         /// <exception cref="System.InvalidOperationException">Ignore.</exception>
         public static Mat AddSaltAndPepperNoise(Mat img)
         {
@@ -202,8 +202,9 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
-        /// <exception cref="NotGrayImageException"></exception>
-        /// <exception cref="ProcessCanceledException"></exception>
+        /// <exception cref="opencv.NotGrayImageException"></exception>
+        /// <exception cref="opencv.ProcessCanceledException"></exception>
+        /// <exception cref="System.InvalidOperationException">Ignore.</exception>
         public static Mat MedianBlur(Mat img)
         {
             var inputWindow = new RectangleBoxSizePopUp();
