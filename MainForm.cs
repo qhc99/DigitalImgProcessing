@@ -963,7 +963,7 @@ namespace opencv
         /// <param name="e"></param>
         private void faceLocateButton_Click(object sender, EventArgs e)
         {
-            AddMatToListAndShow(FaceLocate(GetImageToProcess(), CopyTypes.Clone));
+            AddMatToListAndShow(FaceLocate(GetImageToProcess()));
         }
 
         /// <summary>

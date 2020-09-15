@@ -675,5 +675,18 @@ namespace opencv
 
             return newImg;
         }
+
+        public static Mat HomoFilter(Mat img)
+        {
+            //TODO implement this
+            Mat newImg = new Mat<Vec3b>(img);
+            newImg.ConvertTo(newImg, MatType.CV_64FC1);
+            Mat dst = new Mat();
+            dst.ConvertTo(dst, MatType.CV_64FC1);
+
+
+
+            return dst;
+        }
     }
 }
