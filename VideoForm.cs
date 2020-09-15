@@ -27,13 +27,20 @@ namespace opencv
             button2.Enabled = true;
             button1.Enabled = false;
             using VideoCapture capture = new VideoCapture(0);
-            using Mat image = new Mat();
+            Mat image = new Mat();
             // When the movie playback reaches end, Mat.data becomes NULL.
             _opening = true;
             while (_opening) //q键
             {
                 capture.Read(image); // same as cvQueryFrame
                 if (image.Empty()) break; // 摄像头大小:480*640
+                image = ConvertToGrayMat(image).
+                    EqualizeHist().
+                    AdaptiveThreshold(255,
+                        AdaptiveThresholdTypes.GaussianC,
+                        ThresholdTypes.Binary,
+                        11, 
+                        2);
                 pictureBox1.Image = FaceLocate(image, CopyTypes.ShallowCopy).ToBitmap();
                 Cv2.WaitKey(10);
             }

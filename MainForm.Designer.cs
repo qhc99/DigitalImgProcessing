@@ -68,7 +68,6 @@
             this.SobelSharpenButton = new System.Windows.Forms.ToolStripMenuItem();
             this.homoFilterButton = new System.Windows.Forms.ToolStripMenuItem();
             this.barUniformButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.HazeRemovalButton = new System.Windows.Forms.ToolStripMenuItem();
             this.pseudoColorFortifyButton = new System.Windows.Forms.ToolStripMenuItem();
             this.edgeButton = new System.Windows.Forms.ToolStripMenuItem();
             this.LaplacianEdgeDetection = new System.Windows.Forms.ToolStripMenuItem();
@@ -350,7 +349,6 @@
             this.sharpenButton,
             this.homoFilterButton,
             this.barUniformButton,
-            this.HazeRemovalButton,
             this.pseudoColorFortifyButton});
             this.fortifyButton.Enabled = false;
             this.fortifyButton.Name = "fortifyButton";
@@ -424,13 +422,6 @@
             this.barUniformButton.Size = new System.Drawing.Size(160, 22);
             this.barUniformButton.Text = "直方图均匀化";
             this.barUniformButton.Click += new System.EventHandler(this.BarUniformButton_Click);
-            // 
-            // HazeRemovalButton
-            // 
-            this.HazeRemovalButton.Name = "HazeRemovalButton";
-            this.HazeRemovalButton.Size = new System.Drawing.Size(160, 22);
-            this.HazeRemovalButton.Text = "暗通道先验去雾";
-            this.HazeRemovalButton.Click += new System.EventHandler(this.HazeRemovalButton_Click);
             // 
             // pseudoColorFortifyButton
             // 
@@ -671,7 +662,6 @@
         private System.Windows.Forms.ToolStripMenuItem LaplacianSharpenButton;
         private System.Windows.Forms.ToolStripMenuItem SobelSharpenButton;
         private System.Windows.Forms.ToolStripMenuItem homoFilterButton;
-        private System.Windows.Forms.ToolStripMenuItem HazeRemovalButton;
         private System.Windows.Forms.ToolStripMenuItem pseudoColorFortifyButton;
         private System.Windows.Forms.ToolStripMenuItem LaplacianEdgeDetection;
         private System.Windows.Forms.ToolStripMenuItem SobelEdgeDetection;

@@ -769,17 +769,6 @@ namespace opencv
         }
 
         /// <summary>
-        /// 暗通道先验去雾
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void HazeRemovalButton_Click(object sender, EventArgs e)
-        {
-            //TODO implement
-            NotImplemented();
-        }
-
-        /// <summary>
         /// 伪彩色增强
         /// </summary>
         /// <param name="sender"></param>

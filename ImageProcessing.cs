@@ -431,8 +431,7 @@ namespace opencv
                 Mat seg;
                 try
                 {
-                    seg = img.AdaptiveThreshold(255, AdaptiveThresholdTypes.GaussianC, w.SelectedTypes, w.WindowSize,
-                        w.Constant);
+                    seg = img.AdaptiveThreshold(255, AdaptiveThresholdTypes.GaussianC, w.SelectedTypes, w.WindowSize, w.Constant);
                 }
                 catch (OpenCVException)
                 {
