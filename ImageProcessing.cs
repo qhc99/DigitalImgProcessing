@@ -13,6 +13,11 @@ namespace opencv
         //private static readonly CascadeClassifier FaceClassifier = new CascadeClassifier(@"..\\..\\..\\Resources\\lbpcascade_frontalface.xml");
         private static readonly CascadeClassifier FaceClassifier = new CascadeClassifier(@"..\\..\\..\\Resources\\haarcascade_frontalface_alt2.xml");
         
+        /// <summary>
+        /// 人脸定位
+        /// </summary>
+        /// <param name="img"></param>
+        /// <returns></returns>
         public static Mat FaceLocate(Mat img)
         {
             Mat grayImg = ConvertToGrayMat(img);
@@ -53,7 +58,11 @@ namespace opencv
             return grayImg;
         }
 
-        public static void ShowHistogram(Mat src)
+        /// <summary>
+        /// 灰度直方图
+        /// </summary>
+        /// <param name="src"></param>
+        public static Mat Histogram(Mat src)
         {
             // Histogram view
             const int width = 260, height = 200;
@@ -88,11 +97,7 @@ namespace opencv
                     -1);
             }
 
-            using (new Window("Image", WindowMode.AutoSize | WindowMode.FreeRatio, src))
-            using (new Window("Histogram", WindowMode.AutoSize | WindowMode.FreeRatio, render))
-            {
-                Cv2.WaitKey();
-            }
+            return render;
         }
 
         /// <summary>
@@ -100,6 +105,7 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
+        /// <exception cref="ProcessCanceledException"></exception>
         public static Mat AddGaussianNoise(Mat img)
         {
             var inputWindow = new MeanVariancePopUp();
@@ -125,6 +131,7 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
+        /// <exception cref="ProcessCanceledException"></exception>
         public static Mat AddUniformNoise(Mat img)
         {
             var inputWindow = new UpperLowerLimitPopUp();
@@ -148,6 +155,7 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
+        /// <exception cref="ProcessCanceledException"></exception>
         public static Mat AddSaltAndPepperNoise(Mat img)
         {
             var inputWindow = new UpperLowerLimitPopUp();
@@ -177,6 +185,8 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
+        /// <exception cref="NotGrayImageException"></exception>
+        /// <exception cref="ProcessCanceledException"></exception>
         public static Mat MedianBlur(Mat img)
         {
             var inputWindow = new RectangleBoxSizePopUp();
@@ -202,6 +212,7 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
+        /// <exception cref="ProcessCanceledException"></exception>
         public static Mat AverageBlur(Mat img)
         {
             var inputWindow = new BoxHeightWidthPopUp();
@@ -221,6 +232,7 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
+        /// <exception cref="ProcessCanceledException"></exception>
         public static Mat GaussianBlur(Mat img)
         {
             var inputWindow = new BoxHeightWidthPopUp();
@@ -240,6 +252,7 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
+        /// <exception cref="ProcessCanceledException"></exception>
         public static Mat LaplacianSharpen(Mat img)
         {
             var inputWindow = new CoefficientAlphaPopUp();
@@ -266,6 +279,7 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
+        /// <exception cref="ProcessCanceledException"></exception>
         public static Mat SobelSharpen(Mat img)
         {
             var w = new SobelCoefficientPopUp();
@@ -291,6 +305,7 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
+        /// <exception cref="ProcessCanceledException"></exception>
         public static Mat PseudoColorFortify(Mat img)
         {
             var w = new ColorMapComboPopUp();
@@ -328,6 +343,7 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
+        /// <exception cref="ProcessCanceledException"></exception>
         public static Mat CannyEdgeDetect(Mat img)
         {
             var w = new UpperLowerLimitPopUp(true);
@@ -349,6 +365,7 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
+        /// <exception cref="ProcessCanceledException"></exception>
         public static Mat SobelEdgeDetect(Mat img)
         {
             var w = new SobelCoefficientPopUp(true);
@@ -374,6 +391,8 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
+        /// <exception cref="NotGrayImageException"></exception>
+        /// <exception cref="ProcessCanceledException"></exception>
         public static Mat MeanThresholdSeg(Mat img)
         {
             var w = new AdaptiveSegmentationComboPopUp();
@@ -405,6 +424,8 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
+        /// <exception cref="NotGrayImageException"></exception>
+        /// <exception cref="ProcessCanceledException"></exception>
         public static Mat GaussianThresholdSeg(Mat img)
         {
             var w = new AdaptiveSegmentationComboPopUp();
@@ -431,7 +452,12 @@ namespace opencv
             }
         }
 
-
+        /// <summary>
+        /// Otsu门限分割
+        /// </summary>
+        /// <param name="img"></param>
+        /// <returns></returns>
+        /// <exception cref="NotGrayImageException"></exception>
         public static Mat OtsuSeg(Mat img)
         {
             try
@@ -450,6 +476,7 @@ namespace opencv
         /// </summary>
         /// <param name="I"></param>
         /// <returns></returns>
+        /// <exception cref="NotGrayImageException"></exception>
         public static Mat DftTransform(Mat I)
         {
             Mat padded = new Mat(); //expand input image to optimal size

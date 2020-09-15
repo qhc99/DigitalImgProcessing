@@ -35,6 +35,9 @@
             this.leftPictureBox = new System.Windows.Forms.PictureBox();
             this.pictureRightClickMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.rightClickSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.showHitogramButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.DFTTransformButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.waveletTransformButton = new System.Windows.Forms.ToolStripMenuItem();
             this.rightPictureBox = new System.Windows.Forms.PictureBox();
             this.rightPictureLabel = new System.Windows.Forms.Label();
             this.leftPictureLabel = new System.Windows.Forms.Label();
@@ -76,9 +79,6 @@
             this.meanThresholdSegButton = new System.Windows.Forms.ToolStripMenuItem();
             this.GaussianThresholdSegButton = new System.Windows.Forms.ToolStripMenuItem();
             this.OtsuSegButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.transformButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.DFTTransformButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.waveletTransformButton = new System.Windows.Forms.ToolStripMenuItem();
             this.featureDetectButton = new System.Windows.Forms.ToolStripMenuItem();
             this.featureExtractButton = new System.Windows.Forms.ToolStripMenuItem();
             this.faceLocateButton = new System.Windows.Forms.ToolStripMenuItem();
@@ -113,16 +113,44 @@
             // pictureRightClickMenu
             // 
             this.pictureRightClickMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.rightClickSave});
+            this.rightClickSave,
+            this.showHitogramButton,
+            this.DFTTransformButton,
+            this.waveletTransformButton});
             this.pictureRightClickMenu.Name = "pictureRightClickMenu";
-            this.pictureRightClickMenu.Size = new System.Drawing.Size(101, 26);
+            this.pictureRightClickMenu.Size = new System.Drawing.Size(137, 92);
             // 
             // rightClickSave
             // 
+            this.rightClickSave.Enabled = false;
             this.rightClickSave.Name = "rightClickSave";
-            this.rightClickSave.Size = new System.Drawing.Size(100, 22);
+            this.rightClickSave.Size = new System.Drawing.Size(136, 22);
             this.rightClickSave.Text = "保存";
             this.rightClickSave.Click += new System.EventHandler(this.RightClickSave_Click);
+            // 
+            // showHitogramButton
+            // 
+            this.showHitogramButton.Enabled = false;
+            this.showHitogramButton.Name = "showHitogramButton";
+            this.showHitogramButton.Size = new System.Drawing.Size(136, 22);
+            this.showHitogramButton.Text = "灰度直方图";
+            this.showHitogramButton.Click += new System.EventHandler(this.showHistogramButton_Click);
+            // 
+            // DFTTransformButton
+            // 
+            this.DFTTransformButton.Enabled = false;
+            this.DFTTransformButton.Name = "DFTTransformButton";
+            this.DFTTransformButton.Size = new System.Drawing.Size(136, 22);
+            this.DFTTransformButton.Text = "傅里叶变换";
+            this.DFTTransformButton.Click += new System.EventHandler(this.DFTTransformButton_Click);
+            // 
+            // waveletTransformButton
+            // 
+            this.waveletTransformButton.Enabled = false;
+            this.waveletTransformButton.Name = "waveletTransformButton";
+            this.waveletTransformButton.Size = new System.Drawing.Size(136, 22);
+            this.waveletTransformButton.Text = "小波变换";
+            this.waveletTransformButton.Click += new System.EventHandler(this.waveletTransformButton_Click);
             // 
             // rightPictureBox
             // 
@@ -187,7 +215,6 @@
             this.fortifyButton,
             this.edgeButton,
             this.thresholdSegButton,
-            this.transformButton,
             this.featureDetectButton,
             this.videoProcessButton,
             this.shortCutHelp});
@@ -482,30 +509,6 @@
             this.OtsuSegButton.Text = "Otsu门限分割";
             this.OtsuSegButton.Click += new System.EventHandler(this.OtsuSegButton_Click);
             // 
-            // transformButton
-            // 
-            this.transformButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.DFTTransformButton,
-            this.waveletTransformButton});
-            this.transformButton.Enabled = false;
-            this.transformButton.Name = "transformButton";
-            this.transformButton.Size = new System.Drawing.Size(68, 21);
-            this.transformButton.Text = "图像变换";
-            // 
-            // DFTTransformButton
-            // 
-            this.DFTTransformButton.Name = "DFTTransformButton";
-            this.DFTTransformButton.Size = new System.Drawing.Size(136, 22);
-            this.DFTTransformButton.Text = "傅里叶变换";
-            this.DFTTransformButton.Click += new System.EventHandler(this.DFTTransformButton_Click);
-            // 
-            // waveletTransformButton
-            // 
-            this.waveletTransformButton.Name = "waveletTransformButton";
-            this.waveletTransformButton.Size = new System.Drawing.Size(136, 22);
-            this.waveletTransformButton.Text = "小波变换";
-            this.waveletTransformButton.Click += new System.EventHandler(this.waveletTransformButton_Click);
-            // 
             // featureDetectButton
             // 
             this.featureDetectButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -626,7 +629,6 @@
         private System.Windows.Forms.ToolStripMenuItem fortifyButton;
         private System.Windows.Forms.ToolStripMenuItem edgeButton;
         private System.Windows.Forms.ToolStripMenuItem thresholdSegButton;
-        private System.Windows.Forms.ToolStripMenuItem transformButton;
         private System.Windows.Forms.ToolStripMenuItem preProcessButton;
         private System.Windows.Forms.ToolStripMenuItem addGaussianNoise;
         private System.Windows.Forms.ToolStripMenuItem featureDetectButton;
@@ -662,13 +664,14 @@
         private System.Windows.Forms.ToolStripMenuItem meanThresholdSegButton;
         private System.Windows.Forms.ToolStripMenuItem GaussianThresholdSegButton;
         private System.Windows.Forms.ToolStripMenuItem OtsuSegButton;
-        private System.Windows.Forms.ToolStripMenuItem DFTTransformButton;
-        private System.Windows.Forms.ToolStripMenuItem waveletTransformButton;
         private System.Windows.Forms.ToolStripMenuItem featureExtractButton;
         private System.Windows.Forms.ToolStripMenuItem faceLocateButton;
         private System.Windows.Forms.ToolStripMenuItem videoProcessButton;
         private System.Windows.Forms.ToolStripMenuItem openCameraButton;
         private System.Windows.Forms.ToolStripMenuItem openVideoFile;
+        private System.Windows.Forms.ToolStripMenuItem DFTTransformButton;
+        private System.Windows.Forms.ToolStripMenuItem waveletTransformButton;
+        private System.Windows.Forms.ToolStripMenuItem showHitogramButton;
     }
 }
 

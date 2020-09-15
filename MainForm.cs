@@ -169,10 +169,8 @@ namespace opencv
             fortifyButton.Enabled = true;
             edgeButton.Enabled = true;
             thresholdSegButton.Enabled = true;
-            transformButton.Enabled = true;
             saveSecondFileButton.Enabled = true;
             saveFirstFileButton.Enabled = true;
-            transformButton.Enabled = true;
             featureDetectButton.Enabled = true;
             // videoProcessButton.Enabled = true;
             pseudoColorFortifyButton.Enabled = true;
@@ -180,6 +178,10 @@ namespace opencv
             reverseButton.Enabled = true;
             imagesListButton.Enabled = true;
             overwriteButton.Enabled = true;
+            DFTTransformButton.Enabled = true;
+            waveletTransformButton.Enabled = true;
+            rightClickSave.Enabled = true;
+            showHitogramButton.Enabled = true;
         }
 
         /// <summary>
@@ -195,10 +197,8 @@ namespace opencv
             fortifyButton.Enabled = false;
             edgeButton.Enabled = false;
             thresholdSegButton.Enabled = false;
-            transformButton.Enabled = false;
             saveSecondFileButton.Enabled = false;
             saveFirstFileButton.Enabled = false;
-            transformButton.Enabled = false;
             featureDetectButton.Enabled = false;
             // videoProcessButton.Enabled = false;
             pseudoColorFortifyButton.Enabled = false;
@@ -206,6 +206,10 @@ namespace opencv
             reverseButton.Enabled = false;
             imagesListButton.Enabled = false;
             overwriteButton.Enabled = false;
+            DFTTransformButton.Enabled = false;
+            waveletTransformButton.Enabled = false;
+            rightClickSave.Enabled = false;
+            showHitogramButton.Enabled = false;
         }
 
         /// <summary>
@@ -478,7 +482,7 @@ namespace opencv
         }
 
         /// <summary>
-        /// 图片上右击保存
+        /// 右击保存
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -559,7 +563,7 @@ namespace opencv
 
                 int sleepTime = (int) Math.Round(1000 / capture.Fps);
 
-                using Window window = new Window("file", WindowMode.AutoSize);
+                using Window window = new Window("file", WindowMode.AutoSize | WindowMode.KeepRatio);
                 Mat image = new Mat();
                 // When the movie playback reaches end, Mat.data becomes NULL.
                 int key = -1;
@@ -905,7 +909,40 @@ namespace opencv
         /// <param name="e"></param>
         private void DFTTransformButton_Click(object sender, EventArgs e)
         {
-            
+            // Try to cast the sender to a ToolStripItem
+            if (sender is ToolStripItem menuItem)
+            {
+                // Retrieve the ContextMenuStrip that owns this ToolStripItem
+                if (menuItem.Owner is ContextMenuStrip owner)
+                {
+                    // Get the control that is displaying this context menu
+                    Control sourceControl = owner.SourceControl;
+                    if (sourceControl == leftPictureBox && WorkingMats.Count >= 1)
+                    {
+                        using Window dftWindow = new Window("Spectrum Magnitude",WindowMode.KeepRatio | WindowMode.AutoSize);
+                        try
+                        {
+                            Cv2.ImShow("Spectrum Magnitude", DftTransform(WorkingLeftMat));
+                        }
+                        catch (NotGrayImageException)
+                        {
+                            MessageBox.Show(@"非灰度化图像");
+                        }
+                    }
+                    else if (sourceControl == rightPictureBox && WorkingMats.Count >= 2)
+                    {
+                        using Window dftWindow = new Window("Spectrum Magnitude", WindowMode.KeepRatio | WindowMode.AutoSize);
+                        try
+                        {
+                            Cv2.ImShow("Spectrum Magnitude", DftTransform(WorkingRightMat));
+                        }
+                        catch (NotGrayImageException)
+                        {
+                            MessageBox.Show(@"非灰度化图像");
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -939,6 +976,55 @@ namespace opencv
         {
             //TODO
             NotImplemented();
+        }
+
+        /// <summary>
+        /// 显示灰度直方图
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void showHistogramButton_Click(object sender, EventArgs e)
+        {
+            
+
+            // Try to cast the sender to a ToolStripItem
+            if (sender is ToolStripItem menuItem)
+            {
+                // Retrieve the ContextMenuStrip that owns this ToolStripItem
+                if (menuItem.Owner is ContextMenuStrip owner)
+                {
+                    // Get the control that is displaying this context menu
+                    Control sourceControl = owner.SourceControl;
+                    if (sourceControl == leftPictureBox && WorkingMats.Count >= 1)
+                    {
+                        try
+                        {
+                            using (new Window("Histogram", WindowMode.KeepRatio | WindowMode.AutoSize, Histogram(WorkingLeftMat)))
+                            {
+                                Cv2.WaitKey();
+                            }
+                        }
+                        catch (NotGrayImageException)
+                        {
+                            MessageBox.Show(@"非灰度化图像");
+                        }
+                    }
+                    else if (sourceControl == rightPictureBox && WorkingMats.Count >= 2)
+                    {
+                        try
+                        {
+                            using (new Window("Histogram", WindowMode.KeepRatio | WindowMode.AutoSize, Histogram(WorkingRightMat)))
+                            {
+                                Cv2.WaitKey();
+                            }
+                        }
+                        catch (NotGrayImageException)
+                        {
+                            MessageBox.Show(@"非灰度化图像");
+                        }
+                    }
+                }
+            }
         }
     }
 }
