@@ -34,7 +34,7 @@ namespace opencv
             {
                 capture.Read(image); // same as cvQueryFrame
                 if (image.Empty()) break; // 摄像头大小:480*640
-                pictureBox1.Image = FaceLocate(image, CopyTypes.Origin).ToBitmap();
+                pictureBox1.Image = FaceLocate(image, CopyTypes.ShallowCopy).ToBitmap();
                 Cv2.WaitKey(10);
             }
 

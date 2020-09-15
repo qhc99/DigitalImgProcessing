@@ -7,8 +7,8 @@ namespace opencv
 {
     public enum CopyTypes
     {
-        Origin = 0,
-        Clone = 1
+        ShallowCopy = 0,
+        DeepCopy = 1
     }
 
     public static class ImageProcessing
@@ -24,10 +24,10 @@ namespace opencv
         /// <param name="img"></param>
         /// <param name="copy"></param>
         /// <returns></returns>
-        public static Mat FaceLocate(Mat img, CopyTypes copy = CopyTypes.Clone)
+        public static Mat FaceLocate(Mat img, CopyTypes copy = CopyTypes.DeepCopy)
         {
             Mat grayImg = ConvertToGrayMat(img);
-            var newImg = copy == CopyTypes.Origin ? img : img.Clone();
+            var newImg = copy == CopyTypes.ShallowCopy ? img : img.Clone();
             Rect[] faces = FaceClassifier.DetectMultiScale(grayImg,
                 1.08, 2, HaarDetectionType.ScaleImage, new Size(30, 30));
             foreach (var rect in faces)
@@ -331,13 +331,11 @@ namespace opencv
         /// <returns></returns>
         public static Mat LaplacianEdgeDetect(Mat img)
         {
-            //TODO fix bug
-            Mat newOriginImg = new Mat(img.Size(), MatType.CV_16S);
-            img.ConvertTo(newOriginImg, MatType.CV_16S);
-            Mat edgeImg = img.Laplacian(MatType.CV_16S);
-            Mat resEdgeImg = new Mat(edgeImg.Size(), MatType.CV_8U);
-            edgeImg.ConvertTo(resEdgeImg, MatType.CV_8U);
-            return resEdgeImg;
+            Mat dst = new Mat();
+            Mat absDst = new Mat();
+            Cv2.Laplacian(img, dst, MatType.CV_16S, 3);
+            Cv2.ConvertScaleAbs(dst, absDst);
+            return absDst;
         }
 
         /// <summary>
@@ -348,22 +346,20 @@ namespace opencv
         /// <exception cref="ProcessCanceledException">Thrown.</exception>
         public static Mat SobelEdgeDetect(Mat img)
         {
-            //TODO fix bug
-            var w = new SobelCoefficientPopUp(true);
-            var dialogRes = w.ShowDialog();
-            if (dialogRes == DialogResult.OK)
-            {
-                Mat newImg = new Mat(img.Size(), MatType.CV_16S);
-                img.ConvertTo(newImg, MatType.CV_16S);
-                Mat edgeImg = img.Sobel(MatType.CV_16S, w.XOrder, w.YOrder, w.WindowSize);
-                Mat resEdgeImg = new Mat(edgeImg.Size(), MatType.CV_8U);
-                edgeImg.ConvertTo(resEdgeImg, MatType.CV_8U);
-                return resEdgeImg;
-            }
-            else
-            {
-                throw new ProcessCanceledException();
-            }
+            Mat gradX = new Mat();
+            Mat gradY = new Mat();
+            Mat absGradX = new Mat();
+            Mat absGradY = new Mat();
+            Mat dst = new Mat();
+
+            Cv2.Sobel(img, gradX, MatType.CV_16S, 1, 0, 3, 1, 1);
+            Cv2.ConvertScaleAbs(gradX, absGradX);
+
+            Cv2.Sobel(img, gradY, MatType.CV_16S, 0, 1, 3, 1, 1);
+            Cv2.ConvertScaleAbs(gradY, absGradY);
+
+            Cv2.AddWeighted(absGradX, 0.5, absGradY, 0.5, 0, dst);
+            return dst;
         }
 
         /// <summary>
