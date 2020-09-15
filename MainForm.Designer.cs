@@ -671,8 +671,6 @@
         private System.Windows.Forms.ToolStripMenuItem LaplacianSharpenButton;
         private System.Windows.Forms.ToolStripMenuItem SobelSharpenButton;
         private System.Windows.Forms.ToolStripMenuItem homoFilterButton;
-        private System.Windows.Forms.ToolStripMenuItem homoFilter;
-        private System.Windows.Forms.ToolStripMenuItem DeFog;
         private System.Windows.Forms.ToolStripMenuItem HazeRemovalButton;
         private System.Windows.Forms.ToolStripMenuItem pseudoColorFortifyButton;
         private System.Windows.Forms.ToolStripMenuItem LaplacianEdgeDetection;
