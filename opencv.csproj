@@ -15,14 +15,12 @@
   <ItemGroup>
     <None Remove="Resources\icon.ico" />
     <None Remove="Resources\none.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\icon.ico" />
+    <None Remove="Resources\opencv_logo.ico" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\none.jpg" />
+    <EmbeddedResource Include="Resources\opencv_logo.ico" />
   </ItemGroup>
 
   <ItemGroup>
