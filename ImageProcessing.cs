@@ -119,6 +119,8 @@ namespace opencv
         /// <param name="img"></param>
         /// <returns></returns>
         /// <exception cref="ProcessCanceledException"></exception>
+        /// <exception cref="System.InvalidOperationException">Ignore.</exception>
+        /// <exception cref="opencv.ProcessCanceledException"></exception>
         public static Mat AddGaussianNoise(Mat img)
         {
             var inputWindow = new MeanVariancePopUp();
@@ -145,6 +147,7 @@ namespace opencv
         /// <param name="img"></param>
         /// <returns></returns>
         /// <exception cref="ProcessCanceledException"></exception>
+        /// <exception cref="System.InvalidOperationException">Ignore.</exception>
         public static Mat AddUniformNoise(Mat img)
         {
             var inputWindow = new UpperLowerLimitPopUp();
@@ -169,6 +172,7 @@ namespace opencv
         /// <param name="img"></param>
         /// <returns></returns>
         /// <exception cref="ProcessCanceledException"></exception>
+        /// <exception cref="System.InvalidOperationException">Ignore.</exception>
         public static Mat AddSaltAndPepperNoise(Mat img)
         {
             var inputWindow = new UpperLowerLimitPopUp();
@@ -225,7 +229,8 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
-        /// <exception cref="ProcessCanceledException"></exception>
+        /// <exception cref="opencv.ProcessCanceledException">Thrown.</exception>
+        /// <exception cref="System.InvalidOperationException">Ignore.</exception>
         public static Mat AverageBlur(Mat img)
         {
             var inputWindow = new BoxHeightWidthPopUp();
@@ -245,7 +250,8 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
-        /// <exception cref="ProcessCanceledException"></exception>
+        /// <exception cref="System.InvalidOperationException">Ignore.</exception>
+        /// <exception cref="opencv.ProcessCanceledException"></exception>
         public static Mat GaussianBlur(Mat img)
         {
             var inputWindow = new BoxHeightWidthPopUp();
@@ -265,7 +271,8 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
-        /// <exception cref="ProcessCanceledException"></exception>
+        /// <exception cref="opencv.ProcessCanceledException">Thrown.</exception>
+        /// <exception cref="System.InvalidOperationException">Ignore.</exception>
         public static Mat LaplacianSharpen(Mat img)
         {
             var inputWindow = new CoefficientAlphaPopUp();
@@ -292,7 +299,8 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
-        /// <exception cref="ProcessCanceledException"></exception>
+        /// <exception cref="opencv.ProcessCanceledException">Thrown.</exception>
+        /// <exception cref="System.InvalidOperationException">Ignore.</exception>
         public static Mat SobelSharpen(Mat img)
         {
             var w = new SobelCoefficientPopUp();
@@ -318,7 +326,8 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
-        /// <exception cref="ProcessCanceledException"></exception>
+        /// <exception cref="opencv.ProcessCanceledException">Thrown</exception>
+        /// <exception cref="System.InvalidOperationException">Ignore.</exception>
         public static Mat PseudoColorFortify(Mat img)
         {
             var w = new ColorMapComboPopUp();
@@ -343,6 +352,7 @@ namespace opencv
         /// <returns></returns>
         public static Mat LaplacianEdgeDetect(Mat img)
         {
+            //TODO fix bug
             Mat newOriginImg = new Mat(img.Size(), MatType.CV_16S);
             img.ConvertTo(newOriginImg, MatType.CV_16S);
             Mat edgeImg = img.Laplacian(MatType.CV_16S);
@@ -352,35 +362,15 @@ namespace opencv
         }
 
         /// <summary>
-        /// Canny边缘检测
-        /// </summary>
-        /// <param name="img"></param>
-        /// <returns></returns>
-        /// <exception cref="ProcessCanceledException"></exception>
-        public static Mat CannyEdgeDetect(Mat img)
-        {
-            var w = new UpperLowerLimitPopUp(true);
-            var dialogRes = w.ShowDialog();
-            if (dialogRes == DialogResult.OK)
-            {
-
-                Mat edgeImg = img.Canny(w.Low, w.High, w.ApertureSize);
-                return edgeImg;
-            }
-            else
-            {
-                throw new ProcessCanceledException();
-            }
-        }
-
-        /// <summary>
         /// Sobel边缘检测
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
-        /// <exception cref="ProcessCanceledException"></exception>
+        /// <exception cref="System.InvalidOperationException">Ignore.</exception>
+        /// <exception cref="opencv.ProcessCanceledException">Thrown.</exception>
         public static Mat SobelEdgeDetect(Mat img)
         {
+            //TODO fix bug
             var w = new SobelCoefficientPopUp(true);
             var dialogRes = w.ShowDialog();
             if (dialogRes == DialogResult.OK)
@@ -400,12 +390,36 @@ namespace opencv
         }
 
         /// <summary>
+        /// Canny边缘检测
+        /// </summary>
+        /// <param name="img"></param>
+        /// <returns></returns>
+        /// <exception cref="opencv.ProcessCanceledException"></exception>
+        /// <exception cref="System.InvalidOperationException">Ignore.</exception>
+        public static Mat CannyEdgeDetect(Mat img)
+        {
+            var w = new UpperLowerLimitPopUp(true);
+            var dialogRes = w.ShowDialog();
+            if (dialogRes == DialogResult.OK)
+            {
+
+                Mat edgeImg = img.Canny(w.Low, w.High, w.ApertureSize);
+                return edgeImg;
+            }
+            else
+            {
+                throw new ProcessCanceledException();
+            }
+        }
+
+        /// <summary>
         /// 均值门限分割
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
-        /// <exception cref="NotGrayImageException"></exception>
-        /// <exception cref="ProcessCanceledException"></exception>
+        /// <exception cref="opencv.NotGrayImageException">Thrown</exception>
+        /// <exception cref="opencv.ProcessCanceledException">Thrown.</exception>
+        /// <exception cref="System.InvalidOperationException">Ignore.</exception>
         public static Mat MeanThresholdSeg(Mat img)
         {
             var w = new AdaptiveSegmentationComboPopUp();
@@ -436,8 +450,9 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
-        /// <exception cref="NotGrayImageException"></exception>
-        /// <exception cref="ProcessCanceledException"></exception>
+        /// <exception cref="opencv.NotGrayImageException"></exception>
+        /// <exception cref="opencv.ProcessCanceledException"></exception>
+        /// <exception cref="System.InvalidOperationException">Ignore.</exception>
         public static Mat GaussianThresholdSeg(Mat img)
         {
             var w = new AdaptiveSegmentationComboPopUp();
@@ -469,7 +484,7 @@ namespace opencv
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
-        /// <exception cref="NotGrayImageException"></exception>
+        /// <exception cref="opencv.NotGrayImageException"></exception>
         public static Mat OtsuSeg(Mat img)
         {
             try
@@ -488,7 +503,7 @@ namespace opencv
         /// </summary>
         /// <param name="I"></param>
         /// <returns></returns>
-        /// <exception cref="NotGrayImageException"></exception>
+        /// <exception cref="opencv.NotGrayImageException"></exception>
         public static Mat DftTransform(Mat I)
         {
             Mat padded = new Mat(); //expand input image to optimal size
@@ -577,7 +592,6 @@ namespace opencv
             return newImg;
         }
 
-        // ReSharper disable once InconsistentNaming
         /// <summary>
         /// ORB and FREAK特征提取
         /// </summary>
