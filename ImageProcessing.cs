@@ -16,7 +16,7 @@ namespace opencv
         //private static readonly CascadeClassifier FaceClassifier = new CascadeClassifier(@"..\\..\\..\\Resources\\haarcascade_frontalface_default.xml");
         //private static readonly CascadeClassifier FaceClassifier = new CascadeClassifier(@"..\\..\\..\\Resources\\lbpcascade_frontalface.xml");
         private static readonly CascadeClassifier FaceClassifier =
-            new CascadeClassifier(@"..\\..\\..\\Resources\\haarcascade_frontalface_alt2.xml");
+            new CascadeClassifier(@"..\\..\\..\\Resources\\haarcascade_frontalface_alt_tree.xml");
 
         /// <summary>
         /// 人脸定位
