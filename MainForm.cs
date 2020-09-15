@@ -14,6 +14,8 @@ namespace opencv
     {
         private readonly List<List<Mat>> _workingMatsProcesses = new List<List<Mat>>();
         private int _currentProcessIndex = -1;
+        private readonly Mat _noneMat =
+            ((Bitmap) Image.FromFile(Directory.GetCurrentDirectory() + "..\\..\\..\\..\\Resources\\none.jpg")).ToMat();
 
         public MainForm()
         {
@@ -23,7 +25,14 @@ namespace opencv
             LoadNoneImg(rightPictureBox);
         }
 
-        #region Methods
+        // ReSharper disable once UnusedMember.Local
+        /// <summary>
+        /// helper function
+        /// </summary>
+        private void NotImplemented()
+        {
+            MessageBox.Show(@"未实现此功能");
+        }
 
         /// <summary>
         /// 显示空图片
@@ -32,15 +41,6 @@ namespace opencv
         private void LoadNoneImg(PictureBox pb)
         {
             ShowMat(pb, _noneMat);
-        }
-
-        private readonly Mat _noneMat =
-            ((Bitmap) Image.FromFile(Directory.GetCurrentDirectory() + "..\\..\\..\\..\\Resources\\none.jpg")).ToMat();
-
-        // ReSharper disable once UnusedMember.Local
-        private void NotImplemented()
-        {
-            MessageBox.Show(@"未实现此功能");
         }
 
         /// <summary>
@@ -265,8 +265,6 @@ namespace opencv
                 m.ToBitmap().Save(saveFileDialog1.FileName);
             }
         }
-
-        #endregion
 
         /// <summary>
         /// 加载图片并显示
