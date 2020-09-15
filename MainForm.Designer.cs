@@ -82,7 +82,6 @@
             this.featureDetectButton = new System.Windows.Forms.ToolStripMenuItem();
             this.starDetectorButton = new System.Windows.Forms.ToolStripMenuItem();
             this.ORBandFREAK = new System.Windows.Forms.ToolStripMenuItem();
-            this.featureExtractButton = new System.Windows.Forms.ToolStripMenuItem();
             this.faceLocateButton = new System.Windows.Forms.ToolStripMenuItem();
             this.videoProcessButton = new System.Windows.Forms.ToolStripMenuItem();
             this.openCameraButton = new System.Windows.Forms.ToolStripMenuItem();
@@ -516,7 +515,6 @@
             this.featureDetectButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.starDetectorButton,
             this.ORBandFREAK,
-            this.featureExtractButton,
             this.faceLocateButton});
             this.featureDetectButton.Enabled = false;
             this.featureDetectButton.Name = "featureDetectButton";
@@ -536,13 +534,6 @@
             this.ORBandFREAK.Size = new System.Drawing.Size(199, 22);
             this.ORBandFREAK.Text = "ORB和FREAK特征提取";
             this.ORBandFREAK.Click += new System.EventHandler(this.ORBandFREAK_Click);
-            // 
-            // featureExtractButton
-            // 
-            this.featureExtractButton.Name = "featureExtractButton";
-            this.featureExtractButton.Size = new System.Drawing.Size(199, 22);
-            this.featureExtractButton.Text = "特征提取";
-            this.featureExtractButton.Click += new System.EventHandler(this.featureExtractButton_Click);
             // 
             // faceLocateButton
             // 
@@ -682,7 +673,6 @@
         private System.Windows.Forms.ToolStripMenuItem meanThresholdSegButton;
         private System.Windows.Forms.ToolStripMenuItem GaussianThresholdSegButton;
         private System.Windows.Forms.ToolStripMenuItem OtsuSegButton;
-        private System.Windows.Forms.ToolStripMenuItem featureExtractButton;
         private System.Windows.Forms.ToolStripMenuItem faceLocateButton;
         private System.Windows.Forms.ToolStripMenuItem videoProcessButton;
         private System.Windows.Forms.ToolStripMenuItem openCameraButton;

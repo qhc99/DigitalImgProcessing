@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using OpenCvSharp;
+using OpenCvSharp.XFeatures2D;
 using Range = OpenCvSharp.Range;
 
 namespace opencv
@@ -21,13 +22,15 @@ namespace opencv
         public static Mat FaceLocate(Mat img)
         {
             Mat grayImg = ConvertToGrayMat(img);
-
+            Mat newImg = img.Clone();
             Rect[] faces = FaceClassifier.DetectMultiScale(grayImg, 
                 1.08, 2, HaarDetectionType.ScaleImage, new Size(30, 30));
             foreach (var rect in faces)
             {
-                Cv2.Rectangle(img, new Point(rect.X,rect.Y), new Point(rect.X + rect.Width, 
+                Cv2.Rectangle(newImg, new Point(rect.X,rect.Y), new Point(rect.X + rect.Width, 
                     rect.Y + rect.Height), new Scalar(255, 0, 0),3);
+                
+                // eyes locations:
                 // var roiGray = grayImg.SubMat(new Range(rect.Y, rect.Y + rect.Height),
                 //     new Range(rect.X, rect.X + rect.Width));
                 // var roiImg = img.SubMat(new Range(rect.Y, rect.Y + rect.Height),
@@ -35,7 +38,7 @@ namespace opencv
                 
             }
 
-            return img;
+            return newImg;
         }
 
         /// <summary>
@@ -532,6 +535,76 @@ namespace opencv
             // values 0 and 255).
 
             return magI;
+        }
+
+        /// <summary>
+        /// Star特征提取
+        /// </summary>
+        /// <param name="img"></param>
+        /// <returns></returns>
+        public static Mat StarFeatureDetect(Mat img)
+        {
+            var newImg = img.Clone();
+            var gray = ConvertToGrayMat(img);
+            var detector = StarDetector.Create();//maxsize:45
+
+            KeyPoint[] keyPoints = detector.Detect(gray);
+
+            foreach (KeyPoint kpt in keyPoints)
+            {
+                var color = new Scalar(0, 255, 0);
+                float r = kpt.Size / 2;
+                Cv2.Circle(newImg, (Point)kpt.Pt, (int)r, color);
+                Cv2.Line(newImg,
+                    (Point)new Point2f(kpt.Pt.X + r, kpt.Pt.Y + r),
+                    (Point)new Point2f(kpt.Pt.X - r, kpt.Pt.Y - r),
+                    color);
+                Cv2.Line(newImg,
+                    (Point)new Point2f(kpt.Pt.X - r, kpt.Pt.Y + r),
+                    (Point)new Point2f(kpt.Pt.X + r, kpt.Pt.Y - r),
+                    color);
+            }
+
+            return newImg;
+        }
+
+
+        // ReSharper disable once InconsistentNaming
+        /// <summary>
+        /// ORB and FREAK
+        /// </summary>
+        /// <param name="img"></param>
+        /// <returns></returns>
+        public static Mat ORBandFREAKFeatureDetect(Mat img)
+        {
+            //ORB
+            Mat newImg = img.Clone();
+            Mat gray = ConvertToGrayMat(img);
+            ORB orb = ORB.Create(1000);
+            KeyPoint[] keyPoints = orb.Detect(gray);
+
+            // FREAK
+            FREAK freak = FREAK.Create();
+            Mat freakDescriptors = new Mat();
+            freak.Compute(gray, ref keyPoints, freakDescriptors);
+
+
+            var color = new Scalar(0, 255, 0);
+            foreach (KeyPoint kpt in keyPoints)
+            {
+                float r = kpt.Size / 2;
+                Cv2.Circle(newImg, (Point)kpt.Pt, (int)r, color);
+                Cv2.Line(newImg,
+                    (Point)new Point2f(kpt.Pt.X + r, kpt.Pt.Y + r),
+                    (Point)new Point2f(kpt.Pt.X - r, kpt.Pt.Y - r),
+                    color);
+                Cv2.Line(newImg,
+                    (Point)new Point2f(kpt.Pt.X - r, kpt.Pt.Y + r),
+                    (Point)new Point2f(kpt.Pt.X + r, kpt.Pt.Y - r),
+                    color);
+            }
+
+            return newImg;
         }
     }
 }
