@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using OpenCvSharp;
 using OpenCvSharp.XFeatures2D;
-using Range = OpenCvSharp.Range;
 
 namespace opencv
 {
@@ -567,7 +563,6 @@ namespace opencv
 
             return newImg;
         }
-
 
         // ReSharper disable once InconsistentNaming
         /// <summary>
