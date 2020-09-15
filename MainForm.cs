@@ -14,6 +14,7 @@ namespace opencv
     {
         private readonly List<List<Mat>> _workingMatsProcesses = new List<List<Mat>>();
         private int _currentProcessIndex = -1;
+
         private readonly Mat _noneMat =
             ((Bitmap) Image.FromFile(Directory.GetCurrentDirectory() + "..\\..\\..\\..\\Resources\\none.jpg")).ToMat();
 
@@ -631,7 +632,6 @@ namespace opencv
             }
             catch (ProcessCanceledException)
             {
-
             }
         }
 
@@ -648,7 +648,6 @@ namespace opencv
             }
             catch (ProcessCanceledException)
             {
-
             }
         }
 
@@ -665,11 +664,9 @@ namespace opencv
             }
             catch (ProcessCanceledException)
             {
-
             }
             catch (NotGrayImageException)
             {
-
             }
         }
 
@@ -686,7 +683,6 @@ namespace opencv
             }
             catch (ProcessCanceledException)
             {
-
             }
         }
 
@@ -703,7 +699,6 @@ namespace opencv
             }
             catch (ProcessCanceledException)
             {
-
             }
         }
 
@@ -737,7 +732,6 @@ namespace opencv
             }
             catch (ProcessCanceledException)
             {
-
             }
         }
 
@@ -754,7 +748,6 @@ namespace opencv
             }
             catch (ProcessCanceledException)
             {
-
             }
         }
 
@@ -799,7 +792,6 @@ namespace opencv
             }
             catch (ProcessCanceledException)
             {
-
             }
         }
 
@@ -826,7 +818,6 @@ namespace opencv
             }
             catch (ProcessCanceledException)
             {
-
             }
         }
 
@@ -843,7 +834,6 @@ namespace opencv
             }
             catch (ProcessCanceledException)
             {
-
             }
         }
 
@@ -860,7 +850,6 @@ namespace opencv
             }
             catch (ProcessCanceledException)
             {
-
             }
             catch (NotGrayImageException)
             {
@@ -881,7 +870,6 @@ namespace opencv
             }
             catch (ProcessCanceledException)
             {
-
             }
             catch (NotGrayImageException)
             {
@@ -923,7 +911,8 @@ namespace opencv
                     Control sourceControl = owner.SourceControl;
                     if (sourceControl == leftPictureBox && WorkingMats.Count >= 1)
                     {
-                        using Window dftWindow = new Window("Spectrum Magnitude",WindowMode.KeepRatio | WindowMode.AutoSize);
+                        using Window dftWindow = new Window("Spectrum Magnitude",
+                            WindowMode.KeepRatio | WindowMode.AutoSize);
                         try
                         {
                             Cv2.ImShow("Spectrum Magnitude", DftTransform(WorkingLeftMat));
@@ -936,7 +925,8 @@ namespace opencv
                     }
                     else if (sourceControl == rightPictureBox && WorkingMats.Count >= 2)
                     {
-                        using Window dftWindow = new Window("Spectrum Magnitude", WindowMode.KeepRatio | WindowMode.AutoSize);
+                        using Window dftWindow = new Window("Spectrum Magnitude",
+                            WindowMode.KeepRatio | WindowMode.AutoSize);
                         try
                         {
                             Cv2.ImShow("Spectrum Magnitude", DftTransform(WorkingRightMat));
@@ -958,7 +948,6 @@ namespace opencv
         /// <param name="e"></param>
         private void waveletTransformButton_Click(object sender, EventArgs e)
         {
-            
             // Try to cast the sender to a ToolStripItem
             if (sender is ToolStripItem menuItem)
             {
@@ -970,12 +959,12 @@ namespace opencv
                     if (sourceControl == leftPictureBox && WorkingMats.Count >= 1)
                     {
                         using Window dftWindow = new Window("Wavelet", WindowMode.KeepRatio | WindowMode.AutoSize);
-                        Cv2.ImShow("Wavelet",WaveletTransform(WorkingLeftMat));
+                        Cv2.ImShow("Wavelet", WaveletTransform(WorkingLeftMat));
                     }
                     else if (sourceControl == rightPictureBox && WorkingMats.Count >= 2)
                     {
                         using Window dftWindow = new Window("Wavelet", WindowMode.KeepRatio | WindowMode.AutoSize);
-                        Cv2.ImShow("Wavelet",WaveletTransform(WorkingRightMat));
+                        Cv2.ImShow("Wavelet", WaveletTransform(WorkingRightMat));
                     }
                 }
             }
@@ -998,8 +987,6 @@ namespace opencv
         /// <param name="e"></param>
         private void showHistogramButton_Click(object sender, EventArgs e)
         {
-            
-
             // Try to cast the sender to a ToolStripItem
             if (sender is ToolStripItem menuItem)
             {
@@ -1012,7 +999,8 @@ namespace opencv
                     {
                         try
                         {
-                            using (new Window("Histogram", WindowMode.KeepRatio | WindowMode.AutoSize, Histogram(WorkingLeftMat)))
+                            using (new Window("Histogram", WindowMode.KeepRatio | WindowMode.AutoSize,
+                                Histogram(WorkingLeftMat)))
                             {
                                 Cv2.WaitKey();
                             }
@@ -1026,7 +1014,8 @@ namespace opencv
                     {
                         try
                         {
-                            using (new Window("Histogram", WindowMode.KeepRatio | WindowMode.AutoSize, Histogram(WorkingRightMat)))
+                            using (new Window("Histogram", WindowMode.KeepRatio | WindowMode.AutoSize,
+                                Histogram(WorkingRightMat)))
                             {
                                 Cv2.WaitKey();
                             }

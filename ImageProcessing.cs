@@ -10,11 +10,13 @@ namespace opencv
         Origin = 0,
         Clone = 1
     }
+
     public static class ImageProcessing
     {
         //private static readonly CascadeClassifier FaceClassifier = new CascadeClassifier(@"..\\..\\..\\Resources\\haarcascade_frontalface_default.xml");
         //private static readonly CascadeClassifier FaceClassifier = new CascadeClassifier(@"..\\..\\..\\Resources\\lbpcascade_frontalface.xml");
-        private static readonly CascadeClassifier FaceClassifier = new CascadeClassifier(@"..\\..\\..\\Resources\\haarcascade_frontalface_alt2.xml");
+        private static readonly CascadeClassifier FaceClassifier =
+            new CascadeClassifier(@"..\\..\\..\\Resources\\haarcascade_frontalface_alt2.xml");
 
         /// <summary>
         /// 人脸定位
@@ -26,19 +28,18 @@ namespace opencv
         {
             Mat grayImg = ConvertToGrayMat(img);
             var newImg = copy == CopyTypes.Origin ? img : img.Clone();
-            Rect[] faces = FaceClassifier.DetectMultiScale(grayImg, 
+            Rect[] faces = FaceClassifier.DetectMultiScale(grayImg,
                 1.08, 2, HaarDetectionType.ScaleImage, new Size(30, 30));
             foreach (var rect in faces)
             {
-                Cv2.Rectangle(newImg, new Point(rect.X,rect.Y), new Point(rect.X + rect.Width, 
-                    rect.Y + rect.Height), new Scalar(255, 0, 0),3);
-                
+                Cv2.Rectangle(newImg, new Point(rect.X, rect.Y), new Point(rect.X + rect.Width,
+                    rect.Y + rect.Height), new Scalar(255, 0, 0), 3);
+
                 // eyes locations:
                 // var roiGray = grayImg.SubMat(new Range(rect.Y, rect.Y + rect.Height),
                 //     new Range(rect.X, rect.X + rect.Width));
                 // var roiImg = img.SubMat(new Range(rect.Y, rect.Y + rect.Height),
                 //     new Range(rect.X, rect.X + rect.Width));
-                
             }
 
             return newImg;
@@ -76,11 +77,11 @@ namespace opencv
 
             // Calculate histogram
             Mat hist = new Mat();
-            int[] hDims = { 256 }; // Histogram size for each dimension
-            Rangef[] ranges = { new Rangef(0, 256), }; // min/max 
+            int[] hDims = {256}; // Histogram size for each dimension
+            Rangef[] ranges = {new Rangef(0, 256),}; // min/max 
             Cv2.CalcHist(
-                new[] { src },
-                new[] { 0 },
+                new[] {src},
+                new[] {0},
                 null,
                 hist,
                 1,
@@ -95,9 +96,9 @@ namespace opencv
             hist = hist * (maxVal != 0 ? height / maxVal : 0.0);
             for (int j = 0; j < hDims[0]; ++j)
             {
-                int binW = (int)((double)width / hDims[0]);
+                int binW = (int) ((double) width / hDims[0]);
                 render.Rectangle(
-                    new Point(j * binW, render.Rows - (int)(hist.Get<float>(j))),
+                    new Point(j * binW, render.Rows - (int) (hist.Get<float>(j))),
                     new Point((j + 1) * binW, render.Rows),
                     color,
                     -1);
@@ -120,8 +121,6 @@ namespace opencv
 
             if (dialogResult == DialogResult.OK)
             {
-
-
                 Mat gNoise = new Mat(img.Size(), img.Type());
                 gNoise.Randn(inputWindow.Mean, inputWindow.Variance);
 
@@ -145,8 +144,6 @@ namespace opencv
             var dRest = inputWindow.ShowDialog();
             if (dRest == DialogResult.OK)
             {
-
-
                 Mat uNoise = new Mat(img.Size(), img.Type());
                 uNoise.Randu(inputWindow.Low, inputWindow.High);
                 return img + uNoise;
@@ -169,7 +166,6 @@ namespace opencv
             var dialogRes = inputWindow.ShowDialog();
             if (dialogRes == DialogResult.OK)
             {
-
                 var noiseImg = img.Clone();
 
                 Mat rand = Mat.Zeros(new Size(noiseImg.Height, noiseImg.Width), noiseImg.Type());
@@ -266,7 +262,6 @@ namespace opencv
             var dialogRes = inputWindow.ShowDialog();
             if (dialogRes == DialogResult.OK)
             {
-
                 Mat newImg = new Mat(img.Size(), MatType.CV_16S);
                 img.ConvertTo(newImg, MatType.CV_16S);
                 // why minus works?
@@ -319,7 +314,6 @@ namespace opencv
             var dialogRes = w.ShowDialog();
             if (dialogRes == DialogResult.OK)
             {
-
                 Mat cImg = new Mat(img.Size(), img.Type());
                 Cv2.ApplyColorMap(img, cImg, w.SelectedTypes);
                 return cImg;
@@ -359,7 +353,6 @@ namespace opencv
             var dialogRes = w.ShowDialog();
             if (dialogRes == DialogResult.OK)
             {
-
                 Mat newImg = new Mat(img.Size(), MatType.CV_16S);
                 img.ConvertTo(newImg, MatType.CV_16S);
                 Mat edgeImg = img.Sobel(MatType.CV_16S, w.XOrder, w.YOrder, w.WindowSize);
@@ -385,7 +378,6 @@ namespace opencv
             var dialogRes = w.ShowDialog();
             if (dialogRes == DialogResult.OK)
             {
-
                 Mat edgeImg = img.Canny(w.Low, w.High, w.ApertureSize);
                 return edgeImg;
             }
@@ -408,7 +400,6 @@ namespace opencv
             var dialogRes = w.ShowDialog();
             if (dialogRes == DialogResult.OK)
             {
-
                 Mat seg;
                 try
                 {
@@ -419,6 +410,7 @@ namespace opencv
                 {
                     throw new NotGrayImageException();
                 }
+
                 return seg;
             }
             else
@@ -440,7 +432,6 @@ namespace opencv
             var dialogRes = w.ShowDialog();
             if (dialogRes == DialogResult.OK)
             {
-
                 Mat seg;
                 try
                 {
@@ -492,7 +483,7 @@ namespace opencv
             Cv2.CopyMakeBorder(I, padded, 0, m - I.Rows, 0, n - I.Cols, BorderTypes.Constant, Scalar.All(0));
 
             padded.ConvertTo(padded, MatType.CV_32F);
-            Mat[] planes = { padded, Mat.Zeros(padded.Size(), MatType.CV_32F) };
+            Mat[] planes = {padded, Mat.Zeros(padded.Size(), MatType.CV_32F)};
             Mat complexI = new Mat();
             Cv2.Merge(planes, complexI); // Add to the expanded another plane with zeros
 
@@ -551,7 +542,7 @@ namespace opencv
         {
             var newImg = img.Clone();
             var gray = ConvertToGrayMat(img);
-            var detector = StarDetector.Create();//maxsize:45
+            var detector = StarDetector.Create(); //maxsize:45
 
             KeyPoint[] keyPoints = detector.Detect(gray);
 
@@ -559,14 +550,14 @@ namespace opencv
             {
                 var color = new Scalar(0, 255, 0);
                 float r = kpt.Size / 2;
-                Cv2.Circle(newImg, (Point)kpt.Pt, (int)r, color);
+                Cv2.Circle(newImg, (Point) kpt.Pt, (int) r, color);
                 Cv2.Line(newImg,
-                    (Point)new Point2f(kpt.Pt.X + r, kpt.Pt.Y + r),
-                    (Point)new Point2f(kpt.Pt.X - r, kpt.Pt.Y - r),
+                    (Point) new Point2f(kpt.Pt.X + r, kpt.Pt.Y + r),
+                    (Point) new Point2f(kpt.Pt.X - r, kpt.Pt.Y - r),
                     color);
                 Cv2.Line(newImg,
-                    (Point)new Point2f(kpt.Pt.X - r, kpt.Pt.Y + r),
-                    (Point)new Point2f(kpt.Pt.X + r, kpt.Pt.Y - r),
+                    (Point) new Point2f(kpt.Pt.X - r, kpt.Pt.Y + r),
+                    (Point) new Point2f(kpt.Pt.X + r, kpt.Pt.Y - r),
                     color);
             }
 
@@ -596,14 +587,14 @@ namespace opencv
             foreach (KeyPoint kpt in keyPoints)
             {
                 float r = kpt.Size / 2;
-                Cv2.Circle(newImg, (Point)kpt.Pt, (int)r, color);
+                Cv2.Circle(newImg, (Point) kpt.Pt, (int) r, color);
                 Cv2.Line(newImg,
-                    (Point)new Point2f(kpt.Pt.X + r, kpt.Pt.Y + r),
-                    (Point)new Point2f(kpt.Pt.X - r, kpt.Pt.Y - r),
+                    (Point) new Point2f(kpt.Pt.X + r, kpt.Pt.Y + r),
+                    (Point) new Point2f(kpt.Pt.X - r, kpt.Pt.Y - r),
                     color);
                 Cv2.Line(newImg,
-                    (Point)new Point2f(kpt.Pt.X - r, kpt.Pt.Y + r),
-                    (Point)new Point2f(kpt.Pt.X + r, kpt.Pt.Y - r),
+                    (Point) new Point2f(kpt.Pt.X - r, kpt.Pt.Y + r),
+                    (Point) new Point2f(kpt.Pt.X + r, kpt.Pt.Y - r),
                     color);
             }
 
@@ -627,14 +618,14 @@ namespace opencv
             {
                 var color = new Scalar(0, 255, 0);
                 float r = kpt.Size / 2;
-                Cv2.Circle(newImg, (Point)kpt.Pt, (int)r, color);
+                Cv2.Circle(newImg, (Point) kpt.Pt, (int) r, color);
                 Cv2.Line(newImg,
-                    (Point)new Point2f(kpt.Pt.X + r, kpt.Pt.Y + r),
-                    (Point)new Point2f(kpt.Pt.X - r, kpt.Pt.Y - r),
+                    (Point) new Point2f(kpt.Pt.X + r, kpt.Pt.Y + r),
+                    (Point) new Point2f(kpt.Pt.X - r, kpt.Pt.Y - r),
                     color);
                 Cv2.Line(newImg,
-                    (Point)new Point2f(kpt.Pt.X - r, kpt.Pt.Y + r),
-                    (Point)new Point2f(kpt.Pt.X + r, kpt.Pt.Y - r),
+                    (Point) new Point2f(kpt.Pt.X - r, kpt.Pt.Y + r),
+                    (Point) new Point2f(kpt.Pt.X + r, kpt.Pt.Y - r),
                     color);
             }
 
@@ -658,7 +649,7 @@ namespace opencv
             Scalar color = Scalar.Green;
             foreach (KeyPoint p in contour)
             {
-                newImg.Circle((Point)p.Pt, 3, color);
+                newImg.Circle((Point) p.Pt, 3, color);
             }
 
             return newImg;
@@ -678,18 +669,15 @@ namespace opencv
             //dct函数只能处理偶数大小图片
             if (nImgSize.Height % 2 != 0)
             {
+                newImg = newImg.RowRange(0, nImgSize.Height - 1);
                 if (nImgSize.Width % 2 != 0)
                 {
-                    newImg = newImg.Resize(new Size( nImgSize.Width-1,nImgSize.Height-1),0,0,InterpolationFlags.Cubic);
-                }
-                else
-                {
-                    newImg = newImg.Resize(new Size(nImgSize.Width,nImgSize.Height-1),0,0,InterpolationFlags.Cubic);
+                    newImg = newImg.ColRange(0, nImgSize.Width - 1);
                 }
             }
             else if (nImgSize.Width % 2 != 0)
             {
-                newImg = newImg.Resize(new Size(nImgSize.Width - 1,nImgSize.Height),0,0,InterpolationFlags.Cubic);
+                newImg = newImg.ColRange(0, nImgSize.Width - 1);
             }
 
             newImg = (newImg + 0.0001);
@@ -711,7 +699,7 @@ namespace opencv
             const double gammaH = 1.5;
             const double gammaL = 0.5;
             const double c = 1;
-            double d0 = (newImg.Rows/2)*(newImg.Rows/2) + (newImg.Cols/2)*(newImg.Cols/2);
+            double d0 = (newImg.Rows / 2) * (newImg.Rows / 2) + (newImg.Cols / 2) * (newImg.Cols / 2);
             Mat hUv = Mat.Zeros(newImg.Size(), MatType.CV_64FC1);
 
             var indexer = hUv.GetGenericIndexer<Vec3d>();
@@ -720,14 +708,15 @@ namespace opencv
                 for (int w = 0; w < newImg.Cols; w++)
                 {
                     var d2 = Math.Pow(h, 2) + Math.Pow(w, 2);
-                    indexer[h,w] = new Vec3d((gammaH - gammaL)*(1 - Math.Exp(-c*d2/d0)) + gammaL, indexer[h,w].Item1,indexer[h,w].Item2);
+                    indexer[h, w] = new Vec3d((gammaH - gammaL) * (1 - Math.Exp(-c * d2 / d0)) + gammaL,
+                        indexer[h, w].Item1, indexer[h, w].Item2);
                 }
             }
 
-            indexer[0, 0] = new Vec3d(1.1,indexer[0,0].Item1,indexer[0,0].Item2);
+            indexer[0, 0] = new Vec3d(1.1, indexer[0, 0].Item1, indexer[0, 0].Item2);
 
             matDct = matDct.Mul(matDct);
-            Cv2.Idct(matDct,dst);
+            Cv2.Idct(matDct, dst);
 
             var tmp = newImg.GaussianBlur(new Size(9, 9), 1.5, 1.5);
             const double alpha = 0.5;
@@ -735,7 +724,7 @@ namespace opencv
 
             dst = dst.Exp();
 
-            dst.ConvertTo(dst,MatType.CV_8UC1);
+            dst.ConvertTo(dst, MatType.CV_8UC1);
             return dst;
         }
 
@@ -748,28 +737,37 @@ namespace opencv
         {
             int height = img.Cols;
             int width = img.Rows;
-            int depth = 3;    //分解深度
-            int depthCount = 1; 
+            int depth = 3; //分解深度
+            int depthCount = 1;
             Mat tmp = Mat.Ones(new Size(width, height), MatType.CV_32FC1);
             Mat wavelet = Mat.Ones(new Size(width, height), MatType.CV_32FC1);
             Mat imgTmp = img.Clone();
             imgTmp.ConvertTo(imgTmp, MatType.CV_32FC1);
-            while (depthCount<=depth){
+            while (depthCount <= depth)
+            {
                 width = img.Rows / depthCount;
                 height = img.Cols / depthCount;
 
-                for (int i = 0; i < width; i++){
-                    for (int j = 0; j < height / 2; j++){
+                for (int i = 0; i < width; i++)
+                {
+                    for (int j = 0; j < height / 2; j++)
+                    {
                         tmp.At<float>(i, j) = (imgTmp.At<float>(i, 2 * j) + imgTmp.At<float>(i, 2 * j + 1)) / 2;
-                        tmp.At<float>(i, j + height / 2) = (imgTmp.At<float>(i, 2 * j) - imgTmp.At<float>(i, 2 * j + 1)) / 2;
+                        tmp.At<float>(i, j + height / 2) =
+                            (imgTmp.At<float>(i, 2 * j) - imgTmp.At<float>(i, 2 * j + 1)) / 2;
                     }
                 }
-                for (int i = 0; i < width / 2; i++){
-                    for (int j = 0; j < height; j++){
+
+                for (int i = 0; i < width / 2; i++)
+                {
+                    for (int j = 0; j < height; j++)
+                    {
                         wavelet.At<float>(i, j) = (tmp.At<float>(2 * i, j) + tmp.At<float>(2 * i + 1, j)) / 2;
-                        wavelet.At<float>(i + width / 2, j) = (tmp.At<float>(2 * i, j) - tmp.At<float>(2 * i + 1, j)) / 2;
+                        wavelet.At<float>(i + width / 2, j) =
+                            (tmp.At<float>(2 * i, j) - tmp.At<float>(2 * i + 1, j)) / 2;
                     }
                 }
+
                 imgTmp = wavelet;
                 depthCount++;
             }
