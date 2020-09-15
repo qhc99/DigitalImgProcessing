@@ -24,15 +24,7 @@ namespace opencv
         public static Mat FaceLocate(Mat img, CopyTypes copy = CopyTypes.Clone)
         {
             Mat grayImg = ConvertToGrayMat(img);
-            Mat newImg;
-            if (copy == CopyTypes.Origin)
-            {
-                newImg = img;
-            }
-            else
-            {
-                newImg = img.Clone();
-            }
+            var newImg = copy == CopyTypes.Origin ? img : img.Clone();
             Rect[] faces = FaceClassifier.DetectMultiScale(grayImg, 
                 1.08, 2, HaarDetectionType.ScaleImage, new Size(30, 30));
             foreach (var rect in faces)
