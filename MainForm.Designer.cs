@@ -83,6 +83,11 @@
             this.starDetectorButton = new System.Windows.Forms.ToolStripMenuItem();
             this.MSERFeatureDetectButton = new System.Windows.Forms.ToolStripMenuItem();
             this.faceLocateButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.phtoFilterButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.cartoonButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.detailEnhanceButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.pencilSketchButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.stylizationButton = new System.Windows.Forms.ToolStripMenuItem();
             this.videoProcessButton = new System.Windows.Forms.ToolStripMenuItem();
             this.openCameraButton = new System.Windows.Forms.ToolStripMenuItem();
             this.openVideoFile = new System.Windows.Forms.ToolStripMenuItem();
@@ -217,6 +222,7 @@
             this.edgeButton,
             this.thresholdSegButton,
             this.featureDetectButton,
+            this.phtoFilterButton,
             this.videoProcessButton,
             this.shortCutHelp});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -362,7 +368,7 @@
             this.medianFilter,
             this.gaussianFilter});
             this.blurButton.Name = "blurButton";
-            this.blurButton.Size = new System.Drawing.Size(160, 22);
+            this.blurButton.Size = new System.Drawing.Size(158, 22);
             this.blurButton.Text = "平滑/模糊/去噪";
             // 
             // averageFilter
@@ -392,7 +398,7 @@
             this.LaplacianSharpenButton,
             this.SobelSharpenButton});
             this.sharpenButton.Name = "sharpenButton";
-            this.sharpenButton.Size = new System.Drawing.Size(160, 22);
+            this.sharpenButton.Size = new System.Drawing.Size(158, 22);
             this.sharpenButton.Text = "锐化";
             // 
             // LaplacianSharpenButton
@@ -412,21 +418,21 @@
             // homoFilterButton
             // 
             this.homoFilterButton.Name = "homoFilterButton";
-            this.homoFilterButton.Size = new System.Drawing.Size(160, 22);
+            this.homoFilterButton.Size = new System.Drawing.Size(158, 22);
             this.homoFilterButton.Text = "同态滤波";
             this.homoFilterButton.Click += new System.EventHandler(this.HomoFilterButton_Click);
             // 
             // barUniformButton
             // 
             this.barUniformButton.Name = "barUniformButton";
-            this.barUniformButton.Size = new System.Drawing.Size(160, 22);
+            this.barUniformButton.Size = new System.Drawing.Size(158, 22);
             this.barUniformButton.Text = "直方图均匀化";
             this.barUniformButton.Click += new System.EventHandler(this.BarUniformButton_Click);
             // 
             // pseudoColorFortifyButton
             // 
             this.pseudoColorFortifyButton.Name = "pseudoColorFortifyButton";
-            this.pseudoColorFortifyButton.Size = new System.Drawing.Size(160, 22);
+            this.pseudoColorFortifyButton.Size = new System.Drawing.Size(158, 22);
             this.pseudoColorFortifyButton.Text = "伪彩色增强";
             this.pseudoColorFortifyButton.Click += new System.EventHandler(this.PseudoColorFortifyButton_Click);
             // 
@@ -541,6 +547,46 @@
             this.faceLocateButton.Size = new System.Drawing.Size(199, 22);
             this.faceLocateButton.Text = "人脸定位";
             this.faceLocateButton.Click += new System.EventHandler(this.faceLocateButton_Click);
+            // 
+            // phtoFilterButton
+            // 
+            this.phtoFilterButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cartoonButton,
+            this.detailEnhanceButton,
+            this.pencilSketchButton,
+            this.stylizationButton});
+            this.phtoFilterButton.Enabled = false;
+            this.phtoFilterButton.Name = "phtoFilterButton";
+            this.phtoFilterButton.Size = new System.Drawing.Size(68, 21);
+            this.phtoFilterButton.Text = "添加滤镜";
+            // 
+            // cartoonButton
+            // 
+            this.cartoonButton.Name = "cartoonButton";
+            this.cartoonButton.Size = new System.Drawing.Size(124, 22);
+            this.cartoonButton.Text = "动漫";
+            this.cartoonButton.Click += new System.EventHandler(this.cartoonButton_Click);
+            // 
+            // detailEnhanceButton
+            // 
+            this.detailEnhanceButton.Name = "detailEnhanceButton";
+            this.detailEnhanceButton.Size = new System.Drawing.Size(124, 22);
+            this.detailEnhanceButton.Text = "细节增强";
+            this.detailEnhanceButton.Click += new System.EventHandler(this.detailEnhanceButton_Click);
+            // 
+            // pencilSketchButton
+            // 
+            this.pencilSketchButton.Name = "pencilSketchButton";
+            this.pencilSketchButton.Size = new System.Drawing.Size(124, 22);
+            this.pencilSketchButton.Text = "素描";
+            this.pencilSketchButton.Click += new System.EventHandler(this.pencilSketchButton_Click);
+            // 
+            // stylizationButton
+            // 
+            this.stylizationButton.Name = "stylizationButton";
+            this.stylizationButton.Size = new System.Drawing.Size(124, 22);
+            this.stylizationButton.Text = "油画";
+            this.stylizationButton.Click += new System.EventHandler(this.stylizationButton_Click);
             // 
             // videoProcessButton
             // 
@@ -680,6 +726,11 @@
         private System.Windows.Forms.ToolStripMenuItem ORBandFREAK;
         private System.Windows.Forms.ToolStripMenuItem BRISKButton;
         private System.Windows.Forms.ToolStripMenuItem MSERFeatureDetectButton;
+        private System.Windows.Forms.ToolStripMenuItem phtoFilterButton;
+        private System.Windows.Forms.ToolStripMenuItem cartoonButton;
+        private System.Windows.Forms.ToolStripMenuItem detailEnhanceButton;
+        private System.Windows.Forms.ToolStripMenuItem pencilSketchButton;
+        private System.Windows.Forms.ToolStripMenuItem stylizationButton;
     }
 }
 

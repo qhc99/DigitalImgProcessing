@@ -173,7 +173,6 @@ namespace opencv
             saveSecondFileButton.Enabled = true;
             saveFirstFileButton.Enabled = true;
             featureDetectButton.Enabled = true;
-            // videoProcessButton.Enabled = true;
             pseudoColorFortifyButton.Enabled = true;
             clearButton.Enabled = true;
             reverseButton.Enabled = true;
@@ -183,6 +182,7 @@ namespace opencv
             waveletTransformButton.Enabled = true;
             rightClickSave.Enabled = true;
             showHitogramButton.Enabled = true;
+            phtoFilterButton.Enabled = true;
         }
 
         /// <summary>
@@ -201,7 +201,6 @@ namespace opencv
             saveSecondFileButton.Enabled = false;
             saveFirstFileButton.Enabled = false;
             featureDetectButton.Enabled = false;
-            // videoProcessButton.Enabled = false;
             pseudoColorFortifyButton.Enabled = false;
             clearButton.Enabled = false;
             reverseButton.Enabled = false;
@@ -211,6 +210,7 @@ namespace opencv
             waveletTransformButton.Enabled = false;
             rightClickSave.Enabled = false;
             showHitogramButton.Enabled = false;
+            phtoFilterButton.Enabled = false;
         }
 
         /// <summary>
@@ -228,7 +228,7 @@ namespace opencv
         /// 获取待处理的图片
         /// </summary>
         /// <returns></returns>
-        private Mat GetImageToProcess()
+        private Mat GetMatToProcess()
         {
             Mat originImg;
             if (WorkingMats.Count <= 1)
@@ -598,7 +598,7 @@ namespace opencv
         /// <param name="e"></param>
         private void GrayButton_Click(object sender, EventArgs e)
         {
-            var originImg = GetImageToProcess();
+            var originImg = GetMatToProcess();
             var grayImg = ConvertToGrayMat(originImg);
             AddMatToListAndShow(grayImg);
         }
@@ -612,7 +612,7 @@ namespace opencv
         {
             try
             {
-                AddMatToListAndShow(AddGaussianNoise(GetImageToProcess()));
+                AddMatToListAndShow(AddGaussianNoise(GetMatToProcess()));
             }
             catch (ProcessCanceledException)
             {
@@ -628,7 +628,7 @@ namespace opencv
         {
             try
             {
-                AddMatToListAndShow(AddUniformNoise(GetImageToProcess()));
+                AddMatToListAndShow(AddUniformNoise(GetMatToProcess()));
             }
             catch (ProcessCanceledException)
             {
@@ -644,7 +644,7 @@ namespace opencv
         {
             try
             {
-                AddMatToListAndShow(AddSaltAndPepperNoise(GetImageToProcess()));
+                AddMatToListAndShow(AddSaltAndPepperNoise(GetMatToProcess()));
             }
             catch (ProcessCanceledException)
             {
@@ -660,7 +660,7 @@ namespace opencv
         {
             try
             {
-                AddMatToListAndShow(MedianBlur(GetImageToProcess()));
+                AddMatToListAndShow(MedianBlur(GetMatToProcess()));
             }
             catch (ProcessCanceledException)
             {
@@ -679,7 +679,7 @@ namespace opencv
         {
             try
             {
-                AddMatToListAndShow(AverageBlur(GetImageToProcess()));
+                AddMatToListAndShow(AverageBlur(GetMatToProcess()));
             }
             catch (ProcessCanceledException)
             {
@@ -695,7 +695,7 @@ namespace opencv
         {
             try
             {
-                AddMatToListAndShow(GaussianBlur(GetImageToProcess()));
+                AddMatToListAndShow(GaussianBlur(GetMatToProcess()));
             }
             catch (ProcessCanceledException)
             {
@@ -711,7 +711,7 @@ namespace opencv
         {
             try
             {
-                AddMatToListAndShow(GetImageToProcess().EqualizeHist());
+                AddMatToListAndShow(GetMatToProcess().EqualizeHist());
             }
             catch (OpenCVException)
             {
@@ -728,7 +728,7 @@ namespace opencv
         {
             try
             {
-                AddMatToListAndShow(LaplacianSharpen(GetImageToProcess()));
+                AddMatToListAndShow(LaplacianSharpen(GetMatToProcess()));
             }
             catch (ProcessCanceledException)
             {
@@ -744,7 +744,7 @@ namespace opencv
         {
             try
             {
-                AddMatToListAndShow(SobelSharpen(GetImageToProcess()));
+                AddMatToListAndShow(SobelSharpen(GetMatToProcess()));
             }
             catch (ProcessCanceledException)
             {
@@ -760,7 +760,7 @@ namespace opencv
         {
             try
             {
-                AddMatToListAndShow(HomoFilter(GetImageToProcess()));
+                AddMatToListAndShow(HomoFilter(GetMatToProcess()));
             }
             catch (NotGrayImageException)
             {
@@ -777,7 +777,7 @@ namespace opencv
         {
             try
             {
-                AddMatToListAndShow(PseudoColorFortify(GetImageToProcess()));
+                AddMatToListAndShow(PseudoColorFortify(GetMatToProcess()));
             }
             catch (ProcessCanceledException)
             {
@@ -791,7 +791,7 @@ namespace opencv
         /// <param name="e"></param>
         private void LaplacianEdgeDetection_Click(object sender, EventArgs e)
         {
-            AddMatToListAndShow(LaplacianEdgeDetect(GetImageToProcess()));
+            AddMatToListAndShow(LaplacianEdgeDetect(GetMatToProcess()));
         }
 
         /// <summary>
@@ -803,7 +803,7 @@ namespace opencv
         {
             try
             {
-                AddMatToListAndShow(CannyEdgeDetect(GetImageToProcess()));
+                AddMatToListAndShow(CannyEdgeDetect(GetMatToProcess()));
             }
             catch (ProcessCanceledException)
             {
@@ -819,7 +819,7 @@ namespace opencv
         {
             try
             {
-                AddMatToListAndShow(SobelEdgeDetect(GetImageToProcess()));
+                AddMatToListAndShow(SobelEdgeDetect(GetMatToProcess()));
             }
             catch (ProcessCanceledException)
             {
@@ -835,7 +835,7 @@ namespace opencv
         {
             try
             {
-                AddMatToListAndShow(MeanThresholdSeg(GetImageToProcess()));
+                AddMatToListAndShow(MeanThresholdSeg(GetMatToProcess()));
             }
             catch (ProcessCanceledException)
             {
@@ -855,7 +855,7 @@ namespace opencv
         {
             try
             {
-                AddMatToListAndShow(GaussianThresholdSeg(GetImageToProcess()));
+                AddMatToListAndShow(GaussianThresholdSeg(GetMatToProcess()));
             }
             catch (ProcessCanceledException)
             {
@@ -875,7 +875,7 @@ namespace opencv
         {
             try
             {
-                AddMatToListAndShow(OtsuSeg(GetImageToProcess()));
+                AddMatToListAndShow(OtsuSeg(GetMatToProcess()));
             }
             catch (NotGrayImageException)
             {
@@ -966,7 +966,7 @@ namespace opencv
         /// <param name="e"></param>
         private void faceLocateButton_Click(object sender, EventArgs e)
         {
-            AddMatToListAndShow(FaceLocate(GetImageToProcess()));
+            AddMatToListAndShow(FaceLocate(GetMatToProcess()));
         }
 
         /// <summary>
@@ -1025,7 +1025,7 @@ namespace opencv
         /// <param name="e"></param>
         private void starDetectorButton_Click(object sender, EventArgs e)
         {
-            AddMatToListAndShow(StarFeatureDetect(GetImageToProcess()));
+            AddMatToListAndShow(StarFeatureDetect(GetMatToProcess()));
         }
 
         /// <summary>
@@ -1035,7 +1035,7 @@ namespace opencv
         /// <param name="e"></param>
         private void ORBandFREAK_Click(object sender, EventArgs e)
         {
-            AddMatToListAndShow(ORBandFREAKFeatureDetect(GetImageToProcess()));
+            AddMatToListAndShow(ORBandFREAKFeatureDetect(GetMatToProcess()));
         }
 
         /// <summary>
@@ -1045,7 +1045,7 @@ namespace opencv
         /// <param name="e"></param>
         private void BRISKButton_Click(object sender, EventArgs e)
         {
-            AddMatToListAndShow(BRISKFeatureDetect(GetImageToProcess()));
+            AddMatToListAndShow(BRISKFeatureDetect(GetMatToProcess()));
         }
 
         /// <summary>
@@ -1055,7 +1055,56 @@ namespace opencv
         /// <param name="e"></param>
         private void MSERFeatureDetectButton_Click(object sender, EventArgs e)
         {
-            AddMatToListAndShow(MSERFeatureDetect(GetImageToProcess()));
+            AddMatToListAndShow(MSERFeatureDetect(GetMatToProcess()));
+        }
+
+        /// <summary>
+        /// 动漫化
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cartoonButton_Click(object sender, EventArgs e)
+        {
+            Mat res = new Mat();
+            Cv2.EdgePreservingFilter(GetMatToProcess(), res);
+            AddMatToListAndShow(res);
+        }
+
+        /// <summary>
+        /// 细节增强
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void detailEnhanceButton_Click(object sender, EventArgs e)
+        {
+            Mat res = new Mat();
+            Cv2.DetailEnhance(GetMatToProcess(), res);
+            AddMatToListAndShow(res);
+        }
+
+        /// <summary>
+        /// 素描
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pencilSketchButton_Click(object sender, EventArgs e)
+        {
+            Mat res = new Mat();
+            Mat _ = new Mat();
+            Cv2.PencilSketch(GetMatToProcess(), _, res);
+            AddMatToListAndShow(res);
+        }
+
+        /// <summary>
+        /// 油画
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void stylizationButton_Click(object sender, EventArgs e)
+        {
+            Mat res = new Mat();
+            Cv2.Stylization(GetMatToProcess(), res);
+            AddMatToListAndShow(res);
         }
     }
 }
