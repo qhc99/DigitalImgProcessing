@@ -80,8 +80,10 @@
             this.GaussianThresholdSegButton = new System.Windows.Forms.ToolStripMenuItem();
             this.OtsuSegButton = new System.Windows.Forms.ToolStripMenuItem();
             this.featureDetectButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.starDetectorButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.BRISKButton = new System.Windows.Forms.ToolStripMenuItem();
             this.ORBandFREAK = new System.Windows.Forms.ToolStripMenuItem();
+            this.starDetectorButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.MSERFeatureDetectButton = new System.Windows.Forms.ToolStripMenuItem();
             this.faceLocateButton = new System.Windows.Forms.ToolStripMenuItem();
             this.videoProcessButton = new System.Windows.Forms.ToolStripMenuItem();
             this.openCameraButton = new System.Windows.Forms.ToolStripMenuItem();
@@ -492,34 +494,50 @@
             // meanThresholdSegButton
             // 
             this.meanThresholdSegButton.Name = "meanThresholdSegButton";
-            this.meanThresholdSegButton.Size = new System.Drawing.Size(151, 22);
-            this.meanThresholdSegButton.Text = "均值门限分割";
+            this.meanThresholdSegButton.Size = new System.Drawing.Size(184, 22);
+            this.meanThresholdSegButton.Text = "自适应均值门限分割";
             this.meanThresholdSegButton.Click += new System.EventHandler(this.meanThresholdSegButton_Click);
             // 
             // GaussianThresholdSegButton
             // 
             this.GaussianThresholdSegButton.Name = "GaussianThresholdSegButton";
-            this.GaussianThresholdSegButton.Size = new System.Drawing.Size(151, 22);
-            this.GaussianThresholdSegButton.Text = "高斯门限分割";
+            this.GaussianThresholdSegButton.Size = new System.Drawing.Size(184, 22);
+            this.GaussianThresholdSegButton.Text = "自适应高斯门限分割";
             this.GaussianThresholdSegButton.Click += new System.EventHandler(this.GaussianThresholdSegButton_Click);
             // 
             // OtsuSegButton
             // 
             this.OtsuSegButton.Name = "OtsuSegButton";
-            this.OtsuSegButton.Size = new System.Drawing.Size(151, 22);
+            this.OtsuSegButton.Size = new System.Drawing.Size(184, 22);
             this.OtsuSegButton.Text = "Otsu门限分割";
             this.OtsuSegButton.Click += new System.EventHandler(this.OtsuSegButton_Click);
             // 
             // featureDetectButton
             // 
             this.featureDetectButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.starDetectorButton,
+            this.BRISKButton,
             this.ORBandFREAK,
+            this.starDetectorButton,
+            this.MSERFeatureDetectButton,
             this.faceLocateButton});
             this.featureDetectButton.Enabled = false;
             this.featureDetectButton.Name = "featureDetectButton";
             this.featureDetectButton.Size = new System.Drawing.Size(68, 21);
             this.featureDetectButton.Text = "特征识别";
+            // 
+            // BRISKButton
+            // 
+            this.BRISKButton.Name = "BRISKButton";
+            this.BRISKButton.Size = new System.Drawing.Size(199, 22);
+            this.BRISKButton.Text = "BRISK特征提取";
+            this.BRISKButton.Click += new System.EventHandler(this.BRISKButton_Click);
+            // 
+            // ORBandFREAK
+            // 
+            this.ORBandFREAK.Name = "ORBandFREAK";
+            this.ORBandFREAK.Size = new System.Drawing.Size(199, 22);
+            this.ORBandFREAK.Text = "ORB和FREAK特征提取";
+            this.ORBandFREAK.Click += new System.EventHandler(this.ORBandFREAK_Click);
             // 
             // starDetectorButton
             // 
@@ -528,12 +546,12 @@
             this.starDetectorButton.Text = "Star特征检测";
             this.starDetectorButton.Click += new System.EventHandler(this.starDetectorButton_Click);
             // 
-            // ORBandFREAK
+            // MSERFeatureDetectButton
             // 
-            this.ORBandFREAK.Name = "ORBandFREAK";
-            this.ORBandFREAK.Size = new System.Drawing.Size(199, 22);
-            this.ORBandFREAK.Text = "ORB和FREAK特征提取";
-            this.ORBandFREAK.Click += new System.EventHandler(this.ORBandFREAK_Click);
+            this.MSERFeatureDetectButton.Name = "MSERFeatureDetectButton";
+            this.MSERFeatureDetectButton.Size = new System.Drawing.Size(199, 22);
+            this.MSERFeatureDetectButton.Text = "MSER特征检测";
+            this.MSERFeatureDetectButton.Click += new System.EventHandler(this.MSERFeatureDetectButton_Click);
             // 
             // faceLocateButton
             // 
@@ -682,6 +700,8 @@
         private System.Windows.Forms.ToolStripMenuItem showHitogramButton;
         private System.Windows.Forms.ToolStripMenuItem starDetectorButton;
         private System.Windows.Forms.ToolStripMenuItem ORBandFREAK;
+        private System.Windows.Forms.ToolStripMenuItem BRISKButton;
+        private System.Windows.Forms.ToolStripMenuItem MSERFeatureDetectButton;
     }
 }
 

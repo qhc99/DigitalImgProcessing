@@ -852,7 +852,7 @@ namespace opencv
         {
             try
             {
-                AddMatToListAndShow(MeanThresholdSeg(GetImageToProcess()).GreaterThan(0));
+                AddMatToListAndShow(MeanThresholdSeg(GetImageToProcess()));
             }
             catch (ProcessCanceledException)
             {
@@ -873,7 +873,7 @@ namespace opencv
         {
             try
             {
-                AddMatToListAndShow(GaussianThresholdSeg(GetImageToProcess()).GreaterThan(0));
+                AddMatToListAndShow(GaussianThresholdSeg(GetImageToProcess()));
             }
             catch (ProcessCanceledException)
             {
@@ -963,7 +963,7 @@ namespace opencv
         /// <param name="e"></param>
         private void faceLocateButton_Click(object sender, EventArgs e)
         {
-            AddMatToListAndShow(FaceLocate(GetImageToProcess()));
+            AddMatToListAndShow(FaceLocate(GetImageToProcess(), CopyTypes.Clone));
         }
 
         /// <summary>
@@ -1033,6 +1033,26 @@ namespace opencv
         private void ORBandFREAK_Click(object sender, EventArgs e)
         {
             AddMatToListAndShow(ORBandFREAKFeatureDetect(GetImageToProcess()));
+        }
+
+        /// <summary>
+        /// BRISK特征提取
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BRISKButton_Click(object sender, EventArgs e)
+        {
+            AddMatToListAndShow(BRISKFeatureDetect(GetImageToProcess()));
+        }
+
+        /// <summary>
+        /// MSER特征检测
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MSERFeatureDetectButton_Click(object sender, EventArgs e)
+        {
+            AddMatToListAndShow(MSERFeatureDetect(GetImageToProcess()));
         }
     }
 }

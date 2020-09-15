@@ -4,21 +4,35 @@ using OpenCvSharp.XFeatures2D;
 
 namespace opencv
 {
+    public enum CopyTypes
+    {
+        Origin = 0,
+        Clone = 1
+    }
     public static class ImageProcessing
     {
         //private static readonly CascadeClassifier FaceClassifier = new CascadeClassifier(@"..\\..\\..\\Resources\\haarcascade_frontalface_default.xml");
         //private static readonly CascadeClassifier FaceClassifier = new CascadeClassifier(@"..\\..\\..\\Resources\\lbpcascade_frontalface.xml");
         private static readonly CascadeClassifier FaceClassifier = new CascadeClassifier(@"..\\..\\..\\Resources\\haarcascade_frontalface_alt2.xml");
-        
+
         /// <summary>
         /// 人脸定位
         /// </summary>
         /// <param name="img"></param>
+        /// <param name="copy"></param>
         /// <returns></returns>
-        public static Mat FaceLocate(Mat img)
+        public static Mat FaceLocate(Mat img, CopyTypes copy = CopyTypes.Clone)
         {
             Mat grayImg = ConvertToGrayMat(img);
-            Mat newImg = img.Clone();
+            Mat newImg;
+            if (copy == CopyTypes.Origin)
+            {
+                newImg = img;
+            }
+            else
+            {
+                newImg = img.Clone();
+            }
             Rect[] faces = FaceClassifier.DetectMultiScale(grayImg, 
                 1.08, 2, HaarDetectionType.ScaleImage, new Size(30, 30));
             foreach (var rect in faces)
@@ -409,7 +423,6 @@ namespace opencv
                 {
                     throw new NotGrayImageException();
                 }
-
                 return seg;
             }
             else
@@ -566,7 +579,7 @@ namespace opencv
 
         // ReSharper disable once InconsistentNaming
         /// <summary>
-        /// ORB and FREAK
+        /// ORB and FREAK特征提取
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
@@ -597,6 +610,60 @@ namespace opencv
                     (Point)new Point2f(kpt.Pt.X - r, kpt.Pt.Y + r),
                     (Point)new Point2f(kpt.Pt.X + r, kpt.Pt.Y - r),
                     color);
+            }
+
+            return newImg;
+        }
+
+        /// <summary>
+        /// BRISK特征提取
+        /// </summary>
+        /// <param name="img"></param>
+        /// <returns></returns>
+        public static Mat BRISKFeatureDetect(Mat img)
+        {
+            var newImg = img.Clone();
+            var gray = ConvertToGrayMat(img);
+            var brisk = BRISK.Create();
+
+            KeyPoint[] keyPoints = brisk.Detect(gray);
+
+            foreach (KeyPoint kpt in keyPoints)
+            {
+                var color = new Scalar(0, 255, 0);
+                float r = kpt.Size / 2;
+                Cv2.Circle(newImg, (Point)kpt.Pt, (int)r, color);
+                Cv2.Line(newImg,
+                    (Point)new Point2f(kpt.Pt.X + r, kpt.Pt.Y + r),
+                    (Point)new Point2f(kpt.Pt.X - r, kpt.Pt.Y - r),
+                    color);
+                Cv2.Line(newImg,
+                    (Point)new Point2f(kpt.Pt.X - r, kpt.Pt.Y + r),
+                    (Point)new Point2f(kpt.Pt.X + r, kpt.Pt.Y - r),
+                    color);
+            }
+
+            return newImg;
+        }
+
+        /// <summary>
+        /// MSER特征提取
+        /// </summary>
+        /// <param name="img"></param>
+        /// <returns></returns>
+        public static Mat MSERFeatureDetect(Mat img)
+        {
+            Mat gray = new Mat();
+            Mat newImg = img.Clone();
+            Cv2.CvtColor(img, gray, ColorConversionCodes.BGR2GRAY);
+
+            MSER mser = MSER.Create();
+            KeyPoint[] contour = mser.Detect(gray);
+
+            Scalar color = Scalar.Green;
+            foreach (KeyPoint p in contour)
+            {
+                newImg.Circle((Point)p.Pt, 3, color);
             }
 
             return newImg;
