@@ -80,6 +80,8 @@
             this.GaussianThresholdSegButton = new System.Windows.Forms.ToolStripMenuItem();
             this.OtsuSegButton = new System.Windows.Forms.ToolStripMenuItem();
             this.featureDetectButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.starDetectorButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.ORBandFREAK = new System.Windows.Forms.ToolStripMenuItem();
             this.featureExtractButton = new System.Windows.Forms.ToolStripMenuItem();
             this.faceLocateButton = new System.Windows.Forms.ToolStripMenuItem();
             this.videoProcessButton = new System.Windows.Forms.ToolStripMenuItem();
@@ -512,6 +514,8 @@
             // featureDetectButton
             // 
             this.featureDetectButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.starDetectorButton,
+            this.ORBandFREAK,
             this.featureExtractButton,
             this.faceLocateButton});
             this.featureDetectButton.Enabled = false;
@@ -519,17 +523,31 @@
             this.featureDetectButton.Size = new System.Drawing.Size(68, 21);
             this.featureDetectButton.Text = "特征识别";
             // 
+            // starDetectorButton
+            // 
+            this.starDetectorButton.Name = "starDetectorButton";
+            this.starDetectorButton.Size = new System.Drawing.Size(199, 22);
+            this.starDetectorButton.Text = "Star特征检测";
+            this.starDetectorButton.Click += new System.EventHandler(this.starDetectorButton_Click);
+            // 
+            // ORBandFREAK
+            // 
+            this.ORBandFREAK.Name = "ORBandFREAK";
+            this.ORBandFREAK.Size = new System.Drawing.Size(199, 22);
+            this.ORBandFREAK.Text = "ORB和FREAK特征提取";
+            this.ORBandFREAK.Click += new System.EventHandler(this.ORBandFREAK_Click);
+            // 
             // featureExtractButton
             // 
             this.featureExtractButton.Name = "featureExtractButton";
-            this.featureExtractButton.Size = new System.Drawing.Size(124, 22);
+            this.featureExtractButton.Size = new System.Drawing.Size(199, 22);
             this.featureExtractButton.Text = "特征提取";
             this.featureExtractButton.Click += new System.EventHandler(this.featureExtractButton_Click);
             // 
             // faceLocateButton
             // 
             this.faceLocateButton.Name = "faceLocateButton";
-            this.faceLocateButton.Size = new System.Drawing.Size(124, 22);
+            this.faceLocateButton.Size = new System.Drawing.Size(199, 22);
             this.faceLocateButton.Text = "人脸定位";
             this.faceLocateButton.Click += new System.EventHandler(this.faceLocateButton_Click);
             // 
@@ -672,6 +690,8 @@
         private System.Windows.Forms.ToolStripMenuItem DFTTransformButton;
         private System.Windows.Forms.ToolStripMenuItem waveletTransformButton;
         private System.Windows.Forms.ToolStripMenuItem showHitogramButton;
+        private System.Windows.Forms.ToolStripMenuItem starDetectorButton;
+        private System.Windows.Forms.ToolStripMenuItem ORBandFREAK;
     }
 }
 

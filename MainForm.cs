@@ -5,8 +5,10 @@ using System.IO;
 using System.Windows.Forms;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
+using OpenCvSharp.XFeatures2D;
 using Size = OpenCvSharp.Size;
 using static opencv.ImageProcessing;
+using Point = OpenCvSharp.Point;
 
 namespace opencv
 {
@@ -1025,6 +1027,74 @@ namespace opencv
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Star特征提取
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void starDetectorButton_Click(object sender, EventArgs e)
+        {
+            var img = GetImageToProcess();
+            var newImg = img.Clone();
+            var gray = ConvertToGrayMat(img);
+            var detector = StarDetector.Create(45);
+
+            KeyPoint[] keyPoints = detector.Detect(gray);
+
+            foreach (KeyPoint kpt in keyPoints)
+            {
+                var color = new Scalar(0, 255, 0);
+                float r = kpt.Size / 2;
+                Cv2.Circle(newImg, (Point)kpt.Pt, (int)r, color, 1, LineTypes.Link8, 0);
+                Cv2.Line(newImg,
+                    (Point)new Point2f(kpt.Pt.X + r, kpt.Pt.Y + r),
+                    (Point)new Point2f(kpt.Pt.X - r, kpt.Pt.Y - r),
+                    color, 1, LineTypes.Link8, 0);
+                Cv2.Line(newImg,
+                    (Point)new Point2f(kpt.Pt.X - r, kpt.Pt.Y + r),
+                    (Point)new Point2f(kpt.Pt.X + r, kpt.Pt.Y - r),
+                    color, 1, LineTypes.Link8, 0);
+            }
+            AddMatToListAndShow(newImg);
+        }
+
+        /// <summary>
+        /// ORB和FREAK特征提取
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ORBandFREAK_Click(object sender, EventArgs e)
+        {
+            // ORB
+            Mat img = GetImageToProcess();
+            Mat newImg = img.Clone();
+            Mat gray = ConvertToGrayMat(img);
+            ORB orb = ORB.Create(1000);
+            KeyPoint[] keyPoints = orb.Detect(gray);
+
+            // FREAK
+            FREAK freak = FREAK.Create();
+            Mat freakDescriptors = new Mat();
+            freak.Compute(gray, ref keyPoints, freakDescriptors);
+
+
+            var color = new Scalar(0, 255, 0);
+            foreach (KeyPoint kpt in keyPoints)
+            {
+                float r = kpt.Size / 2;
+                Cv2.Circle(newImg, (Point)kpt.Pt, (int)r, color, 1, LineTypes.Link8, 0);
+                Cv2.Line(newImg,
+                    (Point)new Point2f(kpt.Pt.X + r, kpt.Pt.Y + r),
+                    (Point)new Point2f(kpt.Pt.X - r, kpt.Pt.Y - r),
+                    color, 1, LineTypes.Link8, 0);
+                Cv2.Line(newImg,
+                    (Point)new Point2f(kpt.Pt.X - r, kpt.Pt.Y + r),
+                    (Point)new Point2f(kpt.Pt.X + r, kpt.Pt.Y - r),
+                    color, 1, LineTypes.Link8, 0);
+            }
+            AddMatToListAndShow(newImg);
         }
     }
 }
