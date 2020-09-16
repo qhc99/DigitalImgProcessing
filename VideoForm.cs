@@ -11,17 +11,20 @@ namespace opencv
         private bool _save;
         private bool _opening;
 
-        private void ShowNoneImage()
-        {
-            pictureBox1.Image = MainForm.NoneMat.Resize(new Size(640,480)).ToBitmap();
-        }
-
         public VideoForm()
         {
             InitializeComponent();
             StartPosition = FormStartPosition.CenterScreen;
             openCameraButton.Select();
             ShowNoneImage();
+        }
+
+        /// <summary>
+        /// show none image
+        /// </summary>
+        private void ShowNoneImage()
+        {
+            pictureBox1.Image = MainForm.NoneMat.Resize(new Size(640,480)).ToBitmap();
         }
 
         /// <summary>
