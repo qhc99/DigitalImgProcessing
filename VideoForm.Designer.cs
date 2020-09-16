@@ -65,11 +65,11 @@
             // 
             this.closeCameraButton.Enabled = false;
             this.closeCameraButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.closeCameraButton.Location = new System.Drawing.Point(657, 374);
+            this.closeCameraButton.Location = new System.Drawing.Point(658, 415);
             this.closeCameraButton.Name = "closeCameraButton";
             this.closeCameraButton.Size = new System.Drawing.Size(87, 34);
             this.closeCameraButton.TabIndex = 2;
-            this.closeCameraButton.Text = "关闭摄像头";
+            this.closeCameraButton.Text = "关闭";
             this.closeCameraButton.UseVisualStyleBackColor = true;
             this.closeCameraButton.Click += new System.EventHandler(this.closeButton_Click);
             // 
@@ -77,12 +77,16 @@
             // 
             this.checkedListBox1.FormattingEnabled = true;
             this.checkedListBox1.Items.AddRange(new object[] {
-            "人脸检测",
-            "人眼检测",
-            "证件照检测"});
-            this.checkedListBox1.Location = new System.Drawing.Point(657, 270);
+            "人脸",
+            "人眼",
+            "行人",
+            "证件照",
+            "拳头",
+            "右掌",
+            "左掌"});
+            this.checkedListBox1.Location = new System.Drawing.Point(657, 198);
             this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(101, 58);
+            this.checkedListBox1.Size = new System.Drawing.Size(101, 130);
             this.checkedListBox1.TabIndex = 3;
             // 
             // openFileDialog1
@@ -92,7 +96,7 @@
             // openFileButton
             // 
             this.openFileButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.openFileButton.Location = new System.Drawing.Point(657, 414);
+            this.openFileButton.Location = new System.Drawing.Point(657, 374);
             this.openFileButton.Name = "openFileButton";
             this.openFileButton.Size = new System.Drawing.Size(87, 35);
             this.openFileButton.TabIndex = 4;
@@ -107,7 +111,7 @@
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(86, 32);
             this.saveButton.TabIndex = 5;
-            this.saveButton.Text = "保存处理×";
+            this.saveButton.Text = "保存×";
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 

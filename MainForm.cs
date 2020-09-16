@@ -113,6 +113,10 @@ namespace opencv
                 rightPictureLabel.Text = $@"第 {_currentProcessIndex + 1} 行 第 {WorkingMats.Count} 列";
                 rightPictureSize.Text = $@"H:{m.Height} W:{m.Width}";
             }
+            else
+            {
+                throw new InvalidOperationException();
+            }
         }
 
         /// <summary>

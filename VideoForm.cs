@@ -28,14 +28,26 @@ namespace opencv
             {
                 switch (item)
                 {
-                    case "人脸检测":
+                    case "人脸":
                         img = FaceLocate(img, CopyTypes.ShallowCopy);
                         break;
-                    case "人眼检测":
+                    case "人眼":
                         img = EyeLocate(img, CopyTypes.ShallowCopy);
                         break;
-                    case "证件照检测":
+                    case "行人":
+                        img = PedestrianLocate(img, CopyTypes.ShallowCopy);
+                        break;
+                    case "证件照":
                         img = ProfileFaceLocate(img, CopyTypes.ShallowCopy);
+                        break;
+                    case "拳头":
+                        img = FistLocate(img, CopyTypes.ShallowCopy);
+                        break;
+                    case "左掌":
+                        img = LeftPalmLocate(img, CopyTypes.ShallowCopy);
+                        break;
+                    case "右掌":
+                        img = RightPalmLocate(img, CopyTypes.ShallowCopy);
                         break;
                     default:
                         throw new InvalidOperationException();
@@ -56,6 +68,7 @@ namespace opencv
             saveButton.Enabled = false;
             closeCameraButton.Enabled = true;
             openCameraButton.Enabled = false;
+            openFileButton.Enabled = false;
 
             Size dSize = new Size(640, 480);
             using VideoCapture capture = new VideoCapture(0);
@@ -68,7 +81,8 @@ namespace opencv
                 if (dialogResult == DialogResult.OK)
                 {
                     using VideoWriter writer = new VideoWriter(saveFileDialog1.FileName, -1, capture.Fps, dSize);
-                    while (_opening) //q键
+                    int key = -1;
+                    while (key != 113 &&_opening) //q键
                     {
                         capture.Read(image); // same as cvQueryFrame
                         if (image.Empty())
@@ -77,14 +91,15 @@ namespace opencv
                         }
                         pictureBox1.Image = Processing(image).ToBitmap();
                         writer.Write(image);
-                        Cv2.WaitKey(10);
+                        key = Cv2.WaitKey(10);
                     }
                     pictureBox1.Image = null;
                 }
             }
             else
             {
-                while (_opening) //q键
+                int key = -1;
+                while (key != 113 && _opening) //q键
                 {
                     capture.Read(image); // same as cvQueryFrame
                     if (image.Empty())
@@ -96,7 +111,7 @@ namespace opencv
                     {
 
                     }
-                    Cv2.WaitKey(10);
+                    key =Cv2.WaitKey(10);
                 }
                 pictureBox1.Image = null;
             }
@@ -111,7 +126,11 @@ namespace opencv
         private void openVideoFile_Click(object sender, EventArgs e)
         {
             checkedListBox1.Enabled = false;
+            openFileButton.Enabled = false;
+            closeCameraButton.Enabled = true;
+            openCameraButton.Enabled = false;
             saveButton.Enabled = false;
+            _opening = true;
             var result = openFileDialog1.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -129,7 +148,7 @@ namespace opencv
                             capture.Fps, 
                             new Size(capture.Get(VideoCaptureProperties.FrameWidth), capture.Get(VideoCaptureProperties.FrameHeight)));
                         int key = -1;
-                        while (key != 113)
+                        while (key != 113 && _opening)
                         {
                             capture.Read(image); 
                             if (image.Empty())
@@ -145,7 +164,7 @@ namespace opencv
                 else
                 {
                     int key = -1;
-                    while (key != 113)
+                    while (key != 113 && _opening)
                     {
                         capture.Read(image);
                         if (image.Empty())
@@ -157,6 +176,9 @@ namespace opencv
                     }
                 }
             }
+
+            pictureBox1.Image = null;
+            closeButton_Click(this,EventArgs.Empty);
         }
 
         /// <summary>
@@ -170,6 +192,7 @@ namespace opencv
             openCameraButton.Enabled = true;
             _opening = false;
             checkedListBox1.Enabled = true;
+            openFileButton.Enabled = true;
             saveButton.Enabled = true;
         }
 
@@ -206,15 +229,19 @@ namespace opencv
         /// <param name="e"></param>
         private void saveButton_Click(object sender, EventArgs e)
         {
-            if (saveButton.Text == "保存处理×")
+            if (saveButton.Text == "保存×")
             {
-                saveButton.Text = "保存处理√";
+                saveButton.Text = "保存√";
                 _save = true;
+            }
+            else if(saveButton.Text == "保存√")
+            {
+                saveButton.Text = "保存×";
+                _save = false;
             }
             else
             {
-                saveButton.Text = "保存处理×";
-                _save = false;
+                throw new InvalidOperationException();
             }
         }
     }

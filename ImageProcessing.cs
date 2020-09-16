@@ -14,16 +14,26 @@ namespace opencv
 
     public static class ImageProcessing
     {
-        //private static readonly CascadeClassifier FaceClassifier = new CascadeClassifier(@"..\\..\\..\\Resources\\haarcascade_frontalface_default.xml");
-        //private static readonly CascadeClassifier FaceClassifier = new CascadeClassifier(@"..\\..\\..\\Resources\\lbpcascade_frontalface.xml");
         private static readonly CascadeClassifier FaceClassifier =
             new CascadeClassifier(@"..\\..\\..\\Resources\\haarcascade_frontalface_alt2.xml");
 
         private static readonly CascadeClassifier ProfileFaceClassifier =
             new CascadeClassifier(@"..\\..\\..\\Resources\\haarcascade_profileface.xml");
 
-        private static readonly CascadeClassifier EyeClassifier = 
-            new CascadeClassifier("..\\..\\..\\Resources\\haarcascade_eye_tree_eyeglasses.xml");
+        private static readonly CascadeClassifier EyeClassifier =
+            new CascadeClassifier("..\\..\\..\\Resources\\haarcascade_eye.xml");
+
+        private static readonly CascadeClassifier FistClassifier =
+            new CascadeClassifier("..\\..\\..\\Resources\\fist.xml");
+
+        private static readonly CascadeClassifier LeftPalmClassifier =
+            new CascadeClassifier("..\\..\\..\\Resources\\lpalm.xml");
+
+        private static readonly CascadeClassifier RightPalmClassifier =
+            new CascadeClassifier("..\\..\\..\\Resources\\rpalm.xml");
+
+        private static readonly CascadeClassifier PedestrianClassifier =
+            new CascadeClassifier("..\\..\\..\\Resources\\pedestrian.xml");
 
         /// <summary>
         /// 符合窗口大小的Mat
@@ -68,7 +78,7 @@ namespace opencv
         }
 
         /// <summary>
-        /// 人脸定位
+        /// 人脸检测
         /// </summary>
         /// <param name="img"></param>
         /// <param name="copy"></param>
@@ -97,7 +107,7 @@ namespace opencv
         {
             Mat grayImg = ConvertToGrayMat(img);
             var newImg = copy == CopyTypes.ShallowCopy ? img : img.Clone();
-            Rect[] faces = EyeClassifier.DetectMultiScale(grayImg,1.08,2,HaarDetectionType.DoCannyPruning);
+            Rect[] faces = EyeClassifier.DetectMultiScale(grayImg, 1.1, 6);
             foreach (var rect in faces)
             {
                 Cv2.Rectangle(newImg, new Point(rect.X, rect.Y), new Point(rect.X + rect.Width,
@@ -117,7 +127,87 @@ namespace opencv
         {
             Mat grayImg = ConvertToGrayMat(img);
             var newImg = copy == CopyTypes.ShallowCopy ? img : img.Clone();
-            Rect[] faces = ProfileFaceClassifier.DetectMultiScale(grayImg.EqualizeHist());
+            Rect[] faces = ProfileFaceClassifier.DetectMultiScale(grayImg);
+            foreach (var rect in faces)
+            {
+                Cv2.Rectangle(newImg, new Point(rect.X, rect.Y), new Point(rect.X + rect.Width,
+                    rect.Y + rect.Height), new Scalar(255, 0, 0), 3);
+            }
+
+            return newImg;
+        }
+
+        /// <summary>
+        /// 拳头
+        /// </summary>
+        /// <param name="img"></param>
+        /// <param name="copy"></param>
+        /// <returns></returns>
+        public static Mat FistLocate(Mat img, CopyTypes copy = CopyTypes.DeepCopy)
+        {
+            Mat grayImg = ConvertToGrayMat(img);
+            var newImg = copy == CopyTypes.ShallowCopy ? img : img.Clone();
+            Rect[] faces = FistClassifier.DetectMultiScale(grayImg);
+            foreach (var rect in faces)
+            {
+                Cv2.Rectangle(newImg, new Point(rect.X, rect.Y), new Point(rect.X + rect.Width,
+                    rect.Y + rect.Height), new Scalar(255, 0, 0), 3);
+            }
+
+            return newImg;
+        }
+
+        /// <summary>
+        /// 左掌
+        /// </summary>
+        /// <param name="img"></param>
+        /// <param name="copy"></param>
+        /// <returns></returns>
+        public static Mat LeftPalmLocate(Mat img, CopyTypes copy = CopyTypes.DeepCopy)
+        {
+            Mat grayImg = ConvertToGrayMat(img);
+            var newImg = copy == CopyTypes.ShallowCopy ? img : img.Clone();
+            Rect[] faces = LeftPalmClassifier.DetectMultiScale(grayImg);
+            foreach (var rect in faces)
+            {
+                Cv2.Rectangle(newImg, new Point(rect.X, rect.Y), new Point(rect.X + rect.Width,
+                    rect.Y + rect.Height), new Scalar(255, 0, 0), 3);
+            }
+
+            return newImg;
+        }
+
+        /// <summary>
+        /// 右掌
+        /// </summary>
+        /// <param name="img"></param>
+        /// <param name="copy"></param>
+        /// <returns></returns>
+        public static Mat RightPalmLocate(Mat img, CopyTypes copy = CopyTypes.DeepCopy)
+        {
+            Mat grayImg = ConvertToGrayMat(img);
+            var newImg = copy == CopyTypes.ShallowCopy ? img : img.Clone();
+            Rect[] faces = RightPalmClassifier.DetectMultiScale(grayImg);
+            foreach (var rect in faces)
+            {
+                Cv2.Rectangle(newImg, new Point(rect.X, rect.Y), new Point(rect.X + rect.Width,
+                    rect.Y + rect.Height), new Scalar(255, 0, 0), 3);
+            }
+
+            return newImg;
+        }
+
+        /// <summary>
+        /// 行人
+        /// </summary>
+        /// <param name="img"></param>
+        /// <param name="copy"></param>
+        /// <returns></returns>
+        public static Mat PedestrianLocate(Mat img, CopyTypes copy = CopyTypes.DeepCopy)
+        {
+            Mat grayImg = ConvertToGrayMat(img);
+            var newImg = copy == CopyTypes.ShallowCopy ? img : img.Clone();
+            Rect[] faces = PedestrianClassifier.DetectMultiScale(grayImg,1.3,2);
             foreach (var rect in faces)
             {
                 Cv2.Rectangle(newImg, new Point(rect.X, rect.Y), new Point(rect.X + rect.Width,
@@ -528,7 +618,8 @@ namespace opencv
                 Mat seg;
                 try
                 {
-                    seg = img.AdaptiveThreshold(255, AdaptiveThresholdTypes.GaussianC, w.SelectedTypes, w.WindowSize, w.Constant);
+                    seg = img.AdaptiveThreshold(255, AdaptiveThresholdTypes.GaussianC, w.SelectedTypes, w.WindowSize,
+                        w.Constant);
                 }
                 catch (OpenCVException)
                 {
