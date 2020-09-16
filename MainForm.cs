@@ -5,7 +5,6 @@ using System.IO;
 using System.Windows.Forms;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
-using Size = OpenCvSharp.Size;
 using static opencv.ImageProcessing;
 
 namespace opencv
@@ -15,7 +14,7 @@ namespace opencv
         private readonly List<List<Mat>> _workingMatsProcesses = new List<List<Mat>>();
         private int _currentProcessIndex = -1;
 
-        private readonly Mat _noneMat =
+        public static readonly Mat NoneMat =
             ((Bitmap) Image.FromFile(Directory.GetCurrentDirectory() + "..\\..\\..\\..\\Resources\\none.jpg")).ToMat();
 
         public MainForm()
@@ -24,24 +23,6 @@ namespace opencv
             StartPosition = FormStartPosition.CenterScreen;
             LoadNoneImg(leftPictureBox);
             LoadNoneImg(rightPictureBox);
-        }
-
-        // ReSharper disable once UnusedMember.Local
-        /// <summary>
-        /// helper function
-        /// </summary>
-        private void NotImplemented()
-        {
-            MessageBox.Show(@"未实现此功能");
-        }
-
-        /// <summary>
-        /// 显示空图片
-        /// </summary>
-        /// <param name="pb"></param>
-        private void LoadNoneImg(PictureBox pb)
-        {
-            ShowMat(pb, _noneMat);
         }
 
         /// <summary>
@@ -71,7 +52,7 @@ namespace opencv
             {
                 return WorkingMats.Count switch
                 {
-                    0 => _noneMat,
+                    0 => NoneMat,
                     1 => WorkingMats[0],
                     _ => WorkingMats[^2]
                 };
@@ -87,13 +68,31 @@ namespace opencv
             {
                 if (WorkingMats.Count <= 1)
                 {
-                    return _noneMat;
+                    return NoneMat;
                 }
                 else
                 {
                     return WorkingMats[^1];
                 }
             }
+        }
+
+        // ReSharper disable once UnusedMember.Local
+        /// <summary>
+        /// helper function
+        /// </summary>
+        private void NotImplemented()
+        {
+            MessageBox.Show(@"未实现此功能");
+        }
+
+        /// <summary>
+        /// 显示空图片
+        /// </summary>
+        /// <param name="pb"></param>
+        private void LoadNoneImg(PictureBox pb)
+        {
+            ShowMat(pb, NoneMat);
         }
 
         /// <summary>
@@ -103,7 +102,7 @@ namespace opencv
         /// <param name="m"></param>
         private void ShowMat(PictureBox pb, Mat m)
         {
-            pb.Image = GetBoxFittedMat(m).ToBitmap();
+            pb.Image = GetBoxFittedMat(m,leftPictureBox).ToBitmap();
             if (leftPictureBox == pb)
             {
                 leftPictureLabel.Text = $@"第 {_currentProcessIndex + 1} 行 第 {WorkingMats.Count - 1} 列";
@@ -113,47 +112,6 @@ namespace opencv
             {
                 rightPictureLabel.Text = $@"第 {_currentProcessIndex + 1} 行 第 {WorkingMats.Count} 列";
                 rightPictureSize.Text = $@"H:{m.Height} W:{m.Width}";
-            }
-        }
-
-        /// <summary>
-        /// 符合窗口大小的Mat
-        /// </summary>
-        /// <param name="m"></param>
-        /// <returns></returns>
-        private Mat GetBoxFittedMat(Mat m)
-        {
-            var (row, col) = ComputeSize(m.Rows, m.Cols,
-                leftPictureBox.Size.Height, leftPictureBox.Size.Width);
-            try
-            {
-                return m.Resize(new Size(col, row), 0, 0, InterpolationFlags.Cubic);
-            }
-            catch (OpenCVException)
-            {
-                MessageBox.Show(@"只能打开图片文件");
-                return _noneMat;
-            }
-
-            static Tuple<int, int> ComputeSize(int imgRow, int imgCol, int boxRow, int boxCol)
-            {
-                if (imgRow <= boxRow && imgCol <= boxCol)
-                {
-                    return new Tuple<int, int>(imgRow, imgCol);
-                }
-                else
-                {
-                    double ratio = ((double) imgRow) / imgCol;
-                    //newRow/newCol = imgRow/imgCol
-                    if (imgRow > boxRow)
-                    {
-                        return new Tuple<int, int>(boxRow, (int) (boxRow / ratio));
-                    }
-                    else
-                    {
-                        return new Tuple<int, int>((int) (ratio * boxCol), boxCol);
-                    }
-                }
             }
         }
 

@@ -20,6 +20,48 @@ namespace opencv
             new CascadeClassifier(@"..\\..\\..\\Resources\\haarcascade_frontalface_alt_tree.xml");
 
         /// <summary>
+        /// 符合窗口大小的Mat
+        /// </summary>
+        /// <param name="m"></param>
+        /// <param name="pb"></param>
+        /// <returns></returns>
+        public static Mat GetBoxFittedMat(Mat m, PictureBox pb)
+        {
+            var (row, col) = ComputeSize(m.Rows, m.Cols,
+                pb.Size.Height, pb.Size.Width);
+            try
+            {
+                return m.Resize(new Size(col, row), 0, 0, InterpolationFlags.Cubic);
+            }
+            catch (OpenCVException)
+            {
+                MessageBox.Show(@"只能打开图片文件");
+                return MainForm.NoneMat;
+            }
+
+            static Tuple<int, int> ComputeSize(int imgRow, int imgCol, int boxRow, int boxCol)
+            {
+                if (imgRow <= boxRow && imgCol <= boxCol)
+                {
+                    return new Tuple<int, int>(imgRow, imgCol);
+                }
+                else
+                {
+                    double ratio = ((double) imgRow) / imgCol;
+                    //newRow/newCol = imgRow/imgCol
+                    if (imgRow > boxRow)
+                    {
+                        return new Tuple<int, int>(boxRow, (int) (boxRow / ratio));
+                    }
+                    else
+                    {
+                        return new Tuple<int, int>((int) (ratio * boxCol), boxCol);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// 人脸定位
         /// </summary>
         /// <param name="img"></param>
@@ -171,7 +213,7 @@ namespace opencv
             {
                 var noiseImg = img.Clone();
 
-                Mat rand = Mat.Zeros(new Size(noiseImg.Height, noiseImg.Width), noiseImg.Type());
+                Mat rand = Mat.Zeros(new Size(noiseImg.Width, noiseImg.Height), noiseImg.Type());
                 rand.Randu(0, 255);
                 Mat white = rand.LessThanOrEqual(inputWindow.Low);
                 Mat black = rand.GreaterThanOrEqual(inputWindow.High);
@@ -228,7 +270,7 @@ namespace opencv
             var dRes = inputWindow.ShowDialog();
             if (dRes == DialogResult.OK)
             {
-                return img.Blur(new Size(inputWindow.H, inputWindow.W));
+                return img.Blur(new Size(inputWindow.W, inputWindow.H));
             }
             else
             {
@@ -249,7 +291,7 @@ namespace opencv
             var dRes = inputWindow.ShowDialog();
             if (dRes == DialogResult.OK)
             {
-                return img.GaussianBlur(new Size(inputWindow.H, inputWindow.W), 0);
+                return img.GaussianBlur(new Size(inputWindow.W, inputWindow.H), 0);
             }
             else
             {
