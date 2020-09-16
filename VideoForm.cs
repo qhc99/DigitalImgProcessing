@@ -11,11 +11,17 @@ namespace opencv
         private bool _save;
         private bool _opening;
 
+        private void ShowNoneImage()
+        {
+            pictureBox1.Image = MainForm.NoneMat.Resize(new Size(640,480)).ToBitmap();
+        }
+
         public VideoForm()
         {
             InitializeComponent();
             StartPosition = FormStartPosition.CenterScreen;
             openCameraButton.Select();
+            ShowNoneImage();
         }
 
         /// <summary>
@@ -87,7 +93,7 @@ namespace opencv
                         writer.Write(image);
                         key = Cv2.WaitKey(10);
                     }
-                    pictureBox1.Image = null;
+                    ShowNoneImage();
                 }
             }
             else
@@ -107,7 +113,7 @@ namespace opencv
                     }
                     key =Cv2.WaitKey(10);
                 }
-                pictureBox1.Image = null;
+                ShowNoneImage();
             }
             
         }
@@ -171,7 +177,7 @@ namespace opencv
                 }
             }
 
-            pictureBox1.Image = null;
+            ShowNoneImage();
             closeButton_Click(this,EventArgs.Empty);
         }
 
