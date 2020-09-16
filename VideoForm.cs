@@ -56,6 +56,7 @@ namespace opencv
             saveButton.Enabled = false;
             closeCameraButton.Enabled = true;
             openCameraButton.Enabled = false;
+
             Size dSize = new Size(640, 480);
             using VideoCapture capture = new VideoCapture(0);
             Mat image = new Mat();
@@ -75,10 +76,7 @@ namespace opencv
                             break; // 摄像头大小:480*640
                         }
                         pictureBox1.Image = Processing(image).ToBitmap();
-                        if (_save)
-                        {
-                            writer.Write(image);
-                        }
+                        writer.Write(image);
                         Cv2.WaitKey(10);
                     }
                     pictureBox1.Image = null;
@@ -118,19 +116,45 @@ namespace opencv
             if (result == DialogResult.OK)
             {
                 using VideoCapture capture = new VideoCapture(openFileDialog1.FileName);
-
                 int sleepTime = (int) Math.Round(1000 / capture.Fps);
-
                 Mat image = new Mat();
-                int key = -1;
-                while (key != 113)
-                {
-                    capture.Read(image); 
-                    if (image.Empty())
-                        break;
 
-                    pictureBox1.Image = GetBoxFittedMat(Processing(image), pictureBox1).ToBitmap();
-                    key = Cv2.WaitKey(sleepTime);
+                if (_save)
+                {
+                    var o = saveFileDialog1.ShowDialog();
+                    if (o == DialogResult.OK)
+                    {
+                        using VideoWriter writer = new VideoWriter(saveFileDialog1.FileName, 
+                            -1, 
+                            capture.Fps, 
+                            new Size(capture.Get(VideoCaptureProperties.FrameWidth), capture.Get(VideoCaptureProperties.FrameHeight)));
+                        int key = -1;
+                        while (key != 113)
+                        {
+                            capture.Read(image); 
+                            if (image.Empty())
+                            {
+                                break;
+                            }
+                            pictureBox1.Image = GetBoxFittedMat(Processing(image), pictureBox1).ToBitmap();
+                            writer.Write(image);
+                            key = Cv2.WaitKey(sleepTime);
+                        }
+                    }
+                }
+                else
+                {
+                    int key = -1;
+                    while (key != 113)
+                    {
+                        capture.Read(image);
+                        if (image.Empty())
+                        {
+                            break;
+                        }
+                        pictureBox1.Image = GetBoxFittedMat(Processing(image), pictureBox1).ToBitmap();
+                        key = Cv2.WaitKey(sleepTime);
+                    }
                 }
             }
         }

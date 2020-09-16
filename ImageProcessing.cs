@@ -19,9 +19,6 @@ namespace opencv
         private static readonly CascadeClassifier FaceClassifier =
             new CascadeClassifier(@"..\\..\\..\\Resources\\haarcascade_frontalface_alt2.xml");
 
-        private static readonly CascadeClassifier SmileClassifier =
-            new CascadeClassifier(@"..\\..\\..\\Resources\\haarcascade_smile.xml");
-
         private static readonly CascadeClassifier ProfileFaceClassifier =
             new CascadeClassifier(@"..\\..\\..\\Resources\\haarcascade_profileface.xml");
 
@@ -80,8 +77,7 @@ namespace opencv
         {
             Mat grayImg = ConvertToGrayMat(img);
             var newImg = copy == CopyTypes.ShallowCopy ? img : img.Clone();
-            Rect[] faces = FaceClassifier.DetectMultiScale(grayImg,
-                1.08, 2, HaarDetectionType.ScaleImage, new Size(30, 30));
+            Rect[] faces = FaceClassifier.DetectMultiScale(grayImg);
             foreach (var rect in faces)
             {
                 Cv2.Rectangle(newImg, new Point(rect.X, rect.Y), new Point(rect.X + rect.Width,
@@ -92,7 +88,7 @@ namespace opencv
         }
 
         /// <summary>
-        /// 行人检测
+        /// 人眼检测
         /// </summary>
         /// <param name="img"></param>
         /// <param name="copy"></param>
@@ -101,8 +97,7 @@ namespace opencv
         {
             Mat grayImg = ConvertToGrayMat(img);
             var newImg = copy == CopyTypes.ShallowCopy ? img : img.Clone();
-            Rect[] faces = EyeClassifier.DetectMultiScale(grayImg,
-                1.08, 2, HaarDetectionType.ScaleImage, new Size(30, 30));
+            Rect[] faces = EyeClassifier.DetectMultiScale(grayImg,1.08,2,HaarDetectionType.DoCannyPruning);
             foreach (var rect in faces)
             {
                 Cv2.Rectangle(newImg, new Point(rect.X, rect.Y), new Point(rect.X + rect.Width,
@@ -122,8 +117,7 @@ namespace opencv
         {
             Mat grayImg = ConvertToGrayMat(img);
             var newImg = copy == CopyTypes.ShallowCopy ? img : img.Clone();
-            Rect[] faces = ProfileFaceClassifier.DetectMultiScale(grayImg,
-                1.08, 2, HaarDetectionType.ScaleImage, new Size(30, 30));
+            Rect[] faces = ProfileFaceClassifier.DetectMultiScale(grayImg.EqualizeHist());
             foreach (var rect in faces)
             {
                 Cv2.Rectangle(newImg, new Point(rect.X, rect.Y), new Point(rect.X + rect.Width,
@@ -132,7 +126,6 @@ namespace opencv
 
             return newImg;
         }
-
 
         /// <summary>
         /// 灰度化
