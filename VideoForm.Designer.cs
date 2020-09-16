@@ -144,7 +144,6 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.Button openFileButton;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button saveButton;
     }
 }
