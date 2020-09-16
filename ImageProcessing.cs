@@ -135,26 +135,6 @@ namespace opencv
         }
 
         /// <summary>
-        /// 左掌
-        /// </summary>
-        /// <param name="img"></param>
-        /// <param name="copy"></param>
-        /// <returns></returns>
-        public static Mat LeftPalmLocate(Mat img, CopyTypes copy = CopyTypes.DeepCopy)
-        {
-            Mat grayImg = ConvertToGrayMat(img);
-            var newImg = copy == CopyTypes.ShallowCopy ? img : img.Clone();
-            Rect[] faces = LeftPalmClassifier.DetectMultiScale(grayImg);
-            foreach (var rect in faces)
-            {
-                Cv2.Rectangle(newImg, new Point(rect.X, rect.Y), new Point(rect.X + rect.Width,
-                    rect.Y + rect.Height), new Scalar(255, 0, 0), 3);
-            }
-
-            return newImg;
-        }
-
-        /// <summary>
         /// 右掌
         /// </summary>
         /// <param name="img"></param>
@@ -168,7 +148,7 @@ namespace opencv
             foreach (var rect in faces)
             {
                 Cv2.Rectangle(newImg, new Point(rect.X, rect.Y), new Point(rect.X + rect.Width,
-                    rect.Y + rect.Height), new Scalar(255, 0, 0), 3);
+                    rect.Y + rect.Height), new Scalar(0, 255, 0), 3);
             }
 
             return newImg;

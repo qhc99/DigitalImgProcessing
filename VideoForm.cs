@@ -40,10 +40,7 @@ namespace opencv
                     case "拳头":
                         img = FistLocate(img, CopyTypes.ShallowCopy);
                         break;
-                    case "左掌":
-                        img = LeftPalmLocate(img, CopyTypes.ShallowCopy);
-                        break;
-                    case "右掌":
+                    case "手掌":
                         img = RightPalmLocate(img, CopyTypes.ShallowCopy);
                         break;
                     default:
