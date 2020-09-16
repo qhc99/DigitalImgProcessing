@@ -23,9 +23,6 @@ namespace opencv
         private static readonly CascadeClassifier FistClassifier =
             new CascadeClassifier("..\\..\\..\\Resources\\fist.xml");
 
-        private static readonly CascadeClassifier LeftPalmClassifier =
-            new CascadeClassifier("..\\..\\..\\Resources\\lpalm.xml");
-
         private static readonly CascadeClassifier RightPalmClassifier =
             new CascadeClassifier("..\\..\\..\\Resources\\rpalm.xml");
 
@@ -781,9 +778,8 @@ namespace opencv
         /// <returns></returns>
         public static Mat MSERFeatureDetect(Mat img)
         {
-            Mat gray = new Mat();
             Mat newImg = img.Clone();
-            Cv2.CvtColor(img, gray, ColorConversionCodes.BGR2GRAY);
+            var gray = ConvertToGrayMat(img);
 
             MSER mser = MSER.Create();
             KeyPoint[] contour = mser.Detect(gray);

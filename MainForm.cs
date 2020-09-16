@@ -1008,7 +1008,15 @@ namespace opencv
         private void detailEnhanceButton_Click(object sender, EventArgs e)
         {
             Mat res = new Mat();
-            Cv2.DetailEnhance(GetMatToProcess(), res);
+            try
+            {
+                Cv2.DetailEnhance(GetMatToProcess(), res);
+            }
+            catch (OpenCVException)
+            {
+                MessageBox.Show(@"图片不能是灰度图像");
+                return;
+            }
             AddMatToListAndShow(res);
         }
 
@@ -1021,7 +1029,15 @@ namespace opencv
         {
             Mat res = new Mat();
             Mat _ = new Mat();
-            Cv2.PencilSketch(GetMatToProcess(), _, res);
+            try
+            {
+                Cv2.PencilSketch(GetMatToProcess(), _, res);
+            }
+            catch (OpenCVException)
+            {
+                MessageBox.Show(@"图片不能是灰度图像");
+                return;
+            }
             AddMatToListAndShow(res);
         }
 
