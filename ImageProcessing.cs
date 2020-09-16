@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using CheckedException.Core;
 using OpenCvSharp;
 using OpenCvSharp.XFeatures2D;
 
@@ -113,7 +114,7 @@ namespace opencv
         /// <param name="img"></param>
         /// <returns></returns>
         /// <exception cref="ProcessCanceledException"></exception>
-        /// <exception cref="ProcessCanceledException"></exception>
+        [ThrowsException(typeof(ProcessCanceledException))]
         public static Mat AddGaussianNoise(Mat img)
         {
             var inputWindow = new MeanVariancePopUp();
@@ -138,6 +139,7 @@ namespace opencv
         /// <param name="img"></param>
         /// <returns></returns>
         /// <exception cref="ProcessCanceledException"></exception>
+        [ThrowsException(typeof(ProcessCanceledException))]
         public static Mat AddUniformNoise(Mat img)
         {
             var inputWindow = new UpperLowerLimitPopUp();
@@ -160,6 +162,7 @@ namespace opencv
         /// <param name="img"></param>
         /// <returns></returns>
         /// <exception cref="ProcessCanceledException"></exception>
+        [ThrowsException(typeof(ProcessCanceledException))]
         public static Mat AddSaltAndPepperNoise(Mat img)
         {
             var inputWindow = new UpperLowerLimitPopUp();
@@ -190,6 +193,8 @@ namespace opencv
         /// <returns></returns>
         /// <exception cref="NotGrayImageException"></exception>
         /// <exception cref="ProcessCanceledException"></exception>
+        [ThrowsException(typeof(ProcessCanceledException))]
+        [ThrowsException(typeof(NotGrayImageException))]
         public static Mat MedianBlur(Mat img)
         {
             var inputWindow = new RectangleBoxSizePopUp();
@@ -216,6 +221,7 @@ namespace opencv
         /// <param name="img"></param>
         /// <returns></returns>
         /// <exception cref="ProcessCanceledException">Thrown.</exception>
+        [ThrowsException(typeof(ProcessCanceledException))]
         public static Mat AverageBlur(Mat img)
         {
             var inputWindow = new BoxHeightWidthPopUp();
@@ -236,6 +242,7 @@ namespace opencv
         /// <param name="img"></param>
         /// <returns></returns>
         /// <exception cref="ProcessCanceledException"></exception>
+        [ThrowsException(typeof(ProcessCanceledException))]
         public static Mat GaussianBlur(Mat img)
         {
             var inputWindow = new BoxHeightWidthPopUp();
@@ -256,6 +263,7 @@ namespace opencv
         /// <param name="img"></param>
         /// <returns></returns>
         /// <exception cref="ProcessCanceledException">Thrown.</exception>
+        [ThrowsException(typeof(ProcessCanceledException))]
         public static Mat LaplacianSharpen(Mat img)
         {
             var inputWindow = new CoefficientAlphaPopUp();
@@ -282,6 +290,7 @@ namespace opencv
         /// <param name="img"></param>
         /// <returns></returns>
         /// <exception cref="ProcessCanceledException">Thrown.</exception>
+        [ThrowsException(typeof(ProcessCanceledException))]
         public static Mat SobelSharpen(Mat img)
         {
             var w = new SobelCoefficientPopUp();
@@ -308,6 +317,7 @@ namespace opencv
         /// <param name="img"></param>
         /// <returns></returns>
         /// <exception cref="ProcessCanceledException">Thrown</exception>
+        [ThrowsException(typeof(ProcessCanceledException))]
         public static Mat PseudoColorFortify(Mat img)
         {
             var w = new ColorMapComboPopUp();
@@ -344,6 +354,7 @@ namespace opencv
         /// <param name="img"></param>
         /// <returns></returns>
         /// <exception cref="ProcessCanceledException">Thrown.</exception>
+        [ThrowsException(typeof(ProcessCanceledException))]
         public static Mat SobelEdgeDetect(Mat img)
         {
             Mat gradX = new Mat();
@@ -368,6 +379,7 @@ namespace opencv
         /// <param name="img"></param>
         /// <returns></returns>
         /// <exception cref="ProcessCanceledException"></exception>
+        [ThrowsException(typeof(ProcessCanceledException))]
         public static Mat CannyEdgeDetect(Mat img)
         {
             var w = new UpperLowerLimitPopUp(true);
@@ -390,6 +402,8 @@ namespace opencv
         /// <returns></returns>
         /// <exception cref="NotGrayImageException">Thrown</exception>
         /// <exception cref="ProcessCanceledException">Thrown.</exception>
+        [ThrowsException(typeof(ProcessCanceledException))]
+        [ThrowsException(typeof(NotGrayImageException))]
         public static Mat MeanThresholdSeg(Mat img)
         {
             var w = new AdaptiveSegmentationComboPopUp();
@@ -422,6 +436,8 @@ namespace opencv
         /// <returns></returns>
         /// <exception cref="NotGrayImageException"></exception>
         /// <exception cref="ProcessCanceledException"></exception>
+        [ThrowsException(typeof(ProcessCanceledException))]
+        [ThrowsException(typeof(NotGrayImageException))]
         public static Mat GaussianThresholdSeg(Mat img)
         {
             var w = new AdaptiveSegmentationComboPopUp();
@@ -452,6 +468,7 @@ namespace opencv
         /// <param name="img"></param>
         /// <returns></returns>
         /// <exception cref="NotGrayImageException"></exception>
+        [ThrowsException(typeof(NotGrayImageException))]
         public static Mat OtsuSeg(Mat img)
         {
             try
@@ -471,6 +488,7 @@ namespace opencv
         /// <param name="I"></param>
         /// <returns></returns>
         /// <exception cref="NotGrayImageException"></exception>
+        [ThrowsException(typeof(NotGrayImageException))]
         public static Mat DftTransform(Mat I)
         {
             Mat padded = new Mat(); //expand input image to optimal size
@@ -656,6 +674,7 @@ namespace opencv
         /// <param name="img"></param>
         /// <returns></returns>
         /// <exception cref="NotGrayImageException"></exception>
+        [ThrowsException(typeof(NotGrayImageException))]
         public static Mat HomoFilter(Mat img)
         {
             Mat newImg = new Mat();
