@@ -17,9 +17,6 @@ namespace opencv
         private static readonly CascadeClassifier FaceClassifier =
             new CascadeClassifier(@"..\\..\\..\\Resources\\haarcascade_frontalface_alt2.xml");
 
-        private static readonly CascadeClassifier ProfileFaceClassifier =
-            new CascadeClassifier(@"..\\..\\..\\Resources\\haarcascade_profileface.xml");
-
         private static readonly CascadeClassifier EyeClassifier =
             new CascadeClassifier("..\\..\\..\\Resources\\haarcascade_eye.xml");
 
@@ -108,26 +105,6 @@ namespace opencv
             Mat grayImg = ConvertToGrayMat(img);
             var newImg = copy == CopyTypes.ShallowCopy ? img : img.Clone();
             Rect[] faces = EyeClassifier.DetectMultiScale(grayImg, 1.1, 6);
-            foreach (var rect in faces)
-            {
-                Cv2.Rectangle(newImg, new Point(rect.X, rect.Y), new Point(rect.X + rect.Width,
-                    rect.Y + rect.Height), new Scalar(255, 0, 0), 3);
-            }
-
-            return newImg;
-        }
-
-        /// <summary>
-        /// 证件照定位
-        /// </summary>
-        /// <param name="img"></param>
-        /// <param name="copy"></param>
-        /// <returns></returns>
-        public static Mat ProfileFaceLocate(Mat img, CopyTypes copy = CopyTypes.DeepCopy)
-        {
-            Mat grayImg = ConvertToGrayMat(img);
-            var newImg = copy == CopyTypes.ShallowCopy ? img : img.Clone();
-            Rect[] faces = ProfileFaceClassifier.DetectMultiScale(grayImg);
             foreach (var rect in faces)
             {
                 Cv2.Rectangle(newImg, new Point(rect.X, rect.Y), new Point(rect.X + rect.Width,

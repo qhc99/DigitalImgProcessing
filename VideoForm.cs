@@ -37,9 +37,6 @@ namespace opencv
                     case "行人":
                         img = PedestrianLocate(img, CopyTypes.ShallowCopy);
                         break;
-                    case "证件照":
-                        img = ProfileFaceLocate(img, CopyTypes.ShallowCopy);
-                        break;
                     case "拳头":
                         img = FistLocate(img, CopyTypes.ShallowCopy);
                         break;
