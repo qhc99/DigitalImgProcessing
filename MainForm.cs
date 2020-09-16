@@ -507,38 +507,6 @@ namespace opencv
         }
 
         /// <summary>
-        /// 打开视频文件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void openVideoFile_Click(object sender, EventArgs e)
-        {
-            var result = openFileDialog1.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                using VideoCapture capture = new VideoCapture(openFileDialog1.FileName);
-
-                int sleepTime = (int) Math.Round(1000 / capture.Fps);
-
-                using Window window = new Window("file", WindowMode.AutoSize | WindowMode.KeepRatio);
-                Mat image = new Mat();
-                // When the movie playback reaches end, Mat.data becomes NULL.
-                int key = -1;
-                while (key != 113)
-                {
-                    capture.Read(image); // same as cvQueryFrame
-                    if (image.Empty())
-                        break;
-
-                    window.ShowImage(image);
-                    key = Cv2.WaitKey(sleepTime);
-                }
-
-                Cv2.DestroyWindow("file");
-            }
-        }
-
-        /// <summary>
         /// 打开摄像头
         /// </summary>
         /// <param name="sender"></param>

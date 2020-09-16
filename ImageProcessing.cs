@@ -17,7 +17,16 @@ namespace opencv
         //private static readonly CascadeClassifier FaceClassifier = new CascadeClassifier(@"..\\..\\..\\Resources\\haarcascade_frontalface_default.xml");
         //private static readonly CascadeClassifier FaceClassifier = new CascadeClassifier(@"..\\..\\..\\Resources\\lbpcascade_frontalface.xml");
         private static readonly CascadeClassifier FaceClassifier =
-            new CascadeClassifier(@"..\\..\\..\\Resources\\haarcascade_frontalface_alt_tree.xml");
+            new CascadeClassifier(@"..\\..\\..\\Resources\\haarcascade_frontalface_alt2.xml");
+
+        private static readonly CascadeClassifier SmileClassifier =
+            new CascadeClassifier(@"..\\..\\..\\Resources\\haarcascade_smile.xml");
+
+        private static readonly CascadeClassifier ProfileFaceClassifier =
+            new CascadeClassifier(@"..\\..\\..\\Resources\\haarcascade_profileface.xml");
+
+        private static readonly CascadeClassifier EyeClassifier = 
+            new CascadeClassifier("..\\..\\..\\Resources\\haarcascade_eye_tree_eyeglasses.xml");
 
         /// <summary>
         /// 符合窗口大小的Mat
@@ -77,16 +86,53 @@ namespace opencv
             {
                 Cv2.Rectangle(newImg, new Point(rect.X, rect.Y), new Point(rect.X + rect.Width,
                     rect.Y + rect.Height), new Scalar(255, 0, 0), 3);
-
-                // eyes locations:
-                // var roiGray = grayImg.SubMat(new Range(rect.Y, rect.Y + rect.Height),
-                //     new Range(rect.X, rect.X + rect.Width));
-                // var roiImg = img.SubMat(new Range(rect.Y, rect.Y + rect.Height),
-                //     new Range(rect.X, rect.X + rect.Width));
             }
 
             return newImg;
         }
+
+        /// <summary>
+        /// 行人检测
+        /// </summary>
+        /// <param name="img"></param>
+        /// <param name="copy"></param>
+        /// <returns></returns>
+        public static Mat EyeLocate(Mat img, CopyTypes copy = CopyTypes.DeepCopy)
+        {
+            Mat grayImg = ConvertToGrayMat(img);
+            var newImg = copy == CopyTypes.ShallowCopy ? img : img.Clone();
+            Rect[] faces = EyeClassifier.DetectMultiScale(grayImg,
+                1.08, 2, HaarDetectionType.ScaleImage, new Size(30, 30));
+            foreach (var rect in faces)
+            {
+                Cv2.Rectangle(newImg, new Point(rect.X, rect.Y), new Point(rect.X + rect.Width,
+                    rect.Y + rect.Height), new Scalar(255, 0, 0), 3);
+            }
+
+            return newImg;
+        }
+
+        /// <summary>
+        /// 证件照定位
+        /// </summary>
+        /// <param name="img"></param>
+        /// <param name="copy"></param>
+        /// <returns></returns>
+        public static Mat ProfileFaceLocate(Mat img, CopyTypes copy = CopyTypes.DeepCopy)
+        {
+            Mat grayImg = ConvertToGrayMat(img);
+            var newImg = copy == CopyTypes.ShallowCopy ? img : img.Clone();
+            Rect[] faces = ProfileFaceClassifier.DetectMultiScale(grayImg,
+                1.08, 2, HaarDetectionType.ScaleImage, new Size(30, 30));
+            foreach (var rect in faces)
+            {
+                Cv2.Rectangle(newImg, new Point(rect.X, rect.Y), new Point(rect.X + rect.Width,
+                    rect.Y + rect.Height), new Scalar(255, 0, 0), 3);
+            }
+
+            return newImg;
+        }
+
 
         /// <summary>
         /// 灰度化

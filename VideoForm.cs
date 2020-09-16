@@ -8,44 +8,101 @@ namespace opencv
 {
     public partial class VideoForm : Form
     {
+        private bool _save;
         private bool _opening;
 
         public VideoForm()
         {
             InitializeComponent();
             StartPosition = FormStartPosition.CenterScreen;
-            button1.Select();
+            openCameraButton.Select();
         }
 
         /// <summary>
-        /// 开启
+        /// 处理视频图像
+        /// </summary>
+        /// <param name="img">原图像</param>
+        private Mat Processing(Mat img)
+        {
+            foreach (string item in checkedListBox1.CheckedItems)
+            {
+                switch (item)
+                {
+                    case "人脸检测":
+                        img = FaceLocate(img, CopyTypes.ShallowCopy);
+                        break;
+                    case "人眼检测":
+                        img = EyeLocate(img, CopyTypes.ShallowCopy);
+                        break;
+                    case "证件照检测":
+                        img = ProfileFaceLocate(img, CopyTypes.ShallowCopy);
+                        break;
+                    default:
+                        throw new InvalidOperationException();
+                }
+            }
+
+            return img;
+        }
+
+        /// <summary>
+        /// 打开摄像头
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void button1_Click(object sender, EventArgs e)
+        private void openCameraButton_Click(object sender, EventArgs e)
         {
-            button2.Enabled = true;
-            button1.Enabled = false;
+            checkedListBox1.Enabled = false;
+            saveButton.Enabled = false;
+            closeCameraButton.Enabled = true;
+            openCameraButton.Enabled = false;
+            Size dSize = new Size(640, 480);
             using VideoCapture capture = new VideoCapture(0);
             Mat image = new Mat();
             // When the movie playback reaches end, Mat.data becomes NULL.
             _opening = true;
-            while (_opening) //q键
+            if (_save)
             {
-                capture.Read(image); // same as cvQueryFrame
-                if (image.Empty()) break; // 摄像头大小:480*640
-                image = ConvertToGrayMat(image).
-                    EqualizeHist().
-                    AdaptiveThreshold(255,
-                        AdaptiveThresholdTypes.GaussianC,
-                        ThresholdTypes.Binary,
-                        11, 
-                        2);
-                pictureBox1.Image = FaceLocate(image, CopyTypes.ShallowCopy).ToBitmap();
-                Cv2.WaitKey(10);
+                var dialogResult = saveFileDialog1.ShowDialog();
+                if (dialogResult == DialogResult.OK)
+                {
+                    using VideoWriter writer = new VideoWriter(saveFileDialog1.FileName, -1, capture.Fps, dSize);
+                    while (_opening) //q键
+                    {
+                        capture.Read(image); // same as cvQueryFrame
+                        if (image.Empty())
+                        {
+                            break; // 摄像头大小:480*640
+                        }
+                        pictureBox1.Image = Processing(image).ToBitmap();
+                        if (_save)
+                        {
+                            writer.Write(image);
+                        }
+                        Cv2.WaitKey(10);
+                    }
+                    pictureBox1.Image = null;
+                }
             }
+            else
+            {
+                while (_opening) //q键
+                {
+                    capture.Read(image); // same as cvQueryFrame
+                    if (image.Empty())
+                    {
+                        break; // 摄像头大小:480*640
+                    }
+                    pictureBox1.Image = Processing(image).ToBitmap();
+                    if (_save)
+                    {
 
-            pictureBox1.Image = null;
+                    }
+                    Cv2.WaitKey(10);
+                }
+                pictureBox1.Image = null;
+            }
+            
         }
 
         /// <summary>
@@ -55,9 +112,41 @@ namespace opencv
         /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
-            button2.Enabled = false;
-            button1.Enabled = true;
+            closeCameraButton.Enabled = false;
+            openCameraButton.Enabled = true;
             _opening = false;
+            checkedListBox1.Enabled = true;
+            saveButton.Enabled = true;
+        }
+
+        /// <summary>
+        /// 打开视频文件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void openVideoFile_Click(object sender, EventArgs e)
+        {
+            checkedListBox1.Enabled = false;
+            saveButton.Enabled = false;
+            var result = openFileDialog1.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                using VideoCapture capture = new VideoCapture(openFileDialog1.FileName);
+
+                int sleepTime = (int) Math.Round(1000 / capture.Fps);
+
+                Mat image = new Mat();
+                int key = -1;
+                while (key != 113)
+                {
+                    capture.Read(image); 
+                    if (image.Empty())
+                        break;
+
+                    pictureBox1.Image = GetBoxFittedMat(Processing(image), pictureBox1).ToBitmap();
+                    key = Cv2.WaitKey(sleepTime);
+                }
+            }
         }
 
         /// <summary>
@@ -79,9 +168,29 @@ namespace opencv
                 switch (e.KeyCode)
                 {
                     case Keys.Enter:
-                        button1_Click(this, EventArgs.Empty);
+                        openCameraButton_Click(this, EventArgs.Empty);
                         break;
                 }
+            }
+            
+        }
+
+        /// <summary>
+        /// 保存
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            if (saveButton.Text == "保存处理×")
+            {
+                saveButton.Text = "保存处理√";
+                _save = true;
+            }
+            else
+            {
+                saveButton.Text = "保存处理×";
+                _save = false;
             }
         }
     }

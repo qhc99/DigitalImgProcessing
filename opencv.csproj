@@ -13,20 +13,31 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\haarcascade_eye_tree_eyeglasses.xml" />
+    <None Remove="Resources\haarcascade_frontalface_alt2.xml" />
+    <None Remove="Resources\haarcascade_frontalface_alt_tree.xml" />
+    <None Remove="Resources\haarcascade_fullbody.xml" />
+    <None Remove="Resources\haarcascade_profileface.xml" />
+    <None Remove="Resources\haarcascade_smile.xml" />
     <None Remove="Resources\icon.ico" />
     <None Remove="Resources\none.jpg" />
     <None Remove="Resources\opencv_logo.ico" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\haarcascade_eye_tree_eyeglasses.xml" />
+    <EmbeddedResource Include="Resources\haarcascade_frontalface_alt2.xml" />
+    <EmbeddedResource Include="Resources\haarcascade_frontalface_alt_tree.xml" />
+    <EmbeddedResource Include="Resources\haarcascade_fullbody.xml" />
+    <EmbeddedResource Include="Resources\haarcascade_profileface.xml" />
+    <EmbeddedResource Include="Resources\haarcascade_smile.xml" />
     <EmbeddedResource Include="Resources\none.jpg" />
     <EmbeddedResource Include="Resources\opencv_logo.ico" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.ML.TensorFlow" Version="1.5.2" />
-    <PackageReference Include="OpenCvSharp4" Version="4.4.0.20200725" />
-    <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.4.0.20200725" />
+    <PackageReference Include="OpenCvSharp4" Version="4.4.0.20200915" />
+    <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.4.0.20200915" />
     <PackageReference Include="Portia.Roslyn.CheckedException" Version="1.4.7443.28334" />
   </ItemGroup>
 

@@ -89,8 +89,6 @@
             this.pencilSketchButton = new System.Windows.Forms.ToolStripMenuItem();
             this.stylizationButton = new System.Windows.Forms.ToolStripMenuItem();
             this.videoProcessButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.openCameraButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.openVideoFile = new System.Windows.Forms.ToolStripMenuItem();
             this.shortCutHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.leftPictureSize = new System.Windows.Forms.Label();
             this.rightPictureSize = new System.Windows.Forms.Label();
@@ -590,26 +588,10 @@
             // 
             // videoProcessButton
             // 
-            this.videoProcessButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openCameraButton,
-            this.openVideoFile});
             this.videoProcessButton.Name = "videoProcessButton";
             this.videoProcessButton.Size = new System.Drawing.Size(68, 21);
             this.videoProcessButton.Text = "视频处理";
-            // 
-            // openCameraButton
-            // 
-            this.openCameraButton.Name = "openCameraButton";
-            this.openCameraButton.Size = new System.Drawing.Size(136, 22);
-            this.openCameraButton.Text = "开启摄像头";
-            this.openCameraButton.Click += new System.EventHandler(this.openCameraButton_Click);
-            // 
-            // openVideoFile
-            // 
-            this.openVideoFile.Name = "openVideoFile";
-            this.openVideoFile.Size = new System.Drawing.Size(136, 22);
-            this.openVideoFile.Text = "打开文件";
-            this.openVideoFile.Click += new System.EventHandler(this.openVideoFile_Click);
+            this.videoProcessButton.Click += new System.EventHandler(this.openCameraButton_Click);
             // 
             // shortCutHelp
             // 
@@ -717,8 +699,6 @@
         private System.Windows.Forms.ToolStripMenuItem OtsuSegButton;
         private System.Windows.Forms.ToolStripMenuItem faceLocateButton;
         private System.Windows.Forms.ToolStripMenuItem videoProcessButton;
-        private System.Windows.Forms.ToolStripMenuItem openCameraButton;
-        private System.Windows.Forms.ToolStripMenuItem openVideoFile;
         private System.Windows.Forms.ToolStripMenuItem DFTTransformButton;
         private System.Windows.Forms.ToolStripMenuItem waveletTransformButton;
         private System.Windows.Forms.ToolStripMenuItem showHitogramButton;
