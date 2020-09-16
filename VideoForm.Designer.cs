@@ -71,7 +71,7 @@
             this.closeCameraButton.TabIndex = 2;
             this.closeCameraButton.Text = "关闭摄像头";
             this.closeCameraButton.UseVisualStyleBackColor = true;
-            this.closeCameraButton.Click += new System.EventHandler(this.button2_Click);
+            this.closeCameraButton.Click += new System.EventHandler(this.closeButton_Click);
             // 
             // checkedListBox1
             // 

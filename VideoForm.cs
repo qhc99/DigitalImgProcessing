@@ -106,20 +106,6 @@ namespace opencv
         }
 
         /// <summary>
-        /// 关闭
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void button2_Click(object sender, EventArgs e)
-        {
-            closeCameraButton.Enabled = false;
-            openCameraButton.Enabled = true;
-            _opening = false;
-            checkedListBox1.Enabled = true;
-            saveButton.Enabled = true;
-        }
-
-        /// <summary>
         /// 打开视频文件
         /// </summary>
         /// <param name="sender"></param>
@@ -150,6 +136,20 @@ namespace opencv
         }
 
         /// <summary>
+        /// 关闭
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void closeButton_Click(object sender, EventArgs e)
+        {
+            closeCameraButton.Enabled = false;
+            openCameraButton.Enabled = true;
+            _opening = false;
+            checkedListBox1.Enabled = true;
+            saveButton.Enabled = true;
+        }
+
+        /// <summary>
         /// 快捷键
         /// </summary>
         /// <param name="sender"></param>
@@ -159,7 +159,7 @@ namespace opencv
             switch (e.KeyCode)
             {
                 case Keys.Q:
-                    button2_Click(this, EventArgs.Empty);
+                    closeButton_Click(this, EventArgs.Empty);
                     break;
             }
 

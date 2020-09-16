@@ -477,7 +477,7 @@ namespace opencv
                             "ctrl + s: 保存第二张图片\n" +
                             "ctrl + z: 撤销处理操作\n" +
                             "ctrl + o: 覆盖上一张图片\n" +
-                            "ctrl + ENTER: 弹窗确认" +
+                            "ctrl + ENTER: 弹窗确认\n" +
                             "ctrl + ←: 图片序列向左翻页\n" +
                             "ctrl + →: 图片序列向右翻页\n" +
                             "alt + v: 查看图片序列\n" +
