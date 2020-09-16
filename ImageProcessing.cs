@@ -18,7 +18,7 @@ namespace opencv
             new CascadeClassifier(@"..\\..\\..\\Resources\\haarcascade_frontalface_alt2.xml");
 
         private static readonly CascadeClassifier EyeClassifier =
-            new CascadeClassifier("..\\..\\..\\Resources\\haarcascade_eye.xml");
+            new CascadeClassifier("..\\..\\..\\Resources\\haarcascade_eye_tree_eyeglasses.xml");
 
         private static readonly CascadeClassifier FistClassifier =
             new CascadeClassifier("..\\..\\..\\Resources\\fist.xml");

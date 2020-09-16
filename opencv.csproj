@@ -18,12 +18,10 @@
     <None Remove="Resources\haarcascade_frontalface_alt2.xml" />
     <None Remove="Resources\haarcascade_profileface.xml" />
     <None Remove="Resources\icon.ico" />
-    <None Remove="Resources\left.xml" />
     <None Remove="Resources\lpalm.xml" />
     <None Remove="Resources\none.jpg" />
     <None Remove="Resources\opencv_logo.ico" />
     <None Remove="Resources\pedestrian.xml" />
-    <None Remove="Resources\right.xml" />
     <None Remove="Resources\rpalm.xml" />
   </ItemGroup>
 
@@ -32,12 +30,10 @@
     <EmbeddedResource Include="Resources\haarcascade_eye_tree_eyeglasses.xml" />
     <EmbeddedResource Include="Resources\haarcascade_frontalface_alt2.xml" />
     <EmbeddedResource Include="Resources\haarcascade_profileface.xml" />
-    <EmbeddedResource Include="Resources\left.xml" />
     <EmbeddedResource Include="Resources\lpalm.xml" />
     <EmbeddedResource Include="Resources\none.jpg" />
     <EmbeddedResource Include="Resources\opencv_logo.ico" />
     <EmbeddedResource Include="Resources\pedestrian.xml" />
-    <EmbeddedResource Include="Resources\right.xml" />
     <EmbeddedResource Include="Resources\rpalm.xml" />
   </ItemGroup>
 
