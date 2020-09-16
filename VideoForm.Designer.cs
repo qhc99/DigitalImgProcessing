@@ -83,9 +83,9 @@
             "拳头",
             "右掌",
             "左掌"});
-            this.checkedListBox1.Location = new System.Drawing.Point(657, 198);
+            this.checkedListBox1.Location = new System.Drawing.Point(657, 216);
             this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(101, 130);
+            this.checkedListBox1.Size = new System.Drawing.Size(101, 112);
             this.checkedListBox1.TabIndex = 3;
             // 
             // openFileDialog1
