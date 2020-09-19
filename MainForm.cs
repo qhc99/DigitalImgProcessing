@@ -77,15 +77,6 @@ namespace opencv
             }
         }
 
-        // ReSharper disable once UnusedMember.Local
-        /// <summary>
-        /// helper function
-        /// </summary>
-        private void NotImplemented()
-        {
-            MessageBox.Show(@"未实现此功能");
-        }
-
         /// <summary>
         /// 显示空图片
         /// </summary>
