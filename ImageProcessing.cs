@@ -37,8 +37,7 @@ namespace opencv
         /// <returns></returns>
         public static Mat GetBoxFittedMat(Mat m, PictureBox pb)
         {
-            var (row, col) = ComputeSize(m.Rows, m.Cols,
-                pb.Size.Height, pb.Size.Width);
+            var (row, col) = ComputeSize(m.Rows, m.Cols, pb.Size.Height, pb.Size.Width);
             try
             {
                 return m.Resize(new Size(col, row), 0, 0, InterpolationFlags.Cubic);
@@ -58,8 +57,8 @@ namespace opencv
                 else
                 {
                     double ratio = ((double) imgRow) / imgCol;
-                    //newRow/newCol = imgRow/imgCol
-                    if (imgRow > boxRow)
+                    //newRow/newCol = ratio
+                    if (imgRow > imgCol)
                     {
                         return new Tuple<int, int>(boxRow, (int) (boxRow / ratio));
                     }
