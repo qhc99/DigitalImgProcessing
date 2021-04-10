@@ -255,6 +255,11 @@ namespace opencv
             var dialogRes = checkWindow.ShowDialog();
             if (dialogRes == DialogResult.OK)
             {
+                var removedList = _workingMatsProcesses[_currentProcessIndex];
+                foreach (Mat mat in removedList)
+                {
+                    mat.Dispose();
+                }
                 _workingMatsProcesses.RemoveAt(_currentProcessIndex);
                 _currentProcessIndex--;
                 if (_currentProcessIndex == -1)
@@ -340,6 +345,7 @@ namespace opencv
                 {
                     if (WorkingMats.Count >= 1)
                     {
+                        WorkingMats[^1].Dispose();
                         WorkingMats.RemoveAt(WorkingMats.Count - 1);
                         ShowMat(leftPictureBox, WorkingLeftMat);
                         ShowMat(rightPictureBox, WorkingRightMat);
@@ -494,6 +500,7 @@ namespace opencv
             {
                 if (WorkingMats.Count >= 2)
                 {
+                    WorkingMats[^2].Dispose();
                     WorkingMats.RemoveAt(WorkingMats.Count - 2);
                     ShowMat(leftPictureBox, WorkingLeftMat);
                     ShowMat(rightPictureBox, WorkingRightMat);
