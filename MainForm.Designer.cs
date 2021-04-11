@@ -107,28 +107,30 @@
             this.leftPictureBox.BackColor = System.Drawing.SystemColors.Control;
             this.leftPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.leftPictureBox.ContextMenuStrip = this.pictureRightClickMenu;
-            this.leftPictureBox.Location = new System.Drawing.Point(12, 61);
+            this.leftPictureBox.Location = new System.Drawing.Point(19, 86);
+            this.leftPictureBox.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.leftPictureBox.Name = "leftPictureBox";
-            this.leftPictureBox.Size = new System.Drawing.Size(360, 360);
+            this.leftPictureBox.Size = new System.Drawing.Size(566, 508);
             this.leftPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.leftPictureBox.TabIndex = 2;
             this.leftPictureBox.TabStop = false;
             // 
             // pictureRightClickMenu
             // 
+            this.pictureRightClickMenu.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.pictureRightClickMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.rightClickSave,
             this.showHitogramButton,
             this.DFTTransformButton,
             this.waveletTransformButton});
             this.pictureRightClickMenu.Name = "pictureRightClickMenu";
-            this.pictureRightClickMenu.Size = new System.Drawing.Size(137, 92);
+            this.pictureRightClickMenu.Size = new System.Drawing.Size(171, 124);
             // 
             // rightClickSave
             // 
             this.rightClickSave.Enabled = false;
             this.rightClickSave.Name = "rightClickSave";
-            this.rightClickSave.Size = new System.Drawing.Size(136, 22);
+            this.rightClickSave.Size = new System.Drawing.Size(170, 30);
             this.rightClickSave.Text = "保存";
             this.rightClickSave.Click += new System.EventHandler(this.RightClickSave_Click);
             // 
@@ -136,7 +138,7 @@
             // 
             this.showHitogramButton.Enabled = false;
             this.showHitogramButton.Name = "showHitogramButton";
-            this.showHitogramButton.Size = new System.Drawing.Size(136, 22);
+            this.showHitogramButton.Size = new System.Drawing.Size(170, 30);
             this.showHitogramButton.Text = "灰度直方图";
             this.showHitogramButton.Click += new System.EventHandler(this.showHistogramButton_Click);
             // 
@@ -144,7 +146,7 @@
             // 
             this.DFTTransformButton.Enabled = false;
             this.DFTTransformButton.Name = "DFTTransformButton";
-            this.DFTTransformButton.Size = new System.Drawing.Size(136, 22);
+            this.DFTTransformButton.Size = new System.Drawing.Size(170, 30);
             this.DFTTransformButton.Text = "傅里叶变换";
             this.DFTTransformButton.Click += new System.EventHandler(this.DFTTransformButton_Click);
             // 
@@ -152,7 +154,7 @@
             // 
             this.waveletTransformButton.Enabled = false;
             this.waveletTransformButton.Name = "waveletTransformButton";
-            this.waveletTransformButton.Size = new System.Drawing.Size(136, 22);
+            this.waveletTransformButton.Size = new System.Drawing.Size(170, 30);
             this.waveletTransformButton.Text = "小波变换";
             this.waveletTransformButton.Click += new System.EventHandler(this.waveletTransformButton_Click);
             // 
@@ -161,9 +163,10 @@
             this.rightPictureBox.BackColor = System.Drawing.SystemColors.Control;
             this.rightPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.rightPictureBox.ContextMenuStrip = this.pictureRightClickMenu;
-            this.rightPictureBox.Location = new System.Drawing.Point(378, 56);
+            this.rightPictureBox.Location = new System.Drawing.Point(594, 79);
+            this.rightPictureBox.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.rightPictureBox.Name = "rightPictureBox";
-            this.rightPictureBox.Size = new System.Drawing.Size(370, 370);
+            this.rightPictureBox.Size = new System.Drawing.Size(580, 522);
             this.rightPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.rightPictureBox.TabIndex = 2;
             this.rightPictureBox.TabStop = false;
@@ -171,18 +174,20 @@
             // rightPictureLabel
             // 
             this.rightPictureLabel.AutoSize = true;
-            this.rightPictureLabel.Location = new System.Drawing.Point(518, 36);
+            this.rightPictureLabel.Location = new System.Drawing.Point(814, 51);
+            this.rightPictureLabel.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.rightPictureLabel.Name = "rightPictureLabel";
-            this.rightPictureLabel.Size = new System.Drawing.Size(90, 17);
+            this.rightPictureLabel.Size = new System.Drawing.Size(129, 24);
             this.rightPictureLabel.TabIndex = 5;
             this.rightPictureLabel.Text = "第 0 行 第 0 列";
             // 
             // leftPictureLabel
             // 
             this.leftPictureLabel.AutoSize = true;
-            this.leftPictureLabel.Location = new System.Drawing.Point(147, 36);
+            this.leftPictureLabel.Location = new System.Drawing.Point(231, 51);
+            this.leftPictureLabel.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.leftPictureLabel.Name = "leftPictureLabel";
-            this.leftPictureLabel.Size = new System.Drawing.Size(90, 17);
+            this.leftPictureLabel.Size = new System.Drawing.Size(129, 24);
             this.leftPictureLabel.TabIndex = 6;
             this.leftPictureLabel.Text = "第 0 行 第 0 列";
             // 
@@ -190,9 +195,10 @@
             // 
             this.upButton.Enabled = false;
             this.upButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.upButton.Location = new System.Drawing.Point(754, 148);
+            this.upButton.Location = new System.Drawing.Point(1185, 209);
+            this.upButton.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.upButton.Name = "upButton";
-            this.upButton.Size = new System.Drawing.Size(45, 45);
+            this.upButton.Size = new System.Drawing.Size(71, 64);
             this.upButton.TabIndex = 7;
             this.upButton.Text = "↑";
             this.upButton.UseVisualStyleBackColor = true;
@@ -202,9 +208,10 @@
             // 
             this.downButton.Enabled = false;
             this.downButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.downButton.Location = new System.Drawing.Point(754, 256);
+            this.downButton.Location = new System.Drawing.Point(1185, 361);
+            this.downButton.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.downButton.Name = "downButton";
-            this.downButton.Size = new System.Drawing.Size(45, 45);
+            this.downButton.Size = new System.Drawing.Size(71, 64);
             this.downButton.TabIndex = 8;
             this.downButton.Text = "↓";
             this.downButton.UseVisualStyleBackColor = true;
@@ -212,6 +219,7 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.file,
             this.preProcessButton,
@@ -225,7 +233,8 @@
             this.shortCutHelp});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(811, 25);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(9, 3, 0, 3);
+            this.menuStrip1.Size = new System.Drawing.Size(1274, 34);
             this.menuStrip1.TabIndex = 12;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -240,21 +249,21 @@
             this.reverseButton,
             this.overwriteButton});
             this.file.Name = "file";
-            this.file.Size = new System.Drawing.Size(44, 21);
+            this.file.Size = new System.Drawing.Size(62, 28);
             this.file.Text = "文件";
             // 
             // imagesListButton
             // 
             this.imagesListButton.Enabled = false;
             this.imagesListButton.Name = "imagesListButton";
-            this.imagesListButton.Size = new System.Drawing.Size(172, 22);
+            this.imagesListButton.Size = new System.Drawing.Size(254, 34);
             this.imagesListButton.Text = "查看当前图片序列";
             this.imagesListButton.Click += new System.EventHandler(this.ImagesListButton_Click);
             // 
             // file_open
             // 
             this.file_open.Name = "file_open";
-            this.file_open.Size = new System.Drawing.Size(172, 22);
+            this.file_open.Size = new System.Drawing.Size(254, 34);
             this.file_open.Text = "打开";
             this.file_open.Click += new System.EventHandler(this.LoadButton_Click);
             // 
@@ -262,7 +271,7 @@
             // 
             this.saveSecondFileButton.Enabled = false;
             this.saveSecondFileButton.Name = "saveSecondFileButton";
-            this.saveSecondFileButton.Size = new System.Drawing.Size(172, 22);
+            this.saveSecondFileButton.Size = new System.Drawing.Size(254, 34);
             this.saveSecondFileButton.Text = "保存第二张图片";
             this.saveSecondFileButton.Click += new System.EventHandler(this.SaveSecondButton_Click);
             // 
@@ -270,7 +279,7 @@
             // 
             this.saveFirstFileButton.Enabled = false;
             this.saveFirstFileButton.Name = "saveFirstFileButton";
-            this.saveFirstFileButton.Size = new System.Drawing.Size(172, 22);
+            this.saveFirstFileButton.Size = new System.Drawing.Size(254, 34);
             this.saveFirstFileButton.Text = "保存第一张图片";
             this.saveFirstFileButton.Click += new System.EventHandler(this.SaveFirstButton_Click);
             // 
@@ -278,7 +287,7 @@
             // 
             this.clearButton.Enabled = false;
             this.clearButton.Name = "clearButton";
-            this.clearButton.Size = new System.Drawing.Size(172, 22);
+            this.clearButton.Size = new System.Drawing.Size(254, 34);
             this.clearButton.Text = "清除此行图片";
             this.clearButton.Click += new System.EventHandler(this.ClearButton_Click);
             // 
@@ -286,7 +295,7 @@
             // 
             this.reverseButton.Enabled = false;
             this.reverseButton.Name = "reverseButton";
-            this.reverseButton.Size = new System.Drawing.Size(172, 22);
+            this.reverseButton.Size = new System.Drawing.Size(254, 34);
             this.reverseButton.Text = "撤销处理";
             this.reverseButton.Click += new System.EventHandler(this.ReverseButton_Click);
             // 
@@ -294,7 +303,7 @@
             // 
             this.overwriteButton.Enabled = false;
             this.overwriteButton.Name = "overwriteButton";
-            this.overwriteButton.Size = new System.Drawing.Size(172, 22);
+            this.overwriteButton.Size = new System.Drawing.Size(254, 34);
             this.overwriteButton.Text = "覆盖上一张图片";
             this.overwriteButton.Click += new System.EventHandler(this.OverwriteButton_Click);
             // 
@@ -304,13 +313,13 @@
             this.grayButton});
             this.preProcessButton.Enabled = false;
             this.preProcessButton.Name = "preProcessButton";
-            this.preProcessButton.Size = new System.Drawing.Size(68, 21);
+            this.preProcessButton.Size = new System.Drawing.Size(98, 28);
             this.preProcessButton.Text = "格式转换";
             // 
             // grayButton
             // 
             this.grayButton.Name = "grayButton";
-            this.grayButton.Size = new System.Drawing.Size(112, 22);
+            this.grayButton.Size = new System.Drawing.Size(164, 34);
             this.grayButton.Text = "灰度化";
             this.grayButton.Click += new System.EventHandler(this.GrayButton_Click);
             // 
@@ -322,27 +331,27 @@
             this.addSaltAndPepperNoise});
             this.addNoiseButton.Enabled = false;
             this.addNoiseButton.Name = "addNoiseButton";
-            this.addNoiseButton.Size = new System.Drawing.Size(68, 21);
+            this.addNoiseButton.Size = new System.Drawing.Size(98, 28);
             this.addNoiseButton.Text = "添加噪声";
             // 
             // addGaussianNoise
             // 
             this.addGaussianNoise.Name = "addGaussianNoise";
-            this.addGaussianNoise.Size = new System.Drawing.Size(124, 22);
+            this.addGaussianNoise.Size = new System.Drawing.Size(182, 34);
             this.addGaussianNoise.Text = "高斯噪声";
             this.addGaussianNoise.Click += new System.EventHandler(this.AddGaussianNoise_Click);
             // 
             // addUniNoise
             // 
             this.addUniNoise.Name = "addUniNoise";
-            this.addUniNoise.Size = new System.Drawing.Size(124, 22);
+            this.addUniNoise.Size = new System.Drawing.Size(182, 34);
             this.addUniNoise.Text = "均匀噪声";
             this.addUniNoise.Click += new System.EventHandler(this.AddUniformNoise_Click);
             // 
             // addSaltAndPepperNoise
             // 
             this.addSaltAndPepperNoise.Name = "addSaltAndPepperNoise";
-            this.addSaltAndPepperNoise.Size = new System.Drawing.Size(124, 22);
+            this.addSaltAndPepperNoise.Size = new System.Drawing.Size(182, 34);
             this.addSaltAndPepperNoise.Text = "椒盐噪声";
             this.addSaltAndPepperNoise.Click += new System.EventHandler(this.AddSaltAndPepperNoise_Click);
             // 
@@ -356,7 +365,7 @@
             this.pseudoColorFortifyButton});
             this.fortifyButton.Enabled = false;
             this.fortifyButton.Name = "fortifyButton";
-            this.fortifyButton.Size = new System.Drawing.Size(68, 21);
+            this.fortifyButton.Size = new System.Drawing.Size(98, 28);
             this.fortifyButton.Text = "图片增强";
             // 
             // blurButton
@@ -366,27 +375,27 @@
             this.medianFilter,
             this.gaussianFilter});
             this.blurButton.Name = "blurButton";
-            this.blurButton.Size = new System.Drawing.Size(158, 22);
+            this.blurButton.Size = new System.Drawing.Size(234, 34);
             this.blurButton.Text = "平滑/模糊/去噪";
             // 
             // averageFilter
             // 
             this.averageFilter.Name = "averageFilter";
-            this.averageFilter.Size = new System.Drawing.Size(124, 22);
+            this.averageFilter.Size = new System.Drawing.Size(182, 34);
             this.averageFilter.Text = "均值滤波";
             this.averageFilter.Click += new System.EventHandler(this.AverageBlur_Click);
             // 
             // medianFilter
             // 
             this.medianFilter.Name = "medianFilter";
-            this.medianFilter.Size = new System.Drawing.Size(124, 22);
+            this.medianFilter.Size = new System.Drawing.Size(182, 34);
             this.medianFilter.Text = "中值滤波";
             this.medianFilter.Click += new System.EventHandler(this.MedianBlur_Click);
             // 
             // gaussianFilter
             // 
             this.gaussianFilter.Name = "gaussianFilter";
-            this.gaussianFilter.Size = new System.Drawing.Size(124, 22);
+            this.gaussianFilter.Size = new System.Drawing.Size(182, 34);
             this.gaussianFilter.Text = "高斯滤波";
             this.gaussianFilter.Click += new System.EventHandler(this.GaussianBlur_Click);
             // 
@@ -396,41 +405,41 @@
             this.LaplacianSharpenButton,
             this.SobelSharpenButton});
             this.sharpenButton.Name = "sharpenButton";
-            this.sharpenButton.Size = new System.Drawing.Size(158, 22);
+            this.sharpenButton.Size = new System.Drawing.Size(234, 34);
             this.sharpenButton.Text = "锐化";
             // 
             // LaplacianSharpenButton
             // 
             this.LaplacianSharpenButton.Name = "LaplacianSharpenButton";
-            this.LaplacianSharpenButton.Size = new System.Drawing.Size(130, 22);
+            this.LaplacianSharpenButton.Size = new System.Drawing.Size(191, 34);
             this.LaplacianSharpenButton.Text = "Laplacian";
             this.LaplacianSharpenButton.Click += new System.EventHandler(this.LaplacianSharpenButton_Click);
             // 
             // SobelSharpenButton
             // 
             this.SobelSharpenButton.Name = "SobelSharpenButton";
-            this.SobelSharpenButton.Size = new System.Drawing.Size(130, 22);
+            this.SobelSharpenButton.Size = new System.Drawing.Size(191, 34);
             this.SobelSharpenButton.Text = "Sobel";
             this.SobelSharpenButton.Click += new System.EventHandler(this.SobelSharpenButton_Click);
             // 
             // homoFilterButton
             // 
             this.homoFilterButton.Name = "homoFilterButton";
-            this.homoFilterButton.Size = new System.Drawing.Size(158, 22);
+            this.homoFilterButton.Size = new System.Drawing.Size(234, 34);
             this.homoFilterButton.Text = "同态滤波";
             this.homoFilterButton.Click += new System.EventHandler(this.HomoFilterButton_Click);
             // 
             // barUniformButton
             // 
             this.barUniformButton.Name = "barUniformButton";
-            this.barUniformButton.Size = new System.Drawing.Size(158, 22);
+            this.barUniformButton.Size = new System.Drawing.Size(234, 34);
             this.barUniformButton.Text = "直方图均匀化";
             this.barUniformButton.Click += new System.EventHandler(this.BarUniformButton_Click);
             // 
             // pseudoColorFortifyButton
             // 
             this.pseudoColorFortifyButton.Name = "pseudoColorFortifyButton";
-            this.pseudoColorFortifyButton.Size = new System.Drawing.Size(158, 22);
+            this.pseudoColorFortifyButton.Size = new System.Drawing.Size(234, 34);
             this.pseudoColorFortifyButton.Text = "伪彩色增强";
             this.pseudoColorFortifyButton.Click += new System.EventHandler(this.PseudoColorFortifyButton_Click);
             // 
@@ -442,27 +451,27 @@
             this.CannyEdgeDetection});
             this.edgeButton.Enabled = false;
             this.edgeButton.Name = "edgeButton";
-            this.edgeButton.Size = new System.Drawing.Size(68, 21);
+            this.edgeButton.Size = new System.Drawing.Size(98, 28);
             this.edgeButton.Text = "边缘检测";
             // 
             // LaplacianEdgeDetection
             // 
             this.LaplacianEdgeDetection.Name = "LaplacianEdgeDetection";
-            this.LaplacianEdgeDetection.Size = new System.Drawing.Size(130, 22);
+            this.LaplacianEdgeDetection.Size = new System.Drawing.Size(191, 34);
             this.LaplacianEdgeDetection.Text = "Laplacian";
             this.LaplacianEdgeDetection.Click += new System.EventHandler(this.LaplacianEdgeDetection_Click);
             // 
             // SobelEdgeDetection
             // 
             this.SobelEdgeDetection.Name = "SobelEdgeDetection";
-            this.SobelEdgeDetection.Size = new System.Drawing.Size(130, 22);
+            this.SobelEdgeDetection.Size = new System.Drawing.Size(191, 34);
             this.SobelEdgeDetection.Text = "Sobel";
             this.SobelEdgeDetection.Click += new System.EventHandler(this.SobelEdgeDetection_Click);
             // 
             // CannyEdgeDetection
             // 
             this.CannyEdgeDetection.Name = "CannyEdgeDetection";
-            this.CannyEdgeDetection.Size = new System.Drawing.Size(130, 22);
+            this.CannyEdgeDetection.Size = new System.Drawing.Size(191, 34);
             this.CannyEdgeDetection.Text = "Canny";
             this.CannyEdgeDetection.Click += new System.EventHandler(this.CannyEdgeDetection_Click);
             // 
@@ -474,27 +483,27 @@
             this.OtsuSegButton});
             this.thresholdSegButton.Enabled = false;
             this.thresholdSegButton.Name = "thresholdSegButton";
-            this.thresholdSegButton.Size = new System.Drawing.Size(68, 21);
+            this.thresholdSegButton.Size = new System.Drawing.Size(98, 28);
             this.thresholdSegButton.Text = "门限分割";
             // 
             // meanThresholdSegButton
             // 
             this.meanThresholdSegButton.Name = "meanThresholdSegButton";
-            this.meanThresholdSegButton.Size = new System.Drawing.Size(184, 22);
+            this.meanThresholdSegButton.Size = new System.Drawing.Size(272, 34);
             this.meanThresholdSegButton.Text = "自适应均值门限分割";
             this.meanThresholdSegButton.Click += new System.EventHandler(this.meanThresholdSegButton_Click);
             // 
             // GaussianThresholdSegButton
             // 
             this.GaussianThresholdSegButton.Name = "GaussianThresholdSegButton";
-            this.GaussianThresholdSegButton.Size = new System.Drawing.Size(184, 22);
+            this.GaussianThresholdSegButton.Size = new System.Drawing.Size(272, 34);
             this.GaussianThresholdSegButton.Text = "自适应高斯门限分割";
             this.GaussianThresholdSegButton.Click += new System.EventHandler(this.GaussianThresholdSegButton_Click);
             // 
             // OtsuSegButton
             // 
             this.OtsuSegButton.Name = "OtsuSegButton";
-            this.OtsuSegButton.Size = new System.Drawing.Size(184, 22);
+            this.OtsuSegButton.Size = new System.Drawing.Size(272, 34);
             this.OtsuSegButton.Text = "Otsu门限分割";
             this.OtsuSegButton.Click += new System.EventHandler(this.OtsuSegButton_Click);
             // 
@@ -508,41 +517,41 @@
             this.faceLocateButton});
             this.featureDetectButton.Enabled = false;
             this.featureDetectButton.Name = "featureDetectButton";
-            this.featureDetectButton.Size = new System.Drawing.Size(68, 21);
+            this.featureDetectButton.Size = new System.Drawing.Size(98, 28);
             this.featureDetectButton.Text = "特征识别";
             // 
             // BRISKButton
             // 
             this.BRISKButton.Name = "BRISKButton";
-            this.BRISKButton.Size = new System.Drawing.Size(199, 22);
+            this.BRISKButton.Size = new System.Drawing.Size(294, 34);
             this.BRISKButton.Text = "BRISK特征提取";
             this.BRISKButton.Click += new System.EventHandler(this.BRISKButton_Click);
             // 
             // ORBandFREAK
             // 
             this.ORBandFREAK.Name = "ORBandFREAK";
-            this.ORBandFREAK.Size = new System.Drawing.Size(199, 22);
+            this.ORBandFREAK.Size = new System.Drawing.Size(294, 34);
             this.ORBandFREAK.Text = "ORB和FREAK特征提取";
             this.ORBandFREAK.Click += new System.EventHandler(this.ORBandFREAK_Click);
             // 
             // starDetectorButton
             // 
             this.starDetectorButton.Name = "starDetectorButton";
-            this.starDetectorButton.Size = new System.Drawing.Size(199, 22);
+            this.starDetectorButton.Size = new System.Drawing.Size(294, 34);
             this.starDetectorButton.Text = "Star特征检测";
             this.starDetectorButton.Click += new System.EventHandler(this.starDetectorButton_Click);
             // 
             // MSERFeatureDetectButton
             // 
             this.MSERFeatureDetectButton.Name = "MSERFeatureDetectButton";
-            this.MSERFeatureDetectButton.Size = new System.Drawing.Size(199, 22);
+            this.MSERFeatureDetectButton.Size = new System.Drawing.Size(294, 34);
             this.MSERFeatureDetectButton.Text = "MSER特征检测";
             this.MSERFeatureDetectButton.Click += new System.EventHandler(this.MSERFeatureDetectButton_Click);
             // 
             // faceLocateButton
             // 
             this.faceLocateButton.Name = "faceLocateButton";
-            this.faceLocateButton.Size = new System.Drawing.Size(199, 22);
+            this.faceLocateButton.Size = new System.Drawing.Size(294, 34);
             this.faceLocateButton.Text = "人脸定位";
             this.faceLocateButton.Click += new System.EventHandler(this.faceLocateButton_Click);
             // 
@@ -555,74 +564,76 @@
             this.stylizationButton});
             this.phtoFilterButton.Enabled = false;
             this.phtoFilterButton.Name = "phtoFilterButton";
-            this.phtoFilterButton.Size = new System.Drawing.Size(68, 21);
+            this.phtoFilterButton.Size = new System.Drawing.Size(98, 28);
             this.phtoFilterButton.Text = "添加滤镜";
             // 
             // cartoonButton
             // 
             this.cartoonButton.Name = "cartoonButton";
-            this.cartoonButton.Size = new System.Drawing.Size(124, 22);
+            this.cartoonButton.Size = new System.Drawing.Size(182, 34);
             this.cartoonButton.Text = "动漫";
             this.cartoonButton.Click += new System.EventHandler(this.cartoonButton_Click);
             // 
             // detailEnhanceButton
             // 
             this.detailEnhanceButton.Name = "detailEnhanceButton";
-            this.detailEnhanceButton.Size = new System.Drawing.Size(124, 22);
+            this.detailEnhanceButton.Size = new System.Drawing.Size(182, 34);
             this.detailEnhanceButton.Text = "细节增强";
             this.detailEnhanceButton.Click += new System.EventHandler(this.detailEnhanceButton_Click);
             // 
             // pencilSketchButton
             // 
             this.pencilSketchButton.Name = "pencilSketchButton";
-            this.pencilSketchButton.Size = new System.Drawing.Size(124, 22);
+            this.pencilSketchButton.Size = new System.Drawing.Size(182, 34);
             this.pencilSketchButton.Text = "素描";
             this.pencilSketchButton.Click += new System.EventHandler(this.pencilSketchButton_Click);
             // 
             // stylizationButton
             // 
             this.stylizationButton.Name = "stylizationButton";
-            this.stylizationButton.Size = new System.Drawing.Size(124, 22);
+            this.stylizationButton.Size = new System.Drawing.Size(182, 34);
             this.stylizationButton.Text = "油画";
             this.stylizationButton.Click += new System.EventHandler(this.stylizationButton_Click);
             // 
             // videoProcessButton
             // 
             this.videoProcessButton.Name = "videoProcessButton";
-            this.videoProcessButton.Size = new System.Drawing.Size(68, 21);
+            this.videoProcessButton.Size = new System.Drawing.Size(98, 28);
             this.videoProcessButton.Text = "视频处理";
             this.videoProcessButton.Click += new System.EventHandler(this.openCameraButton_Click);
             // 
             // shortCutHelp
             // 
             this.shortCutHelp.Name = "shortCutHelp";
-            this.shortCutHelp.Size = new System.Drawing.Size(56, 21);
+            this.shortCutHelp.Size = new System.Drawing.Size(80, 28);
             this.shortCutHelp.Text = "快捷键";
             this.shortCutHelp.Click += new System.EventHandler(this.ShortCutHelp_Click);
             // 
             // leftPictureSize
             // 
             this.leftPictureSize.AutoSize = true;
-            this.leftPictureSize.Location = new System.Drawing.Point(12, 424);
+            this.leftPictureSize.Location = new System.Drawing.Point(19, 599);
+            this.leftPictureSize.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.leftPictureSize.Name = "leftPictureSize";
-            this.leftPictureSize.Size = new System.Drawing.Size(43, 17);
+            this.leftPictureSize.Size = new System.Drawing.Size(60, 24);
             this.leftPictureSize.TabIndex = 13;
             this.leftPictureSize.Text = "H: W: ";
             // 
             // rightPictureSize
             // 
             this.rightPictureSize.AutoSize = true;
-            this.rightPictureSize.Location = new System.Drawing.Point(378, 429);
+            this.rightPictureSize.Location = new System.Drawing.Point(594, 606);
+            this.rightPictureSize.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.rightPictureSize.Name = "rightPictureSize";
-            this.rightPictureSize.Size = new System.Drawing.Size(39, 17);
+            this.rightPictureSize.Size = new System.Drawing.Size(55, 24);
             this.rightPictureSize.TabIndex = 13;
             this.rightPictureSize.Text = "H: W:";
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(811, 455);
+            this.ClientSize = new System.Drawing.Size(1274, 642);
             this.Controls.Add(this.rightPictureSize);
             this.Controls.Add(this.leftPictureSize);
             this.Controls.Add(this.downButton);
@@ -635,6 +646,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.Name = "MainForm";
             this.Text = "图像处理工具箱";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);

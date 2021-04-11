@@ -13,28 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Resources\fist.xml" />
-    <None Remove="Resources\haarcascade_eye_tree_eyeglasses.xml" />
-    <None Remove="Resources\haarcascade_frontalface_alt2.xml" />
-    <None Remove="Resources\haarcascade_profileface.xml" />
     <None Remove="Resources\icon.ico" />
-    <None Remove="Resources\lpalm.xml" />
-    <None Remove="Resources\none.jpg" />
-    <None Remove="Resources\opencv_logo.ico" />
-    <None Remove="Resources\pedestrian.xml" />
-    <None Remove="Resources\rpalm.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\fist.xml" />
-    <EmbeddedResource Include="Resources\haarcascade_eye_tree_eyeglasses.xml" />
-    <EmbeddedResource Include="Resources\haarcascade_frontalface_alt2.xml" />
-    <EmbeddedResource Include="Resources\haarcascade_profileface.xml" />
-    <EmbeddedResource Include="Resources\lpalm.xml" />
-    <EmbeddedResource Include="Resources\none.jpg" />
-    <EmbeddedResource Include="Resources\opencv_logo.ico" />
-    <EmbeddedResource Include="Resources\pedestrian.xml" />
-    <EmbeddedResource Include="Resources\rpalm.xml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -56,6 +35,36 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\fist.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\haarcascade_eye_tree_eyeglasses.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\haarcascade_frontalface_alt2.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\haarcascade_profileface.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\lpalm.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\none.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\opencv_logo.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\pedestrian.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\rpalm.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

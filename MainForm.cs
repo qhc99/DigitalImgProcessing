@@ -527,7 +527,7 @@ namespace opencv
         private void GrayButton_Click(object sender, EventArgs e)
         {
             var originImg = GetMatToProcess();
-            var grayImg = ConvertToGrayMat(originImg);
+            var grayImg = NewGrayMat(originImg);
             AddMatToListAndShow(grayImg);
         }
 
@@ -1026,7 +1026,7 @@ namespace opencv
         private void pencilSketchButton_Click(object sender, EventArgs e)
         {
             Mat res = new Mat();
-            Mat _ = new Mat();
+            using Mat _ = new Mat();
             try
             {
                 Cv2.PencilSketch(GetMatToProcess(), _, res);
