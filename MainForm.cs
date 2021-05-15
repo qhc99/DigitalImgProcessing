@@ -1026,7 +1026,7 @@ namespace opencv
         private void pencilSketchButton_Click(object sender, EventArgs e)
         {
             Mat res = new Mat();
-            using Mat _ = new Mat();
+            Mat _ = new Mat();
             try
             {
                 Cv2.PencilSketch(GetMatToProcess(), _, res);

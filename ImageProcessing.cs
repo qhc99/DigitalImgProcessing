@@ -78,7 +78,7 @@ namespace opencv
         /// <returns></returns>
         public static Mat FaceLocate(Mat img, CopyTypes copy = CopyTypes.DeepCopy)
         {
-            using Mat grayImg = NewGrayMat(img);
+            Mat grayImg = NewGrayMat(img);
             var newImg = copy == CopyTypes.ShallowCopy ? img : img.Clone();
             Rect[] faces = FaceClassifier.DetectMultiScale(grayImg);
             foreach (var rect in faces)
@@ -98,7 +98,7 @@ namespace opencv
         /// <returns></returns>
         public static Mat EyeLocate(Mat img, CopyTypes copy = CopyTypes.DeepCopy)
         {
-            using Mat grayImg = NewGrayMat(img);
+            Mat grayImg = NewGrayMat(img);
             var newImg = copy == CopyTypes.ShallowCopy ? img : img.Clone();
             Rect[] faces = EyeClassifier.DetectMultiScale(grayImg, 1.1, 6);
             foreach (var rect in faces)
@@ -118,7 +118,7 @@ namespace opencv
         /// <returns></returns>
         public static Mat FistLocate(Mat img, CopyTypes copy = CopyTypes.DeepCopy)
         {
-            using Mat grayImg = NewGrayMat(img);
+            Mat grayImg = NewGrayMat(img);
             var newImg = copy == CopyTypes.ShallowCopy ? img : img.Clone();
             Rect[] faces = FistClassifier.DetectMultiScale(grayImg);
             foreach (var rect in faces)
@@ -138,7 +138,7 @@ namespace opencv
         /// <returns></returns>
         public static Mat RightPalmLocate(Mat img, CopyTypes copy = CopyTypes.DeepCopy)
         {
-            using Mat grayImg = NewGrayMat(img);
+            Mat grayImg = NewGrayMat(img);
             var newImg = copy == CopyTypes.ShallowCopy ? img : img.Clone();
             Rect[] faces = RightPalmClassifier.DetectMultiScale(grayImg);
             foreach (var rect in faces)
@@ -158,7 +158,7 @@ namespace opencv
         /// <returns></returns>
         public static Mat PedestrianLocate(Mat img, CopyTypes copy = CopyTypes.DeepCopy)
         {
-            using Mat grayImg = NewGrayMat(img);
+            Mat grayImg = NewGrayMat(img);
             var newImg = copy == CopyTypes.ShallowCopy ? img : img.Clone();
             Rect[] faces = PedestrianClassifier.DetectMultiScale(grayImg,1.3,2);
             foreach (var rect in faces)
@@ -201,7 +201,7 @@ namespace opencv
             Mat render = new Mat(new Size(width, height), MatType.CV_8UC3, Scalar.All(255));
 
             // Calculate histogram
-            using Mat hist = new Mat();
+            Mat hist = new Mat();
             int[] hDims = {256}; // Histogram size for each dimension
             Rangef[] ranges = {new Rangef(0, 256),}; // min/max 
             Cv2.CalcHist(
@@ -218,7 +218,7 @@ namespace opencv
 
             Scalar color = Scalar.All(100);
             // Scales and draws histogram
-            using Mat scaleHist = hist * (maxVal != 0 ? height / maxVal : 0.0);
+            Mat scaleHist = hist * (maxVal != 0 ? height / maxVal : 0.0);
             for (int j = 0; j < hDims[0]; ++j)
             {
                 int binW = (int) ((double) width / hDims[0]);
@@ -247,7 +247,7 @@ namespace opencv
 
             if (dialogResult == DialogResult.OK)
             {
-                using Mat gNoise = new Mat(img.Size(), img.Type());
+                Mat gNoise = new Mat(img.Size(), img.Type());
                 gNoise.Randn(inputWindow.Mean, inputWindow.Variance);
 
                 return img + gNoise;
@@ -271,7 +271,7 @@ namespace opencv
             var dRest = inputWindow.ShowDialog();
             if (dRest == DialogResult.OK)
             {
-                using Mat uNoise = new Mat(img.Size(), img.Type());
+                Mat uNoise = new Mat(img.Size(), img.Type());
                 uNoise.Randu(inputWindow.Low, inputWindow.High);
                 return img + uNoise;
             }
@@ -296,10 +296,10 @@ namespace opencv
             {
                 var noiseImg = img.Clone();
 
-                using Mat rand = Mat.Zeros(new Size(noiseImg.Width, noiseImg.Height), noiseImg.Type());
+                Mat rand = Mat.Zeros(new Size(noiseImg.Width, noiseImg.Height), noiseImg.Type());
                 rand.Randu(0, 255);
-                using Mat white = rand.LessThanOrEqual(inputWindow.Low);
-                using Mat black = rand.GreaterThanOrEqual(inputWindow.High);
+                Mat white = rand.LessThanOrEqual(inputWindow.Low);
+                Mat black = rand.GreaterThanOrEqual(inputWindow.High);
 
                 noiseImg -= black;
                 noiseImg += white;
@@ -395,10 +395,10 @@ namespace opencv
             var dialogRes = inputWindow.ShowDialog();
             if (dialogRes == DialogResult.OK)
             {
-                using Mat newImg = new Mat(img.Size(), MatType.CV_16S);
+                Mat newImg = new Mat(img.Size(), MatType.CV_16S);
                 img.ConvertTo(newImg, MatType.CV_16S);
                 // why minus works?
-                using Mat sharpenImg = newImg - img.Laplacian(MatType.CV_16S) * inputWindow.Alpha;
+                Mat sharpenImg = newImg - img.Laplacian(MatType.CV_16S) * inputWindow.Alpha;
                 Mat resSharpenImg = new Mat(sharpenImg.Size(), MatType.CV_8U);
                 sharpenImg.ConvertTo(resSharpenImg, MatType.CV_8U);
                 return resSharpenImg;
@@ -422,10 +422,10 @@ namespace opencv
             var dialogRes = w.ShowDialog();
             if (dialogRes == DialogResult.OK)
             {
-                using Mat newImg = new Mat(img.Size(), MatType.CV_16S);
+                Mat newImg = new Mat(img.Size(), MatType.CV_16S);
                 img.ConvertTo(newImg, MatType.CV_16S);
                 // there plus works ?!
-                using Mat sharpenImg = newImg + img.Sobel(MatType.CV_16S, w.XOrder, w.YOrder, w.WindowSize) * w.Alpha;
+                Mat sharpenImg = newImg + img.Sobel(MatType.CV_16S, w.XOrder, w.YOrder, w.WindowSize) * w.Alpha;
                 Mat resSharpenImg = new Mat(sharpenImg.Size(), MatType.CV_8U);
                 sharpenImg.ConvertTo(resSharpenImg, MatType.CV_8U);
                 return resSharpenImg;
@@ -466,7 +466,7 @@ namespace opencv
         /// <returns></returns>
         public static Mat LaplacianEdgeDetect(Mat img)
         {
-            using Mat dst = new Mat();
+            Mat dst = new Mat();
             Mat absDst = new Mat();
             Cv2.Laplacian(img, dst, MatType.CV_16S, 3);
             Cv2.ConvertScaleAbs(dst, absDst);
@@ -482,10 +482,10 @@ namespace opencv
         [ThrowsException(typeof(ProcessCanceledException))]
         public static Mat SobelEdgeDetect(Mat img)
         {
-            using Mat gradX = new Mat();
-            using Mat gradY = new Mat();
-            using Mat absGradX = new Mat();
-            using Mat absGradY = new Mat();
+            Mat gradX = new Mat();
+            Mat gradY = new Mat();
+            Mat absGradX = new Mat();
+            Mat absGradY = new Mat();
             Mat dst = new Mat();
 
             Cv2.Sobel(img, gradX, MatType.CV_16S, 1, 0, 3, 1, 1);
@@ -617,14 +617,14 @@ namespace opencv
         [ThrowsException(typeof(NotGrayImageException))]
         public static Mat DftTransform(Mat I)
         {
-            using Mat padded = new Mat(); //expand input image to optimal size
+            Mat padded = new Mat(); //expand input image to optimal size
             int m = Cv2.GetOptimalDFTSize(I.Rows), n = Cv2.GetOptimalDFTSize(I.Cols); // on the border add zero values
             Cv2.CopyMakeBorder(I, padded, 0, m - I.Rows, 0, n - I.Cols, BorderTypes.Constant, Scalar.All(0));
 
             padded.ConvertTo(padded, MatType.CV_32F);
-            using var t = Mat.Zeros(padded.Size(), MatType.CV_32F);
+            var t = Mat.Zeros(padded.Size(), MatType.CV_32F);
             Mat[] planes = {padded, t};
-            using Mat complexI = new Mat();
+            Mat complexI = new Mat();
             Cv2.Merge(planes, complexI); // Add to the expanded another plane with zeros
 
             try
@@ -650,12 +650,12 @@ namespace opencv
             // crop the spectrum, if it has an odd number of rows or columns
             magI = new Mat(magI, new Rect(0, 0, magI.Cols & -2, magI.Rows & -2));
             int cx = magI.Cols / 2, cy = magI.Rows / 2;
-            using Mat q0 = new Mat(magI, new Rect(0, 0, cx, cy)); // Top-Left - Create a ROI per quadrant
-            using Mat q1 = new Mat(magI, new Rect(cx, 0, cx, cy)); // Top-Right
-            using Mat q2 = new Mat(magI, new Rect(0, cy, cx, cy)); // Bottom-Left
-            using Mat q3 = new Mat(magI, new Rect(cx, cy, cx, cy)); // Bottom-Right
+            Mat q0 = new Mat(magI, new Rect(0, 0, cx, cy)); // Top-Left - Create a ROI per quadrant
+            Mat q1 = new Mat(magI, new Rect(cx, 0, cx, cy)); // Top-Right
+            Mat q2 = new Mat(magI, new Rect(0, cy, cx, cy)); // Bottom-Left
+            Mat q3 = new Mat(magI, new Rect(cx, cy, cx, cy)); // Bottom-Right
 
-            using Mat tmp = new Mat(); // swap quadrants (Top-Left with Bottom-Right)
+            Mat tmp = new Mat(); // swap quadrants (Top-Left with Bottom-Right)
             q0.CopyTo(tmp);
             q3.CopyTo(q0);
             tmp.CopyTo(q3);
@@ -681,7 +681,7 @@ namespace opencv
         public static Mat StarFeatureDetect(Mat img)
         {
             var newImg = img.Clone();
-            using var gray = NewGrayMat(img);
+            var gray = NewGrayMat(img);
             var detector = StarDetector.Create(); //maxsize:45
 
             KeyPoint[] keyPoints = detector.Detect(gray);
@@ -713,13 +713,13 @@ namespace opencv
         {
             //ORB
             Mat newImg = img.Clone();
-            using Mat gray = NewGrayMat(img);
+            Mat gray = NewGrayMat(img);
             ORB orb = ORB.Create(1000);
             KeyPoint[] keyPoints = orb.Detect(gray);
 
             // FREAK
             FREAK freak = FREAK.Create();
-            using Mat freakDescriptors = new Mat();
+            Mat freakDescriptors = new Mat();
             freak.Compute(gray, ref keyPoints, freakDescriptors);
 
             var color = new Scalar(0, 255, 0);
@@ -748,7 +748,7 @@ namespace opencv
         public static Mat BRISKFeatureDetect(Mat img)
         {
             var newImg = img.Clone();
-            using var gray = NewGrayMat(img);
+            var gray = NewGrayMat(img);
             var brisk = BRISK.Create();
 
             KeyPoint[] keyPoints = brisk.Detect(gray);
@@ -779,7 +779,7 @@ namespace opencv
         public static Mat MSERFeatureDetect(Mat img)
         {
             Mat newImg = img.Clone();
-           using var gray = NewGrayMat(img);
+            var gray = NewGrayMat(img);
 
             MSER mser = MSER.Create();
             KeyPoint[] contour = mser.Detect(gray);
@@ -839,7 +839,7 @@ namespace opencv
             const double gammaL = 0.5;
             const double c = 1;
             double d0 = (newImg.Rows / 2) * (newImg.Rows / 2) + (newImg.Cols / 2) * (newImg.Cols / 2);
-            using Mat hUv = Mat.Zeros(newImg.Size(), MatType.CV_64FC1);
+            Mat hUv = Mat.Zeros(newImg.Size(), MatType.CV_64FC1);
 
             var indexer = hUv.GetGenericIndexer<Vec3d>();
             for (int h = 0; h < newImg.Rows; h++)
@@ -857,7 +857,7 @@ namespace opencv
             matDct = matDct.Mul(matDct);
             Cv2.Idct(matDct, dst);
 
-            using var tmp = newImg.GaussianBlur(new Size(9, 9), 1.5, 1.5);
+            var tmp = newImg.GaussianBlur(new Size(9, 9), 1.5, 1.5);
             const double alpha = 0.5;
             dst = (1 + alpha) * newImg - alpha * tmp;
 
@@ -880,7 +880,7 @@ namespace opencv
             int width = img.Rows;
             int depth = 3; //分解深度
             int depthCount = 1;
-            using Mat tmp = Mat.Ones(new Size(width, height), MatType.CV_32FC1);
+            Mat tmp = Mat.Ones(new Size(width, height), MatType.CV_32FC1);
             Mat wavelet = Mat.Ones(new Size(width, height), MatType.CV_32FC1);
             Mat imgTmp = img.Clone();
             imgTmp.ConvertTo(imgTmp, MatType.CV_32FC1);
