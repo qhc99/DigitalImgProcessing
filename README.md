@@ -1,1 +1,1 @@
-Simple imamge processing.
+Simple image processing.
