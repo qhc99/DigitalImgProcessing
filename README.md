@@ -1,1 +1,1 @@
-Simple image processing.
+Image processing GUI toolbox.
